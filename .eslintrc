@@ -1,0 +1,50 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/errors",
+    "plugin:prettier/recommended"
+  ],
+  "globals": {
+    "WEATHER_API_KEY": "readonly",
+    "GEOLOCATION_API_KEY": "readonly",
+    "IMAGES_API_KEY": "readonly",
+    "MAPS_API_KEY": "readonly",
+    "GEOCODING_API_KEY": "readonly",
+    "ENV": "readonly",
+    "SpeechRecognition": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": { "jsx": true }
+  },
+  "rules": {
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": [2, { "ignore": ["children"] }],
+    "no-unused-vars": [
+      "error",
+      { "vars": "all", "args": "all", "ignoreRestSiblings": false, "argsIgnorePattern": "^_" }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}
