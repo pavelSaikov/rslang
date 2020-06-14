@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 require('dotenv').config();
 
-module.exports = (envOptions) => {
+module.exports = envOptions => {
   const mode = envOptions && envOptions.production ? 'production' : 'development';
 
   return {
@@ -35,7 +35,7 @@ module.exports = (envOptions) => {
     devServer: {
       contentBase: path.join(__dirname, 'dist'),
       compress: true,
-      port: 3000,
+      port: process.env.PORT || 3000,
       historyApiFallback: true,
       watchContentBase: true,
     },
@@ -49,6 +49,6 @@ module.exports = (envOptions) => {
       }),
     ],
     devtool: 'source-map',
-    mode: 'development',
+    mode,
   };
 };

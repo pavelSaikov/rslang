@@ -5,6 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "lint": "eslint src/** --no-error-on-unmatched-pattern --ext .jsx,.js",
+    "build": "webpack --env.production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
