@@ -103,6 +103,10 @@ export class WordsService {
       })
       .then(wordGroups => wordGroups.flat());
   }
+
+  getWordInfo({ wordId }) {
+    return fetch(`${this.endpoint}/words/${wordId}`).then(response => response.json());
+  }
 }
 
 export const wordsService = new WordsService();
