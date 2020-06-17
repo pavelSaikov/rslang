@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --open",
     "lint": "eslint src/** --no-error-on-unmatched-pattern --ext .jsx,.js",
     "build": "webpack --env.production",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -49,6 +49,7 @@
     "react-dom": "^16.13.1",
     "react-jss": "^10.1.1",
     "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   }
