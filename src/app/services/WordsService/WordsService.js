@@ -3,6 +3,7 @@ import { WORDS_PER_PAGE } from './WordsService.models';
 export class WordsService {
   constructor() {
     this.endpoint = 'https://afternoon-falls-25894.herokuapp.com';
+    this.githubEndpoint = 'https://raw.githubusercontent.com/pavelSaikov/rslang-data/master/';
   }
 
   getAllUserWords({ token, userId }) {
@@ -21,6 +22,7 @@ export class WordsService {
           lastRepetition: Number.parseInt(optional.lastRepetition),
           mistakesNumber: Number.parseInt(optional.mistakesNumber),
           repetitionNumber: Number.parseInt(optional.repetitionNumber),
+          isRepeatedToday: false,
         })),
       );
   }
@@ -114,7 +116,13 @@ export class WordsService {
   }
 
   getWordInfo({ wordId }) {
-    return fetch(`${this.endpoint}/words/${wordId}`).then(response => response.json());
+    return fetch(`${this.endpoint}/words/${wordId}`)
+      .then(response => response.json())
+      .then(wordInfo => ({
+        ...wordInfo,
+        audio: `${this.githubEndpoint}${wordInfo.audio}`,
+        image: `${this.githubEndpoint}${wordInfo.image}`,
+      }));
   }
 }
 
