@@ -13,7 +13,16 @@ export class WordsService {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
       },
-    }).then(response => response.json());
+    })
+      .then(response => response.json())
+      .then(res =>
+        res.map(({ optional }) => ({
+          ...optional,
+          lastRepetition: Number.parseInt(optional.lastRepetition),
+          mistakesNumber: Number.parseInt(optional.mistakesNumber),
+          repetitionNumber: Number.parseInt(optional.repetitionNumber),
+        })),
+      );
   }
 
   addUserWord({ token, userId, wordId, wordPayload }) {
