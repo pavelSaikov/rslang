@@ -1,20 +1,16 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
-  navigation: {
+  footer: {
     width: '200px',
-    height: '100%',
+    height: '50px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#182F51',
+    backgroundColor: '#001F4B',
   },
-  navigationPage: {
-    listStyle: 'none',
-    paddingBottom: '75px',
-  },
-  navigationLink: {
+  footerLink: {
     color: 'white',
-    textDecoration: 'none',
+    fontWeight: '500',
   },
 });

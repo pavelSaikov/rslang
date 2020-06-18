@@ -1,9 +1,7 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
-  footer: {
+  wrapper: {
     display: 'flex',
-    alignItems: 'center',
-    justifyСontent: 'center',
   },
 });

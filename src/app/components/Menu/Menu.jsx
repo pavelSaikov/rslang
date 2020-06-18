@@ -1,17 +1,17 @@
 import React from 'react';
 
 import { useStyles } from './Menu.styles';
-import { Header } from './components/Header/Header';
+import { MenuHeader } from './components/Header/MenuHeader';
 import { Navigation } from './components/Navigation/Navigation';
-import { Footer } from './components/Footer/Footer';
+import { MenuFooter } from './components/Footer/MenuFooter';
 
 export const Menu = () => {
   const { menu } = useStyles();
   return (
     <div className={menu}>
-      <Header />
+      <MenuHeader />
       <Navigation />
-      <Footer />
+      <MenuFooter />
     </div>
   );
 };
