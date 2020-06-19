@@ -1,18 +1,27 @@
 import React, { useRef, useCallback, useState } from 'react';
 import { useStyles } from './Password.styles';
 
-const Password = () => {
+const Password = props => {
   const input = useRef(0);
   const classes = useStyles();
   const [isPasswordVisible, setPasswordVisibility] = useState('password');
+  const [validationError, setValidationState] = useState(false);
   const [spellCheck, setSpellCheckState] = useState(false);
   const passwordValidation = useCallback(() => {
     // eslint-disable-line
     // eslint-disable-next-line no-useless-escape
-    const regForPassword = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,10}$');
+    const regForPassword = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$ ');
     const password = input.current.value;
-    console.log(regForPassword.test(password));
-  }, []);
+    if (regForPassword.test(String(password).toLowerCase())) {
+      setValidationState(true);
+      // eslint-disable-next-line react/prop-types
+      props.callback(validationError);
+    } else {
+      setValidationState(false);
+      // eslint-disable-next-line react/prop-types
+      props.callback(validationError);
+    }
+  }, [props, validationError]);
 
   const mousePressed = useCallback(() => {
     setPasswordVisibility('text');
@@ -25,7 +34,6 @@ const Password = () => {
   const startSpellCheck = useCallback(() => {
     const password = input.current.value;
     if (password.length === 0) {
-      console.log(password.length);
       setSpellCheckState(false);
     } else {
       setSpellCheckState(true);

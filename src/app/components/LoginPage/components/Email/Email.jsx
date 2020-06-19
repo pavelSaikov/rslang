@@ -1,10 +1,8 @@
 import React, { useRef, useCallback, useState } from 'react';
 import { useStyles } from './Email.styles';
 
-const Email = React.forwardRef((props, ref) => {
-  const input = useRef(0);
-  console.log(props);
-  console.log(ref);
+const Email = props => {
+  const input = useRef();
   const classes = useStyles();
   const [spellCheck, setSpellCheckState] = useState(false);
   const [validationError, setValidationState] = useState(false);
@@ -16,10 +14,14 @@ const Email = React.forwardRef((props, ref) => {
     const email = input.current.value;
     if (regForMail.test(String(email).toLowerCase())) {
       setValidationState(true);
+      // eslint-disable-next-line react/prop-types
+      props.callback(validationError);
     } else {
       setValidationState(false);
+      // eslint-disable-next-line react/prop-types
+      props.callback(validationError);
     }
-  }, []);
+  }, [props, validationError]);
 
   const startSpellCheck = useCallback(() => {
     const email = input.current.value;
@@ -39,6 +41,7 @@ const Email = React.forwardRef((props, ref) => {
         <input
           ref={input}
           className={classes.input}
+          // eslint-disable-next-line react/prop-types
           name="email"
           type="text"
           placeholder="email"
@@ -69,7 +72,7 @@ const Email = React.forwardRef((props, ref) => {
       )}
     </div>
   );
-});
+};
 
 export default Email;
 Email.displayName = 'Email';
