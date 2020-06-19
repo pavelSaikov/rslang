@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useState } from 'react';
 import { useStyles } from './Email.styles';
 import PropTypes from 'prop-types';
 
-const Email = ({ callback }) => {
+const Email = ({ callback, caption, header }) => {
   const input = useRef();
   const classes = useStyles();
   const [spellCheck, setSpellCheckState] = useState(false);
@@ -33,14 +33,14 @@ const Email = ({ callback }) => {
 
   return (
     <div>
-      <div>Log In</div>
-      <label htmlFor="email">Email address</label>
+      <div>{header}</div>
+      <label htmlFor="email">{caption}</label>
       <div className={classes.inputWrapper}>
         <input
           ref={input}
           className={classes.input}
           name="email"
-          type="text"
+          type="caption"
           placeholder="email"
           onKeyUp={({ keyCode }) => {
             if (keyCode === 13) {
@@ -73,4 +73,8 @@ const Email = ({ callback }) => {
 
 export default Email;
 
-Email.propTypes = { callback: PropTypes.func.isRequired };
+Email.propTypes = {
+  callback: PropTypes.func.isRequired,
+  header: PropTypes.string.isRequired,
+  caption: PropTypes.string.isRequired,
+};

@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useState } from 'react';
 import { useStyles } from './Password.styles';
 import PropTypes from 'prop-types';
 
-const Password = ({ callback }) => {
+const Password = ({ callback, caption }) => {
   const input = useRef('');
   const classes = useStyles();
   const [isPasswordVisible, setPasswordVisibility] = useState('password');
@@ -42,7 +42,7 @@ const Password = ({ callback }) => {
 
   return (
     <div>
-      <label htmlFor="password">Password</label>
+      <label htmlFor="password">{caption}</label>
       <div className={classes.inputWrapper}>
         <input
           ref={input}
@@ -75,4 +75,4 @@ const Password = ({ callback }) => {
 
 export default Password;
 
-Password.propTypes = { callback: PropTypes.func.isRequired };
+Password.propTypes = { callback: PropTypes.func.isRequired, caption: PropTypes.string.isRequired };

@@ -24,8 +24,8 @@ const Form = () => {
 
   return (
     <div>
-      <Email callback={validateEmail}></Email>
-      <Password callback={validatePassword}></Password>
+      <Email callback={validateEmail} header="Log In" caption="Email or login"></Email>
+      <Password callback={validatePassword} caption=""></Password>
       <Button text="LogIn" submit={submit}></Button>
       <LinkWithDescription text="Don`t you have an account" path="" third="Sign up"></LinkWithDescription>
     </div>
