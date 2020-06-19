@@ -5,4 +5,6 @@ export const ROUTES = {
   SETTINGS: '/settings',
   LOGIN: '/login',
   DICTIONARY: '/dictionary',
+  STATISTIC: '/statistic',
+  TEAM: '/team',
 };
