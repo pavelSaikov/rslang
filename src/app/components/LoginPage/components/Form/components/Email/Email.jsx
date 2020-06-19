@@ -1,27 +1,25 @@
 import React, { useRef, useCallback, useState } from 'react';
 import { useStyles } from './Email.styles';
+import PropTypes from 'prop-types';
 
-const Email = props => {
+const Email = ({ callback }) => {
   const input = useRef();
   const classes = useStyles();
   const [spellCheck, setSpellCheckState] = useState(false);
   const [validationError, setValidationState] = useState(false);
 
   const emailValidation = useCallback(() => {
-    // eslint-disable-line
     // eslint-disable-next-line no-useless-escape
     const regForMail = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     const email = input.current.value;
     if (regForMail.test(String(email).toLowerCase())) {
       setValidationState(true);
-      // eslint-disable-next-line react/prop-types
-      props.callback(validationError);
+      callback({ isValid: validationError, email });
     } else {
       setValidationState(false);
-      // eslint-disable-next-line react/prop-types
-      props.callback(validationError);
+      callback({ isValid: validationError, email: null });
     }
-  }, [props, validationError]);
+  }, [callback, validationError]);
 
   const startSpellCheck = useCallback(() => {
     const email = input.current.value;
@@ -41,7 +39,6 @@ const Email = props => {
         <input
           ref={input}
           className={classes.input}
-          // eslint-disable-next-line react/prop-types
           name="email"
           type="text"
           placeholder="email"
@@ -75,4 +72,5 @@ const Email = props => {
 };
 
 export default Email;
-Email.displayName = 'Email';
+
+Email.propTypes = { callback: PropTypes.func.isRequired };
