@@ -13,11 +13,13 @@ import {
 const DEFAULT_SETTINGS = {
   maxCardsNumberPerDay: 100,
   maxNewWordsPerDay: 20,
-  requiredParameters: { isTranslationVisible: true, isWordDescriptionVisible: true, isExampleSentenceVisible: true },
   isTranscriptionVisible: true,
   isAssociationPictureVisible: true,
   isUserOpinionCheckingVisible: true,
   isStatusCheckingVisible: true,
+  isTranslationVisible: true,
+  isWordDescriptionVisible: false,
+  isExampleSentenceVisible: true,
 };
 export const settingsReducer = (state = DEFAULT_SETTINGS, action) => {
   switch (action.type) {
@@ -26,16 +28,16 @@ export const settingsReducer = (state = DEFAULT_SETTINGS, action) => {
     case setMaxNewWordsPerDay.type:
       return { ...state, maxNewWordsPerDay: action.payload };
     case setIsTranslationVisible.type:
-      return { ...state, requiredParameters: { ...state.requiredParameters, isTranslationVisible: action.payload } };
+      return { ...state, isTranslationVisible: action.payload };
     case setIsWordDescriptionVisible.type:
       return {
         ...state,
-        requiredParameters: { ...state.requiredParameters, isWordDescriptionVisible: action.payload },
+        isWordDescriptionVisible: action.payload,
       };
     case setIsExampleSentenceVisible.type:
       return {
         ...state,
-        requiredParameters: { ...state.requiredParameters, isExampleSentenceVisible: action.payload },
+        isExampleSentenceVisible: action.payload,
       };
     case setIsTranscriptionVisible.type:
       return { ...state, isTranscriptionVisible: action.payload };
