@@ -1,6 +1,3 @@
-import { Toggle } from './components/Toggle';
-import { InputNumber } from './components/InputNumber';
-
 import {
   setMaxCardsPerDay,
   setMaxNewWordsPerDay,
@@ -13,56 +10,56 @@ import {
   setIsStatusCheckingVisible,
 } from './store/Settings.actions';
 
-export const singleToggleSettingsConfig = {
-  isTranscriptionVisible: {
+export const singleToggleSettingsConfig = [
+  {
+    settingName: 'isTranscriptionVisible',
     action: setIsTranscriptionVisible,
     settingString: 'Is Transcription Visible',
-    Component: Toggle,
   },
-  isAssociationPictureVisible: {
+  {
+    settingName: 'isAssociationPictureVisible',
     action: setIsAssociationPictureVisible,
     settingString: 'Is Association Picture Visible',
-    Component: Toggle,
   },
-  isUserOpinionCheckingVisible: {
+  {
+    settingName: 'isUserOpinionCheckingVisible',
     action: setIsUserOpinionCheckingVisible,
     settingString: 'Is User Opinion Checking Visible',
-    Component: Toggle,
   },
-  isStatusCheckingVisible: {
+  {
+    settingName: 'isStatusCheckingVisible',
     action: setIsStatusCheckingVisible,
     settingString: 'Is Status Checking Visible',
-    Component: Toggle,
   },
-};
+];
 
-export const groupToggleForCardSettingsConfig = {
-  isTranslationVisible: {
+export const groupToggleForCardSettingsConfig = [
+  {
+    settingName: 'isTranslationVisible',
     action: setIsTranslationVisible,
     settingString: 'Is Translation Visible',
-    Component: Toggle,
   },
-  isWordDescriptionVisible: {
+  {
+    settingName: 'isWordDescriptionVisible',
     action: setIsWordDescriptionVisible,
     settingString: 'Is Word Description Visible',
-    Component: Toggle,
   },
-  isExampleSentenceVisible: {
+  {
+    settingName: 'isExampleSentenceVisible',
     action: setIsExampleSentenceVisible,
     settingString: 'Is Example Sentence Visible',
-    Component: Toggle,
   },
-};
+];
 
-export const numberInputSettingsConfig = {
-  maxCardsNumberPerDay: {
+export const numberInputSettingsConfig = [
+  {
+    settingName: 'maxCardsNumberPerDay',
     action: setMaxCardsPerDay,
     settingString: 'Max Cards Number Per Day',
-    Component: InputNumber,
   },
-  maxNewWordsPerDay: {
+  {
+    settingName: 'maxNewWordsPerDay',
     action: setMaxNewWordsPerDay,
     settingString: 'Max New Words Number Per Day',
-    Component: InputNumber,
   },
-};
+];

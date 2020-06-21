@@ -8,11 +8,9 @@ export const useStyles = createUseStyles({
     display: 'flex',
     alignItems: 'center',
   },
-
   switchSetting: {
     margin: '10px 20px 5px 10px',
   },
-
   inputBlock: {
     width: '60px',
     textAlign: 'center',
@@ -20,7 +18,6 @@ export const useStyles = createUseStyles({
     borderRadius: '15px',
     border: '1px solid grey',
   },
-
   cToggleBtn: {
     border: '1px solid #adadad',
     boxShadow: '0px 1px 6px rgba(0, 0, 0, 0.117647), 0px 1px 4px rgba(0, 0, 0, 0.117647)',
@@ -31,12 +28,10 @@ export const useStyles = createUseStyles({
     overflow: 'hidden',
     position: 'relative !important',
     width: '60px',
-
     '&.disabled': {
       opacity: '.4',
     },
   },
-
   toggleInput: {
     cursor: 'pointer',
     opacity: '0 !important',
@@ -44,16 +39,13 @@ export const useStyles = createUseStyles({
     height: '100%',
     width: '100%',
     zIndex: '999',
-
     '&:checked + div': {
       left: '-20%',
     },
-
     '&:disabled': {
       cursor: 'not-allowed',
     },
   },
-
   on: {
     background: 'rgba(94, 111, 217, 1)',
     color: '#fff',
@@ -72,7 +64,6 @@ export const useStyles = createUseStyles({
     whiteSpace: 'nowrap',
     width: '50%',
   },
-
   off: {
     background: '#fff',
     color: '#202020',
@@ -91,7 +82,6 @@ export const useStyles = createUseStyles({
     whiteSpace: 'nowrap',
     width: '50%',
   },
-
   toggleDiv: {
     alignItems: 'center',
     bottom: '0',
@@ -105,7 +95,6 @@ export const useStyles = createUseStyles({
     transition: 'left .35s ease-out',
     width: '200%',
   },
-
   toggleSpan: {
     background: '#f4f3f3',
     border: '1px solid #adadad',

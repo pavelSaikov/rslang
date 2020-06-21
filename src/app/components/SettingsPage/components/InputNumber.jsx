@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { useStyles } from '../SettingsPage.styles';
 import '../../../../../src/theme/style.css';
 
-export const InputNumber = ({ inputChange, settingName, defaultState }) => {
+export const InputNumber = ({ inputChange, defaultState, action }) => {
   const onInputChange = useCallback(
     event => {
-      inputChange(+event.target.value, settingName);
+      inputChange(action, +event.target.value);
     },
-    [inputChange, settingName],
+    [inputChange, action],
   );
 
   const { inputBlock, switchSetting } = useStyles();
@@ -24,5 +24,5 @@ export const InputNumber = ({ inputChange, settingName, defaultState }) => {
 InputNumber.propTypes = {
   inputChange: PropTypes.func.isRequired,
   defaultState: PropTypes.number.isRequired,
-  settingName: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
 };

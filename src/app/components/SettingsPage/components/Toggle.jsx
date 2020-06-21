@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import { useStyles } from '../SettingsPage.styles';
 
-export const Toggle = ({ toggleClick, settingName, defaultState }) => {
+export const Toggle = ({ toggleClick, defaultState, action }) => {
   const onToggleClick = useCallback(() => {
-    if (!toggleClick(!defaultState, settingName)) return;
-  }, [toggleClick, settingName, defaultState]);
+    toggleClick(action, !defaultState);
+  }, [toggleClick, defaultState, action]);
 
   const { cToggleBtn, toggleDiv, toggleSpan, on, off, toggleInput, switchSetting } = useStyles();
 
@@ -27,5 +27,5 @@ export const Toggle = ({ toggleClick, settingName, defaultState }) => {
 Toggle.propTypes = {
   toggleClick: PropTypes.func.isRequired,
   defaultState: PropTypes.bool.isRequired,
-  settingName: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
 };
