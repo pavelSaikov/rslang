@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 export const useStyles = createUseStyles(() => {
   return {
     wrapperFlexRow: {
-      width: '100vw',
+      width: '80vw',
       display: 'flex',
       justifyContent: 'center',
     },
