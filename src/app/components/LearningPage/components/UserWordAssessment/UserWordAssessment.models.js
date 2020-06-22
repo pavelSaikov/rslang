@@ -1,0 +1,8 @@
+export const DIFFICULTY = {
+  EASY: 'Easy',
+  WELL: 'Well',
+  DIFFICULT: 'Difficult',
+  REPEAT: 'Repeat',
+};
+
+export const DIFFICULTIES = [DIFFICULTY.EASY, DIFFICULTY.WELL, DIFFICULTY.DIFFICULT, DIFFICULTY.REPEAT];
