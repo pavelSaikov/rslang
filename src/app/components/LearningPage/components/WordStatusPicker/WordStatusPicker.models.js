@@ -1,0 +1,7 @@
+export const WORD_STATUS = {
+  LEARNED: 'Learned',
+  DIFFICULT: 'Difficult',
+  REMOVED: 'Removed',
+};
+
+export const WORDS_STATUSES = [WORD_STATUS.LEARNED, WORD_STATUS.DIFFICULT, WORD_STATUS.REMOVED];
