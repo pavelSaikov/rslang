@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useState } from 'react';
 import { useStyles } from './Password.styles';
 import PropTypes from 'prop-types';
-import { PASSWORD_VALIDATION_PATTERN } from './PASSWORD_VALIDATION_PATTERN.models';
+import { PASSWORD } from './PASSWORD.models';
 
 export const Password = ({ setPasswordState, caption }) => {
   const input = useRef(null);
@@ -12,7 +12,7 @@ export const Password = ({ setPasswordState, caption }) => {
 
   const passwordValidation = useCallback(() => {
     const password = input.current.value;
-    if (PASSWORD_VALIDATION_PATTERN.test(String(password).toLowerCase())) {
+    if (PASSWORD.test(String(password).toLowerCase())) {
       setValidationState(true);
       setPasswordState(validationError);
     } else {

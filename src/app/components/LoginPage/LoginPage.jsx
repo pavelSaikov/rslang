@@ -4,7 +4,6 @@ import { Password } from './components/Password/Password';
 import { Button } from './components/Button/Button';
 import { LinkWithDescription } from './components/LinkWithDescription/LinkWithDescription';
 import { useStyles } from './LoginPage.styles';
-import './theme/style.css';
 
 export const LoginPage = () => {
   const [emailState, setEmailState] = useState({ isValid: false, email: null });
