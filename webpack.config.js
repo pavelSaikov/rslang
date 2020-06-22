@@ -27,7 +27,7 @@ module.exports = envOptions => {
           use: ['style-loader', 'css-loader'],
         },
         {
-          test: /\.(png|svg|jpg|gif|woff|ttf)$/,
+          test: /\.(png|woff|woff2|ttf|svg)$/,
           use: ['file-loader'],
         },
       ],
