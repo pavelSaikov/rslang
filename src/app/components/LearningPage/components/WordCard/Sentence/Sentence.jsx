@@ -8,6 +8,7 @@ export const Sentence = ({ textExample, onCorrectInput, onIncorrectInput }) => {
   const [inputState, setInputState] = useState(INPUT_STATE.INITIAL);
   const [learningWordIndex, setLearningWordIndex] = useState(null);
   const [sentence, setSentence] = useState(null);
+  const [previousUserAnswer, setPreviousUserAnswer] = useState(null);
   const inputRef = useRef(null);
   const classes = useStyles(inputState);
 
@@ -35,28 +36,31 @@ export const Sentence = ({ textExample, onCorrectInput, onIncorrectInput }) => {
 
   useEffect(() => {
     const onInputClick = e => {
-      if (e.key !== 'Enter' && e.repeat) {
+      const isIncorrectKeyboardPressing = e.key !== 'Enter' || e.repeat;
+
+      const userAnswer = inputRef.current.value;
+      const isInvalidUserInput = !userAnswer.length || userAnswer === previousUserAnswer;
+
+      if (isIncorrectKeyboardPressing || isInvalidUserInput) {
         return;
       }
 
-      const userInput = inputRef.current.value;
-      if (userInput.length !== 0) {
-        return;
-      }
-
-      if (userInput !== sentence[learningWordIndex]) {
+      if (userAnswer !== sentence[learningWordIndex]) {
         onIncorrectInput();
         setInputState(INPUT_STATE.MISTAKE);
+        setPreviousUserAnswer(userAnswer);
       } else {
         onCorrectInput();
         setInputState(INPUT_STATE.CORRECT);
+        setPreviousUserAnswer(userAnswer);
+        inputRef.current.setAttribute('disabled', '');
       }
     };
 
     window.addEventListener('keydown', onInputClick);
 
     return () => window.removeEventListener('keydown', onInputClick);
-  }, [onCorrectInput, onIncorrectInput, sentence, learningWordIndex]);
+  }, [onCorrectInput, onIncorrectInput, sentence, learningWordIndex, previousUserAnswer]);
 
   return (
     sentence && (
