@@ -4,6 +4,7 @@ import { localStorageIdentifiers } from './middlewares';
 const DEFAULT_AUTHORIZATION_INFO = JSON.parse(localStorage.getItem(localStorageIdentifiers.authorizationInfo)) || {
   token: 'token',
   userId: 'userId',
+  creationDate: 0,
 };
 
 export const authorizationInfoReducer = (state = DEFAULT_AUTHORIZATION_INFO, action) => {
