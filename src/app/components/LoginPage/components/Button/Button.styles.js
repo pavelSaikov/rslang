@@ -6,28 +6,25 @@ const marginNum = 0;
 
 export const useStyles = createUseStyles(() => {
   return {
-    input: {
-      width: 300,
+    btn: {
+      width: '300px',
       height: inputHeight,
-      paddingLeft: '15px',
-      boxSizing: 'border-box',
+      textAlign: 'left',
       border: 'none',
-      borderBottom: '2px blue solid',
-      outline: 'none',
-      color: 'black',
-      fontSize: sizeOfFont,
-      '&::placeholder': {
-        color: 'black',
-      },
+      borderRadius: '10px',
+      background: '#407DF4',
+      color: 'white',
+      padding: '20px 20px',
       margin: marginNum,
+      fontSize: sizeOfFont,
+      '&:focus': {
+        outline: 0,
+      },
     },
     mark: {
       position: 'relative',
       top: `-${inputHeight / 2 + sizeOfFont / 2 + marginNum}px`,
       left: '250px',
-    },
-    hidden: {
-      visibility: 'hidden',
     },
   };
 });

@@ -12,7 +12,7 @@ export const useStyles = createUseStyles(() => {
       paddingLeft: '15px',
       boxSizing: 'border-box',
       border: 'none',
-      borderBottom: '2px blue solid',
+      borderBottom: '1px #407DF4 solid',
       outline: 'none',
       color: 'black',
       fontSize: sizeOfFont,
@@ -28,6 +28,9 @@ export const useStyles = createUseStyles(() => {
     },
     hidden: {
       visibility: 'hidden',
+    },
+    caption: {
+      color: 'grey',
     },
   };
 });

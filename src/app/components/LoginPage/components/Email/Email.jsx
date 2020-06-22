@@ -1,25 +1,24 @@
 import React, { useRef, useCallback, useState } from 'react';
 import { useStyles } from './Email.styles';
 import PropTypes from 'prop-types';
+import { EMAIL_VALIDATION_PATTERN } from './Email.models';
 
-const Email = ({ callback, caption, header }) => {
+export const Email = ({ setEmailState, caption, header }) => {
   const input = useRef();
   const classes = useStyles();
   const [spellCheck, setSpellCheckState] = useState(false);
   const [validationError, setValidationState] = useState(false);
 
-  const emailValidation = useCallback(() => {
-    // eslint-disable-next-line no-useless-escape
-    const regForMail = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+  const validateEmail = useCallback(() => {
     const email = input.current.value;
-    if (regForMail.test(String(email).toLowerCase())) {
+    if (EMAIL_VALIDATION_PATTERN.test(String(email).toLowerCase())) {
       setValidationState(true);
-      callback({ isValid: validationError, email });
+      setEmailState({ isValid: validationError, email });
     } else {
       setValidationState(false);
-      callback({ isValid: validationError, email: null });
+      setEmailState({ isValid: validationError, email: null });
     }
-  }, [callback, validationError]);
+  }, [setEmailState, validationError]);
 
   const startSpellCheck = useCallback(() => {
     const email = input.current.value;
@@ -27,14 +26,16 @@ const Email = ({ callback, caption, header }) => {
       setSpellCheckState(false);
     } else {
       setSpellCheckState(true);
-      emailValidation();
+      validateEmail();
     }
-  }, [emailValidation]);
+  }, [validateEmail]);
 
   return (
     <div>
-      <div>{header}</div>
-      <label htmlFor="email">{caption}</label>
+      <div className={classes.header}>{header}</div>
+      <label htmlFor="email" className={classes.caption}>
+        {caption}
+      </label>
       <div className={classes.inputWrapper}>
         <input
           ref={input}
@@ -44,7 +45,7 @@ const Email = ({ callback, caption, header }) => {
           placeholder="email"
           onKeyUp={({ keyCode }) => {
             if (keyCode === 13) {
-              emailValidation();
+              validateEmail();
             }
           }}
           onChange={startSpellCheck}
@@ -71,10 +72,8 @@ const Email = ({ callback, caption, header }) => {
   );
 };
 
-export default Email;
-
 Email.propTypes = {
-  callback: PropTypes.func.isRequired,
+  setEmailState: PropTypes.func.isRequired,
   header: PropTypes.string.isRequired,
   caption: PropTypes.string.isRequired,
 };

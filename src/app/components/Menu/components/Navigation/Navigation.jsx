@@ -10,6 +10,11 @@ export const Navigation = () => {
     <nav className={navigation}>
       <ul>
         <li className={navigationPage}>
+          <Link className={navigationLink} to={ROUTES.LOGIN}>
+            Login
+          </Link>
+        </li>
+        <li className={navigationPage}>
           <Link className={navigationLink} to={ROUTES.LEARNING}>
             Learning
           </Link>

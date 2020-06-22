@@ -1,17 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useStyles } from './Button.styles';
 import PropTypes from 'prop-types';
 
-const Button = ({ submit, text }) => {
+export const Button = ({ submit, text }) => {
   const classes = useStyles();
-
-  const handleClick = useCallback(() => {
-    submit();
-  }, [submit]);
 
   return (
     <div>
-      <button className={classes.btn} onClick={handleClick}>
+      <button className={classes.btn} onClick={submit}>
         {text}
       </button>
       <div className={classes.mark}>
@@ -20,7 +16,5 @@ const Button = ({ submit, text }) => {
     </div>
   );
 };
-
-export default Button;
 
 Button.propTypes = { submit: PropTypes.func.isRequired, text: PropTypes.string.isRequired };

@@ -1,26 +1,25 @@
 import React, { useRef, useCallback, useState } from 'react';
 import { useStyles } from './Password.styles';
 import PropTypes from 'prop-types';
+import { PASSWORD_VALIDATION_PATTERN } from './PASSWORD_VALIDATION_PATTERN.models';
 
-const Password = ({ callback, caption }) => {
-  const input = useRef('');
+export const Password = ({ setPasswordState, caption }) => {
+  const input = useRef(null);
   const classes = useStyles();
   const [isPasswordVisible, setPasswordVisibility] = useState('password');
   const [validationError, setValidationState] = useState(false);
   const [spellCheck, setSpellCheckState] = useState(false);
 
   const passwordValidation = useCallback(() => {
-    // eslint-disable-next-line no-useless-escape
-    const regForPassword = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$ ');
     const password = input.current.value;
-    if (regForPassword.test(String(password).toLowerCase())) {
+    if (PASSWORD_VALIDATION_PATTERN.test(String(password).toLowerCase())) {
       setValidationState(true);
-      callback(validationError);
+      setPasswordState(validationError);
     } else {
       setValidationState(false);
-      callback(validationError);
+      setPasswordState(validationError);
     }
-  }, [callback, validationError]);
+  }, [setPasswordState, validationError]);
 
   const mousePressed = useCallback(() => {
     setPasswordVisibility('text');
@@ -42,7 +41,9 @@ const Password = ({ callback, caption }) => {
 
   return (
     <div>
-      <label htmlFor="password">{caption}</label>
+      <label htmlFor="password" className={classes.caption}>
+        {caption}
+      </label>
       <div className={classes.inputWrapper}>
         <input
           ref={input}
@@ -73,6 +74,4 @@ const Password = ({ callback, caption }) => {
   );
 };
 
-export default Password;
-
-Password.propTypes = { callback: PropTypes.func.isRequired, caption: PropTypes.string.isRequired };
+Password.propTypes = { setPasswordState: PropTypes.func.isRequired, caption: PropTypes.string.isRequired };
