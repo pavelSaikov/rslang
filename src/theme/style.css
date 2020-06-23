@@ -9,6 +9,17 @@ input {
   outline: none;
 }
 
+input[type='number']::-webkit-inner-spin-button {
+  display: block;
+  width: 30px;
+  height: 25px;
+  opacity: 1;
+}
+
+input[type='number']:focus {
+  outline-width: 0px;
+}
+
 .login-page {
   font-family: 'icon-moon' !important;
 }
