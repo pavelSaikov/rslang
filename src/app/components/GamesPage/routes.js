@@ -4,4 +4,5 @@ export const GAMES_ROUTES = {
   AUDIO_CHALLENGE: '/audioChallenge',
   SAVANNA: '/savanna',
   SPRINT: '/sprint',
+  MY_GAME: '/myGame',
 };
