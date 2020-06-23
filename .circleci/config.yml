@@ -28,18 +28,16 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run: npm run build
-      - save_cache:
-          key: build-cache
+      - persist_to_workspace:
+          root: ~/project
           paths:
             - dist
   deploy:
     executor: node/default
     steps:
       - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - restore_cache:
-          key: build-cache
+      - attach_workspace:
+          at: ~/project
       - run:
           name: install netlify cli
           command: sudo npm install netlify-cli -g
