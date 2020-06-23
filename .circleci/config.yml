@@ -56,11 +56,17 @@ workflows:
       - build:
           requires:
             - lint
-      - deploy:
+      - hold:
           type: approval
-          context: netlify
           requires:
             - build
+          filters:
+            branches:
+              only: dev
+      - deploy:
+          context: netlify
+          requires:
+            - hold
           filters:
             branches:
               only: dev
