@@ -2,7 +2,7 @@ import { MAXIMUM_TOKEN_AGE } from './AuthorizationService.models';
 
 export class AuthorizationService {
   constructor() {
-    this.endpoint = 'https://afternoon-falls-25894.herokuapp.com';
+    this.endpoint = 'http://pacific-castle-12388.herokuapp.com';
   }
 
   signIn({ email, password, controller }) {
@@ -16,7 +16,7 @@ export class AuthorizationService {
       signal: controller.signal,
     })
       .then(response => response.json())
-      .then(({ token, userId }) => ({ token, userId }))
+      .then(({ token, userId }) => ({ token, userId, creationDate: Date.now() }))
       .catch(() => {
         throw new Error('Email or password incorrect');
       });
@@ -33,7 +33,7 @@ export class AuthorizationService {
       signal: controller.signal,
     })
       .then(response => response.json())
-      .then(() => ({ email, password, creationDate: Date.now() }))
+      .then(() => ({ email, password }))
       .catch(() => {
         throw new Error('User with this email is already exists');
       });

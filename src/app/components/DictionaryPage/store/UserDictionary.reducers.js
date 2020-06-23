@@ -1,4 +1,4 @@
-import { setUserDictionary, updateUserWord } from './UserDictionary.actions';
+import { setUserDictionary, updateUserWord, addUserWord } from './UserDictionary.actions';
 
 const DEFAULT_USER_DICTIONARY = [];
 export const userDictionaryReducer = (state = DEFAULT_USER_DICTIONARY, action) => {
@@ -9,6 +9,8 @@ export const userDictionaryReducer = (state = DEFAULT_USER_DICTIONARY, action) =
       // eslint-disable-next-line no-case-declarations
       const wordsWithoutUpdates = state.filter(word => word.wordId !== action.payload.wordId);
       return [...wordsWithoutUpdates, action.payload];
+    case addUserWord.type:
+      return [...state, action.payload];
     default:
       return state;
   }

@@ -1,16 +1,52 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { INPUT_STATE, FONT_SIZE } from './Sentence.models';
+import { INPUT_STATE } from './Sentence.models';
 import { useStyles } from './Sentence.style';
 
-export const Sentence = ({ textExample, onCorrectInput, onIncorrectInput }) => {
+export const Sentence = ({
+  textExample,
+  onCorrectInput,
+  onIncorrectInput,
+  isShowAnswer,
+  gameWordIndex,
+  isCheckAnswerClick,
+}) => {
   const [inputState, setInputState] = useState(INPUT_STATE.INITIAL);
   const [learningWordIndex, setLearningWordIndex] = useState(null);
   const [sentence, setSentence] = useState(null);
   const [previousUserAnswer, setPreviousUserAnswer] = useState(null);
+  const [inputWidth, setInputWidth] = useState(0);
   const inputRef = useRef(null);
+  const spanRef = useRef(null);
   const classes = useStyles(inputState);
+  const checkUserAnswer = useMemo(
+    () => () => {
+      const userAnswer = inputRef.current.value;
+      const isInvalidUserInput = !userAnswer.length || userAnswer === previousUserAnswer;
+      if (isInvalidUserInput) {
+        return;
+      }
+
+      if (userAnswer !== sentence[learningWordIndex]) {
+        setInputState(INPUT_STATE.MISTAKE);
+        setPreviousUserAnswer(userAnswer);
+        onIncorrectInput();
+      } else {
+        setInputState(INPUT_STATE.CORRECT);
+        setPreviousUserAnswer(userAnswer);
+        inputRef.current.setAttribute('disabled', '');
+        onCorrectInput();
+      }
+    },
+    [sentence, learningWordIndex, onCorrectInput, onIncorrectInput, previousUserAnswer],
+  );
+
+  useEffect(() => {
+    if (spanRef.current) {
+      setInputWidth(spanRef.current.offsetWidth);
+    }
+  }, [sentence]);
 
   useEffect(() => {
     const wordsInfo = textExample.split(' ').reduce(
@@ -30,37 +66,48 @@ export const Sentence = ({ textExample, onCorrectInput, onIncorrectInput }) => {
       { learningWordIndex: null, words: [] },
     );
 
+    setInputState(INPUT_STATE.INITIAL);
     setLearningWordIndex(wordsInfo.learningWordIndex);
     setSentence(wordsInfo.words);
-  }, [textExample]);
+    setPreviousUserAnswer(null);
+
+    if (inputRef.current) {
+      inputRef.current.removeAttribute('disabled');
+      inputRef.current.value = '';
+    }
+  }, [textExample, gameWordIndex]);
+
+  useEffect(() => {
+    if (!isShowAnswer) {
+      return;
+    }
+
+    inputRef.current.value = sentence[learningWordIndex];
+    inputRef.current.setAttribute('disabled', '');
+    setInputState(INPUT_STATE.CORRECT);
+  }, [isShowAnswer, learningWordIndex, sentence]);
 
   useEffect(() => {
     const onInputClick = e => {
       const isIncorrectKeyboardPressing = e.key !== 'Enter' || e.repeat;
 
-      const userAnswer = inputRef.current.value;
-      const isInvalidUserInput = !userAnswer.length || userAnswer === previousUserAnswer;
-
-      if (isIncorrectKeyboardPressing || isInvalidUserInput) {
+      if (isIncorrectKeyboardPressing) {
         return;
       }
 
-      if (userAnswer !== sentence[learningWordIndex]) {
-        onIncorrectInput();
-        setInputState(INPUT_STATE.MISTAKE);
-        setPreviousUserAnswer(userAnswer);
-      } else {
-        onCorrectInput();
-        setInputState(INPUT_STATE.CORRECT);
-        setPreviousUserAnswer(userAnswer);
-        inputRef.current.setAttribute('disabled', '');
-      }
+      checkUserAnswer();
     };
 
     window.addEventListener('keydown', onInputClick);
 
     return () => window.removeEventListener('keydown', onInputClick);
-  }, [onCorrectInput, onIncorrectInput, sentence, learningWordIndex, previousUserAnswer]);
+  }, [checkUserAnswer]);
+
+  useEffect(() => {
+    if (isCheckAnswerClick) {
+      checkUserAnswer();
+    }
+  }, [isCheckAnswerClick, checkUserAnswer]);
 
   return (
     sentence && (
@@ -68,7 +115,10 @@ export const Sentence = ({ textExample, onCorrectInput, onIncorrectInput }) => {
         {sentence.map((word, index) => {
           return index === learningWordIndex ? (
             <div key={word + index}>
-              <input className={classes.input} ref={inputRef} style={{ width: FONT_SIZE * word.split('').length }} />
+              <input className={classes.input} ref={inputRef} style={{ width: `${inputWidth}px` }} autoFocus />
+              <span ref={spanRef} className={`${classes.input} ${classes.span}`}>
+                {word}
+              </span>
             </div>
           ) : (
             <div key={word + index} className={classes.word}>
@@ -84,4 +134,7 @@ Sentence.propTypes = {
   textExample: PropTypes.string.isRequired,
   onCorrectInput: PropTypes.func.isRequired,
   onIncorrectInput: PropTypes.func.isRequired,
+  isShowAnswer: PropTypes.bool.isRequired,
+  gameWordIndex: PropTypes.number.isRequired,
+  isCheckAnswerClick: PropTypes.bool.isRequired,
 };

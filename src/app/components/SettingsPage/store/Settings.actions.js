@@ -4,8 +4,15 @@ export const setMaxCardsPerDay = createAction('[Settings] Set Max Cards Number P
 export const setMaxNewWordsPerDay = createAction('[Settings] Set Max New Words Number Per Day');
 export const setIsTranslationVisible = createAction('[Settings] Set Is Translation Visible');
 export const setIsWordDescriptionVisible = createAction('[Settings] Set Is Word Description Visible');
+export const setIsWordDescriptionTranslationVisible = createAction(
+  '[Settings] Set Is Word Description Translation Visible',
+);
 export const setIsExampleSentenceVisible = createAction('[Settings] Set Is Example Sentence Visible');
+export const setIsExampleSentenceTranslationVisible = createAction(
+  '[Settings] Set Is Example Sentence Translation Visible',
+);
 export const setIsTranscriptionVisible = createAction('[Settings] Set Is Transcription Visible');
 export const setIsAssociationPictureVisible = createAction('[Settings] Set Is Association Picture Visible');
 export const setIsUserOpinionCheckingVisible = createAction('[Settings] Set Is User Opinion Checking Visible');
 export const setIsStatusCheckingVisible = createAction('[Settings] Set Is Status Checking Visible');
+export const setIsShowAnswerButtonAvailable = createAction('[Settings] Set Is Show Answer Button Available');

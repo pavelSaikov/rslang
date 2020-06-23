@@ -8,45 +8,46 @@ import {
   setIsAssociationPictureVisible,
   setIsUserOpinionCheckingVisible,
   setIsStatusCheckingVisible,
+  setIsWordDescriptionTranslationVisible,
+  setIsExampleSentenceTranslationVisible,
+  setIsShowAnswerButtonAvailable,
 } from './Settings.actions';
+import { createSettings } from './create-settings';
 
-const DEFAULT_SETTINGS = {
-  maxCardsNumberPerDay: 100,
-  maxNewWordsPerDay: 20,
-  isTranscriptionVisible: true,
-  isAssociationPictureVisible: true,
-  isUserOpinionCheckingVisible: true,
-  isStatusCheckingVisible: true,
-  isTranslationVisible: true,
-  isWordDescriptionVisible: false,
-  isExampleSentenceVisible: true,
-};
-export const settingsReducer = (state = DEFAULT_SETTINGS, action) => {
+export const settingsReducer = (state = createSettings({}), action) => {
   switch (action.type) {
     case setMaxCardsPerDay.type:
-      return { ...state, maxCardsNumberPerDay: action.payload };
+      return createSettings({ ...state, maxCardsNumberPerDay: action.payload });
     case setMaxNewWordsPerDay.type:
-      return { ...state, maxNewWordsPerDay: action.payload };
+      return createSettings({ ...state, maxNewWordsPerDay: action.payload });
     case setIsTranslationVisible.type:
-      return { ...state, isTranslationVisible: action.payload };
+      return createSettings({ ...state, isTranslationVisible: action.payload });
     case setIsWordDescriptionVisible.type:
-      return {
+      return createSettings({
         ...state,
         isWordDescriptionVisible: action.payload,
-      };
+      });
+    case setIsWordDescriptionTranslationVisible.type: {
+      return createSettings({ ...state, isWordDescriptionTranslationVisible: action.payload });
+    }
     case setIsExampleSentenceVisible.type:
-      return {
+      return createSettings({
         ...state,
         isExampleSentenceVisible: action.payload,
-      };
+      });
+    case setIsExampleSentenceTranslationVisible.type: {
+      return createSettings({ ...state, isExampleSentenceTranslationVisible: action.payload });
+    }
     case setIsTranscriptionVisible.type:
-      return { ...state, isTranscriptionVisible: action.payload };
+      return createSettings({ ...state, isTranscriptionVisible: action.payload });
     case setIsAssociationPictureVisible.type:
-      return { ...state, isAssociationPictureVisible: action.payload };
+      return createSettings({ ...state, isAssociationPictureVisible: action.payload });
     case setIsUserOpinionCheckingVisible.type:
-      return { ...state, isUserOpinionCheckingVisible: action.payload };
+      return createSettings({ ...state, isUserOpinionCheckingVisible: action.payload });
     case setIsStatusCheckingVisible.type:
-      return { ...state, isStatusCheckingVisible: action.payload };
+      return createSettings({ ...state, isStatusCheckingVisible: action.payload });
+    case setIsShowAnswerButtonAvailable.type:
+      return createSettings({ ...state, isShowAnswerButtonAvailable: action.payload });
     default:
       return state;
   }

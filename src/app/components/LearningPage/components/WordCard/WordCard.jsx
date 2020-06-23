@@ -1,10 +1,13 @@
-import React, { useCallback, useState, useRef } from 'react';
+/* eslint-disable indent */
+import React, { useCallback, useState, useRef, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { settingsSelector } from '../../../SettingsPage/store/Settings.selectors';
 import { Sentence } from './Sentence/Sentence';
 import { useStyles } from './WordCard.styles';
+import { Button } from '../UserWordAssessment/Button/Button';
+import { DELAY } from './WordCard.models';
 
 export const WordCard = ({
   wordInfo: {
@@ -19,70 +22,174 @@ export const WordCard = ({
     image,
     audio,
   },
-  onInput,
+  onCorrectInput,
+  onIncorrectInput,
+  onShowAnswerClick,
+  onAutoPlayToggle,
+  isAutoPlayActive,
+  isShowAnswer,
+  gameWordIndex,
 }) => {
   const classes = useStyles();
   const settings = useSelector(settingsSelector);
-  const [isUserInputCorrect, setIsUserInputCorrect] = useState(false);
-  const [isAutoPlaySelect, setIsAutoPlaySelect] = useState(true);
+  const [isShowSentencesTranslation, setIsShowSentencesTranslation] = useState(false);
+  const [isIgnoreCallbacksUpdate, setIsIgnoreCallbacksUpdate] = useState(true);
+  const [isCheckUserAnswer, setIsCheckUserAnswer] = useState(false);
   const audioPlayer = useRef(new Audio());
+  const timerId = useRef(null);
 
-  const onCorrectInput = useCallback(() => {
-    setIsUserInputCorrect(true);
-    onInput();
+  useEffect(() => () => clearTimeout(timerId.current), []);
 
-    if (!audioPlayer.current.currentSrc || !audioPlayer.current.ended || !isAutoPlaySelect) {
+  useEffect(() => {
+    setIsShowSentencesTranslation(false);
+    setIsIgnoreCallbacksUpdate(false);
+  }, [gameWordIndex]);
+
+  useEffect(() => {
+    if (!isShowAnswer || isIgnoreCallbacksUpdate || isShowSentencesTranslation) {
+      return;
+    }
+    setIsIgnoreCallbacksUpdate(true);
+    setIsShowSentencesTranslation(true);
+
+    if (isAutoPlayActive) {
+      playAudio({ audioPlayer, audio, audioExample, audioMeaning, settings, onCorrectInput }).then(() =>
+        onCorrectInput(),
+      );
+    } else {
+      timerId.current = setTimeout(() => {
+        onCorrectInput();
+      }, DELAY);
+    }
+  }, [
+    isShowAnswer,
+    isAutoPlayActive,
+    audioPlayer,
+    audio,
+    audioExample,
+    audioMeaning,
+    isIgnoreCallbacksUpdate,
+    onCorrectInput,
+    settings,
+    isShowSentencesTranslation,
+  ]);
+
+  const textMeaningPrepared = useMemo(() => {
+    if (isShowSentencesTranslation) {
+      return textMeaning;
+    }
+
+    return textMeaning
+      .split(' ')
+      .reduce(
+        (result, word, index) =>
+          word.includes('<')
+            ? result.concat(' ', '_'.repeat(word.length + 1))
+            : index
+            ? result.concat(' ', word)
+            : result.concat(word),
+        '',
+      );
+  }, [isShowSentencesTranslation, textMeaning]);
+
+  const textExamplePrepared = useMemo(() => {
+    if (isShowSentencesTranslation) {
+      return textExample;
+    }
+
+    return textExample
+      .split(' ')
+      .reduce(
+        (result, word, index) =>
+          word.includes('<')
+            ? result.concat(' ', '_'.repeat(word.length + 1))
+            : index
+            ? result.concat(' ', word)
+            : result.concat(word),
+        '',
+      );
+  }, [isShowSentencesTranslation, textExample]);
+
+  const onCorrect = useCallback(() => {
+    setIsShowSentencesTranslation(true);
+    setIsIgnoreCallbacksUpdate(true);
+
+    setIsCheckUserAnswer(false);
+
+    if ((audioPlayer.current.currentSrc && !audioPlayer.current.ended) || !isAutoPlayActive) {
+      timerId.current = setTimeout(() => onCorrectInput(), DELAY);
       return;
     }
 
-    configureAudioPlayer(audioPlayer, true, audio)
-      .then(() => configureAudioPlayer(audioPlayer, settings.requiredParameters.isWordDescriptionVisible, audioMeaning))
-      .then(() =>
-        configureAudioPlayer(audioPlayer, settings.requiredParameters.isExampleSentenceVisible, audioExample),
-      );
-  }, [isAutoPlaySelect, settings, audio, audioMeaning, audioExample, onInput]);
+    playAudio({ audioPlayer, audio, audioExample, audioMeaning, settings }).then(() => onCorrectInput());
+  }, [isAutoPlayActive, settings, audio, audioMeaning, audioExample, onCorrectInput]);
 
-  const onIncorrectInput = useCallback(() => {
-    onInput();
-  }, [onInput]);
+  const onIncorrect = useCallback(() => {
+    onIncorrectInput();
+    setIsCheckUserAnswer(false);
+  }, [onIncorrectInput]);
 
-  const onAutoplayToggleClick = useCallback(() => {
-    setIsAutoPlaySelect(state => !state);
-  }, []);
+  const onAutoplayToggleClick = useCallback(() => onAutoPlayToggle(), [onAutoPlayToggle]);
+
+  const onCheckUserAnswerClick = useCallback(() => {
+    if (!isCheckUserAnswer && !isShowSentencesTranslation) {
+      setIsCheckUserAnswer(true);
+    }
+  }, [isCheckUserAnswer, isShowSentencesTranslation]);
 
   return (
     <div className={classes.wordCard}>
-      <div className={`${classes.sentenceWithInput} ${classes.container}`}>
-        <Sentence textExample={textExample} onCorrectInput={onCorrectInput} onIncorrectInput={onIncorrectInput} />{' '}
+      <div className={`${classes.container}`}>
+        <Sentence
+          textExample={textExample}
+          onCorrectInput={onCorrect}
+          onIncorrectInput={onIncorrect}
+          isShowAnswer={isShowAnswer}
+          gameWordIndex={gameWordIndex}
+          isCheckAnswerClick={isCheckUserAnswer}
+        />
       </div>
-      {(settings.isAssociationPictureVisible || settings.requiredParameters.isTranslationVisible) && (
+      {
         <div className={`${classes.imageAndTranslationContainer} ${classes.container}`}>
           {settings.isAssociationPictureVisible && (
             <div className={classes.imageContainer}>
               <img src={image} className={classes.image} />
             </div>
           )}
-          {settings.requiredParameters.isTranslationVisible && (
-            <div className={classes.translation}>{wordTranslate}</div>
+          {settings.isTranslationVisible && <div className={classes.translation}>{wordTranslate}</div>}
+          <div className={classes.voiceToggleContainer}>
+            <i
+              className={isAutoPlayActive ? 'icon-volume-high' : 'icon-volume-mute'}
+              onClick={onAutoplayToggleClick}
+            ></i>
+          </div>
+        </div>
+      }
+      {settings.isTranscriptionVisible && <div className={classes.container}>{transcription}</div>}
+      {settings.isWordDescriptionVisible && (
+        <div className={classes.container}>
+          <div>Description</div>
+          <div dangerouslySetInnerHTML={{ __html: textMeaningPrepared }}></div>
+          {isShowSentencesTranslation && settings.isWordDescriptionTranslationVisible && (
+            <div>{textMeaningTranslate}</div>
           )}
         </div>
       )}
-      {settings.isTranscriptionVisible && <div className={classes.container}>{transcription}</div>}
-      {settings.requiredParameters.isWordDescriptionVisible && (
-        <div className={classes.container}>
-          <div>Description</div>
-          <div dangerouslySetInnerHTML={{ __html: textMeaning }}></div>
-          {isUserInputCorrect && <div>{textMeaningTranslate}</div>}
-        </div>
-      )}
-      {settings.requiredParameters.isExampleSentenceVisible && (
+      {settings.isExampleSentenceVisible && (
         <div className={classes.container}>
           <div>Example</div>
-          <div dangerouslySetInnerHTML={{ __html: textExample }}></div>
-          {isUserInputCorrect && <div>{textExampleTranslate}</div>}
+          <div dangerouslySetInnerHTML={{ __html: textExamplePrepared }}></div>
+          {isShowSentencesTranslation && settings.isExampleSentenceTranslationVisible && (
+            <div>{textExampleTranslate}</div>
+          )}
         </div>
       )}
-      <div onClick={onAutoplayToggleClick}>{`AutoPlayToggle: ${isAutoPlaySelect}`}</div>
+      <div className={classes.buttonsContainer}>
+        <Button onClick={onCheckUserAnswerClick} message={'Check Answer'} styleClasses={classes.button} />
+        {settings.isShowAnswerButtonAvailable && (
+          <Button onClick={onShowAnswerClick} message={'Show Answer'} styleClasses={classes.button} />
+        )}
+      </div>
     </div>
   );
 };
@@ -101,7 +208,13 @@ WordCard.propTypes = {
     image: PropTypes.string.isRequired,
     audio: PropTypes.string.isRequired,
   }),
-  onInput: PropTypes.func.isRequired,
+  onCorrectInput: PropTypes.func.isRequired,
+  onIncorrectInput: PropTypes.func.isRequired,
+  onAutoPlayToggle: PropTypes.func.isRequired,
+  onShowAnswerClick: PropTypes.func.isRequired,
+  isAutoPlayActive: PropTypes.bool.isRequired,
+  isShowAnswer: PropTypes.bool.isRequired,
+  gameWordIndex: PropTypes.number.isRequired,
 };
 
 const configureAudioPlayer = (audioPlayer, flag, src) => {
@@ -118,4 +231,10 @@ const configureAudioPlayer = (audioPlayer, flag, src) => {
     });
     audioPlayer.current.play();
   });
+};
+
+const playAudio = ({ audioPlayer, audio, audioExample, audioMeaning, settings }) => {
+  return configureAudioPlayer(audioPlayer, true, audio)
+    .then(() => configureAudioPlayer(audioPlayer, settings.isWordDescriptionVisible, audioMeaning))
+    .then(() => configureAudioPlayer(audioPlayer, settings.isExampleSentenceVisible, audioExample));
 };

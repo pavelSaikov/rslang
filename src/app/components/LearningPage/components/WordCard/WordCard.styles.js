@@ -1,22 +1,32 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
-  container: {
-    border: '1px solid black',
-    borderRadius: 5,
-    padding: '10px 5px',
-    marginBottom: 8,
-  },
   wordCard: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 700,
     padding: 10,
-    border: '1px solid black',
     borderRadius: 5,
+    background: 'white',
+    boxShadow: '0px 0px 6px 4px #e1e0de',
+  },
+  container: {
+    width: '100%',
+    padding: '10px 5px',
+    marginBottom: 10,
+    borderRadius: 5,
+    boxShadow: '0px 0px 2px 2px #e1e0de',
   },
   imageAndTranslationContainer: {
     display: 'flex',
     alignItems: 'center',
+    flexWrap: 'no-wrap',
+  },
+  voiceToggleContainer: {
+    flexGrow: 1,
+    margin: '0 10px',
   },
   imageContainer: {
     width: 60,
@@ -30,6 +40,14 @@ export const useStyles = createUseStyles({
   translation: {
     marginLeft: 15,
     fontWeight: 600,
-    fontSize: 20,
+  },
+  buttonsContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '10px 0',
+    width: '300px',
+  },
+  button: {
+    boxShadow: '2px 2px 3px 2px #e1e0de',
   },
 });

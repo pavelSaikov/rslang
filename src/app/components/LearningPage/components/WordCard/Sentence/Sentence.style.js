@@ -1,9 +1,8 @@
 import { createUseStyles } from 'react-jss';
-import { INPUT_STATE_COLOR_MAP, FONT_SIZE } from './Sentence.models';
+import { INPUT_STATE_COLOR_MAP } from './Sentence.models';
 
 export const useStyles = createUseStyles({
   exampleSentence: {
-    fontSize: FONT_SIZE,
     display: 'flex',
   },
   input: {
@@ -11,7 +10,11 @@ export const useStyles = createUseStyles({
     color: inputState => INPUT_STATE_COLOR_MAP.get(inputState),
     border: 0,
     borderRadius: 5,
-    fontSize: FONT_SIZE,
+  },
+  span: {
+    position: 'absolute',
+    height: 0,
+    overflow: 'hidden',
   },
   word: {
     color: '#438c9a',
