@@ -2,12 +2,12 @@ import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
   wrapperFlexRow: {
-    width: '80vw',
-    display: 'flex',
-    justifyContent: 'center',
+    position: 'relative',
+    left: '60vw',
+    width: '360px',
   },
   wrapperFlexColumn: {
-    height: '100vh',
+    height: '80vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -16,5 +16,6 @@ export const useStyles = createUseStyles({
     borderRadius: '10px',
     padding: '30px',
     boxShadow: '2px 2px 20px grey',
+    backgroundColor: 'white',
   },
 });

@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from 'react';
 
-import { Email } from './components/Email/Email';
-import { Password } from './components/Password/Password';
-import { Button } from './components/Button/Button';
-import { LinkWithDescription } from './components/LinkWithDescription/LinkWithDescription';
+import { Email } from '../../../common/Email/Email';
+import { Password } from '../../../common/Password/Password';
+import { Button } from '../../../common/Button/Button';
+import { LinkWithDescription } from '../../../common/LinkWithDescription/LinkWithDescription';
 import { useStyles } from './RegistrationForm.styles';
+import { ROUTES } from '../../../../routing/routes';
 
 export const RegistrationForm = () => {
   const [emailState, setEmailState] = useState({ isValid: false, email: null });
@@ -30,7 +31,7 @@ export const RegistrationForm = () => {
   ]);
 
   return (
-    <div className="login-page">
+    <div className={classes.container}>
       <div className={classes.wrapperFlexRow}>
         <div className={classes.wrapperFlexColumn}>
           <div className={classes.wrapper}>
@@ -38,7 +39,11 @@ export const RegistrationForm = () => {
             <Password setPasswordState={setFirstPasswordState} caption="Password"></Password>
             <Password setPasswordState={setSecondPasswordState} caption="Repeat Password"></Password>
             <Button text="Sign Up" submit={submit}></Button>
-            <LinkWithDescription description="Already have an account? " linkCaption="Log In"></LinkWithDescription>
+            <LinkWithDescription
+              description="Already have an account? "
+              linkCaption="Log In"
+              path={ROUTES.LOGIN}
+            ></LinkWithDescription>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { MAXIMUM_TOKEN_AGE } from './AuthorizationService.models';
+import { MAXIMUM_TOKEN_AGE, INCORRECT_EMAIL_OR_PASSWORD_MESSAGE } from './AuthorizationService.models';
 import { ENDPOINT } from '../services.models';
 
 export class AuthorizationService {
@@ -16,10 +16,16 @@ export class AuthorizationService {
       body: JSON.stringify({ email, password }),
       signal: controller.signal,
     })
+      .then(response => {
+        if (response.ok) {
+          return response;
+        }
+        throw new Error(INCORRECT_EMAIL_OR_PASSWORD_MESSAGE);
+      })
       .then(response => response.json())
       .then(({ token, userId }) => ({ token, userId, creationDate: Date.now() }))
-      .catch(() => {
-        throw new Error('Email or password incorrect');
+      .catch(e => {
+        throw new Error(e.message);
       });
   }
 

@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { wordsService } from '../../services/WordsService/WordsService.js';
 import { updateUserWord } from './store/UserDictionary.actions.js';
 import { userDictionarySelector } from './store/UserDictionary.selectors.js';
-import { authorizationInfoSelector } from '../../store/App.selectors.js';
+import { authorizationInfoSelector } from '../AuthorizationPage/store/AuthorizationPage.selectors.js';
 
 export const DictionaryPage = () => {
   const userDictionary = useSelector(userDictionarySelector);
