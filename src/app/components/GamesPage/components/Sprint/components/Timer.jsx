@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import PropTypes from 'prop-types';
-import { useStyles } from '../Sprint.styles';
+
+import { useStyles } from './Timer.styles';
 
 export const Timer = ({ onTimerEnd, time }) => {
   const [currentTime, setTime] = useState(time);
@@ -10,6 +10,7 @@ export const Timer = ({ onTimerEnd, time }) => {
     const timerId = setTimeout(() => {
       if (!currentTime) {
         onTimerEnd();
+        return;
       }
       setTime(currentTime - 1);
     }, 1000);

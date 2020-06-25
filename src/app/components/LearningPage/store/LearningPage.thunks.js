@@ -245,6 +245,38 @@ export const modifyUserWord = ({ setIsRedirectToLoginPage, controller, updatedWo
     });
 };
 
+export const uploadUserWord = ({ setIsRedirectToLoginPage, controller, updatedWord }) => dispatch => {
+  const { authorizationInfo } = store.getState();
+
+  if (!authorizationInfo) {
+    setIsRedirectToLoginPage(true);
+    return;
+  }
+
+  wordsService
+    .updateUserWord({
+      token: authorizationInfo.token,
+      userId: authorizationInfo.userId,
+      wordId: updatedWord.wordId,
+      wordPayload: updatedWord,
+      controller,
+    })
+    .then(() => dispatch(updateUserWord(updatedWord)))
+    .catch(e => {
+      if (e.message === ERROR_MESSAGE_WORDS_SERVICE.INVALID_ACCESS_TOKEN) {
+        dispatch(setAuthorizationInfo(null));
+        setIsRedirectToLoginPage(true);
+        return;
+      }
+
+      if (e.message === USER_ABORT_REQUEST) {
+        return;
+      }
+
+      dispatch(addError(e.message));
+    });
+};
+
 export const setAllStatistics = ({ statistics, dispatch }) => {
   dispatch(setDailyStatistics(statistics.dailyStatistics));
   dispatch(setCommonStatistics(statistics.commonStatistics));
