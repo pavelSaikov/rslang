@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -12,7 +12,12 @@ import { ControlButtons } from './components/ControlButtons';
 import { StatisticsInARow } from './components/StatisticsInARow';
 import { levelSelector } from '../../../common/GameDescription/store/DifficultySelector.selector';
 import { userDictionarySelector } from '../../../../../DictionaryPage/store/UserDictionary.selectors';
-import { uploadUserWord } from '../../../../../LearningPage/store/LearningPage.thunks';
+import {
+  uploadUserWord,
+  updateCommonStatistics,
+  loadStatistics,
+  checkIsAllStatisticsLoaded,
+} from '../../../../../LearningPage/store/LearningPage.thunks';
 import { ROUTES } from '../../../../../../routing/routes';
 import { BASIC_POINTS, COUNTDOWN, GAME_TIME } from './Game.models';
 import {
@@ -22,6 +27,9 @@ import {
   getClassName,
   updateUserWordInRound,
 } from './Game.helpers';
+import { setSprintStatistics } from '../../store/sprint-statistics/SprintStatistics.action';
+import { store } from '../../../../../../store';
+import { statisticsSelector } from '../../../../../StatisticsPage/store/Statistics.selectors';
 
 export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
   const [isPreparationTime, setIsPreparationTime] = useState(true);
@@ -35,9 +43,11 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
   const [multiplier, setMultiplier] = useState(1);
   const [previousAnswer, setPreviousAnswer] = useState();
   const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
+  const answerCountArray = useRef({ countCorrect: 0, countIncorrect: 0 });
 
   const level = useSelector(levelSelector);
   const userDictionary = useSelector(userDictionarySelector);
+  const statistics = useSelector(statisticsSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,12 +63,37 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
   );
 
   useEffect(() => {
+    if (checkIsAllStatisticsLoaded({ statistics })) {
+      return;
+    }
+
+    const controller = new AbortController();
+    dispatch(loadStatistics({ setIsRedirectToLoginPage, setIsStatisticsPrepared: () => {}, controller }));
+
+    return () => controller.abort();
+  }, [dispatch, statistics]);
+
+  useEffect(() => {
     const timeout = setTimeout(() => setPreviousAnswer(''), 300);
 
     return () => {
       clearTimeout(timeout);
     };
   }, [previousAnswer]);
+
+  useEffect(() => {
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const newSprintStatistics = updateSprintStatisticsInStore(answerCountArray.current);
+      dispatch(setSprintStatistics(newSprintStatistics));
+      dispatch(
+        updateCommonStatistics({
+          setIsRedirectToLoginPage,
+          controller: new AbortController(),
+        }),
+      );
+    };
+  }, [dispatch]);
 
   const endPreparationTime = useCallback(() => setIsPreparationTime(false), []);
 
@@ -77,10 +112,12 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
         setMultiplier(multiplier);
         setScore(multiplier * BASIC_POINTS + score);
         setPreviousAnswer('correct');
+        answerCountArray.current.countCorrect += 1;
       } else {
         setCorrectAnswerInARow(0);
         setMultiplier(1);
         setPreviousAnswer('incorrect');
+        answerCountArray.current.countIncorrect += 1;
       }
 
       if (isUserWords) {
@@ -115,6 +152,7 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
       wordAudio,
       correctAnswerInARow,
       score,
+      answerCountArray,
       userDictionary,
       dispatch,
       closeGame,
@@ -137,30 +175,32 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
   }
 
   return (
-    <div className={springWrapper}>
-      {isPreparationTime && (
-        <div className={timeWrapper}>
-          <Timer onTimerEnd={endPreparationTime} time={COUNTDOWN} />
-        </div>
-      )}
-      {!isPreparationTime && (
-        <div className={gameWrapper}>
-          <div className={gameHeader}>
-            <Timer onTimerEnd={closeGame} time={GAME_TIME} />
-            <Score score={score} />
-            <div className={close} onClick={closeGame}>
-              ✕
+    statistics && (
+      <div className={springWrapper}>
+        {isPreparationTime && (
+          <div className={timeWrapper}>
+            <Timer onTimerEnd={endPreparationTime} time={COUNTDOWN} />
+          </div>
+        )}
+        {!isPreparationTime && (
+          <div className={gameWrapper}>
+            <div className={gameHeader}>
+              <Timer onTimerEnd={closeGame} time={GAME_TIME} />
+              <Score score={score} />
+              <div className={close} onClick={closeGame}>
+                ✕
+              </div>
+            </div>
+            <div className={getClassName(previousAnswer, gameMain, correctAnswer, incorrectAnswer)}>
+              <StatisticsInARow correctAnswerInARow={correctAnswerInARow} multiplier={multiplier} />
+              <WordAudio wordAudio={wordAudio} />
+              <Word data={dataForRound} multiplier={multiplier} />
+              <ControlButtons onClickBut={onControlButtonClick} />
             </div>
           </div>
-          <div className={getClassName(previousAnswer, gameMain, correctAnswer, incorrectAnswer)}>
-            <StatisticsInARow correctAnswerInARow={correctAnswerInARow} multiplier={multiplier} />
-            <WordAudio wordAudio={wordAudio} />
-            <Word data={dataForRound} multiplier={multiplier} />
-            <ControlButtons onClickBut={onControlButtonClick} />
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    )
   );
 };
 
@@ -168,4 +208,33 @@ Game.propTypes = {
   updateStatistics: PropTypes.func.isRequired,
   onEndGame: PropTypes.func.isRequired,
   isUserWords: PropTypes.bool.isRequired,
+};
+0;
+const updateSprintStatisticsInStore = answerCountArray => {
+  const { statistics } = store.getState();
+  const percentCorrectAnswer =
+    (answerCountArray.countCorrect * 100) /
+    (answerCountArray.countCorrect + answerCountArray.countIncorrect
+      ? answerCountArray.countCorrect + answerCountArray.countIncorrect
+      : 1);
+  const newSprintStatistics = statistics ? { ...statistics.sprintStatistics } : {};
+  const dateString = new Date().toLocaleDateString('en-GB');
+
+  const percentCorrectAnswerInDay = newSprintStatistics[dateString]
+    ? newSprintStatistics[dateString]['percentCorrectAnswerInDay']
+    : 0;
+  const gamesCountInDay = newSprintStatistics[dateString] ? newSprintStatistics[dateString]['gamesCountInDay'] : 0;
+
+  if (!newSprintStatistics[dateString]) {
+    newSprintStatistics[dateString] = {
+      percentCorrectAnswerInDay: 0,
+      gamesCountInDay: 0,
+    };
+  }
+  newSprintStatistics[dateString]['percentCorrectAnswerInDay'] = Math.floor(
+    (percentCorrectAnswerInDay * gamesCountInDay + percentCorrectAnswer) / (gamesCountInDay + 1),
+  );
+  newSprintStatistics[dateString]['gamesCountInDay'] += 1;
+
+  return newSprintStatistics;
 };

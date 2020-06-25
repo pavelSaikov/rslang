@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { WordInfo } from './components/WordInfo';
 import { useStyles } from './StatisticsAfterGame.style';
@@ -11,8 +12,11 @@ export const StatisticsAfterGame = ({ statistics, restartGame, score }) => {
   const [correctWords, setCorrectWords] = useState([]);
   const [incorrectWords, setIncorrectWords] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  useEffect(() => sortStatistics(statistics, setCorrectWords, setIncorrectWords), [statistics]);
+  useEffect(() => {
+    sortStatistics(statistics, setCorrectWords, setIncorrectWords), [statistics];
+  }, [dispatch, statistics]);
 
   const onRedirectToGamesPage = useCallback(() => history.push(ROUTES.GAMES), [history]);
 
