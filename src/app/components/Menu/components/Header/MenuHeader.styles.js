@@ -6,12 +6,12 @@ export const useStyles = createUseStyles({
     height: '50px',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#001F4B',
+    justifyContent: 'start',
   },
   headerLink: {
-    color: 'white',
+    color: 'black',
     fontWeight: '900',
     textDecoration: 'none',
+    fontSize: '30px',
   },
 });

@@ -5,46 +5,37 @@ import { ROUTES } from '../../../../routing/routes';
 import { useStyles } from './Navigation.styles';
 
 export const Navigation = () => {
-  const { navigation, navigationPage, navigationLink } = useStyles();
+  const { navigationLink, navigationIcon, navigationList } = useStyles();
   return (
-    <nav className={navigation}>
-      <ul>
-        <li className={navigationPage}>
-          <Link className={navigationLink} to={ROUTES.LOGIN}>
-            Login
-          </Link>
-        </li>
-        <li className={navigationPage}>
-          <Link className={navigationLink} to={ROUTES.LEARNING}>
-            Learning
-          </Link>
-        </li>
-        <li className={navigationPage}>
-          <Link className={navigationLink} to={ROUTES.DICTIONARY}>
-            Dictionary
-          </Link>
-        </li>
-        <li className={navigationPage}>
-          <Link className={navigationLink} to={ROUTES.GAMES}>
-            Mimi games
-          </Link>
-        </li>
-        <li className={navigationPage}>
-          <Link className={navigationLink} to={ROUTES.STATISTIC}>
-            Statistics
-          </Link>
-        </li>
-        <li className={navigationPage}>
-          <Link className={navigationLink} to={ROUTES.TEAM}>
-            Our Team
-          </Link>
-        </li>
-        <li className={navigationPage}>
-          <Link className={navigationLink} to={ROUTES.SETTINGS}>
-            Settings
-          </Link>
-        </li>
-      </ul>
-    </nav>
+    <ul className={navigationList}>
+      <Link className={navigationLink} to={ROUTES.LOGIN}>
+        <i className={`${'icon-enter'} ${navigationIcon}`}></i>
+        Login
+      </Link>
+      <Link className={navigationLink} to={ROUTES.LEARNING}>
+        <i className={`${'icon-book'} ${navigationIcon}`}></i>
+        Learning
+      </Link>
+      <Link className={navigationLink} to={ROUTES.DICTIONARY}>
+        <i className={`${'icon-floppy-disk'} ${navigationIcon}`}></i>
+        Dictionary
+      </Link>
+      <Link className={navigationLink} to={ROUTES.GAMES}>
+        <i className={`${'icon-pacman'} ${navigationIcon}`}></i>
+        Mini games
+      </Link>
+      <Link className={navigationLink} to={ROUTES.STATISTIC}>
+        <i className={`${'icon-stats-bars'} ${navigationIcon}`}></i>
+        Statistics
+      </Link>
+      <Link className={navigationLink} to={ROUTES.TEAM}>
+        <i className={`${'icon-users'} ${navigationIcon}`}></i>
+        Our Team
+      </Link>
+      <Link className={navigationLink} to={ROUTES.SETTINGS}>
+        <i className={`${'icon-cog'} ${navigationIcon}`}></i>
+        Settings
+      </Link>
+    </ul>
   );
 };

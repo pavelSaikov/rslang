@@ -1,10 +1,7 @@
 @font-face {
-  font-family: 'rslang-v1-1';
-  src: url('../assets/fonts/rslang-v1-1.eot?wgf5gh');
-  src: url('../assets/fonts/rslang-v1-1.eot?wgf5gh#iefix') format('embedded-opentype'),
-    url('../assets/fonts/rslang-v1-1.ttf?wgf5gh') format('truetype'),
-    url('../assets/fonts/rslang-v1-1.woff?wgf5gh') format('woff'),
-    url('../assets/fonts/rslang-v1-1.svg?wgf5gh#rslang-v1-1') format('svg');
+  font-family: 'rslang-v1-3';
+  src: url('../assets/fonts/rslang-v1-3.ttf') format('truetype'), url('../assets/fonts/rslang-v1-3.woff') format('woff'),
+    url('../assets/fonts/rslang-v1-3.svg') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -13,7 +10,7 @@
 [class^='icon-'],
 [class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'rslang-v1-1' !important;
+  font-family: 'rslang-v1-3' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -37,4 +34,31 @@
 }
 .icon-volume-medium:before {
   content: '\e900';
+}
+.icon-pacman:before {
+  content: '\e916';
+}
+.icon-book:before {
+  content: '\e91f';
+}
+.icon-floppy-disk:before {
+  content: '\e962';
+}
+.icon-users:before {
+  content: '\e972';
+}
+.icon-cog:before {
+  content: '\e994';
+}
+.icon-stats-bars:before {
+  content: '\e99c';
+}
+.icon-enter:before {
+  content: '\ea13';
+}
+.icon-exit:before {
+  content: '\ea14';
+}
+.icon-text-color:before {
+  content: '\ea6d';
 }
