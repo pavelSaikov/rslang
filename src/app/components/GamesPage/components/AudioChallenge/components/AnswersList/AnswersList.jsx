@@ -40,7 +40,7 @@ export const AnswersList = ({ answers, checkAnswer, gameStatus, correctAnswer })
   );
 
   return (
-    <ul className={classes.listOfAnswers} onClick={e => click(e)}>
+    <ul className={classes.answersList} onClick={e => click(e)}>
       {answers.map((answer, answerIndex) => {
         return (
           <ListElement

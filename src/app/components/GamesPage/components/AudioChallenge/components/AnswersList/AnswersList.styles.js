@@ -1,11 +1,12 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
-  listOfAnswers: {
+  answersList: {
     display: 'flex',
-    marginTop: 50,
+    marginTop: '70px',
+    marginBottom: '120px',
     listStyleType: 'none',
-    fontSize: '20px',
+    fontSize: '17px',
     lineHeight: '45px',
   },
 });

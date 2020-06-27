@@ -4,9 +4,9 @@ export const useStyles = createUseStyles({
   audioChallenge: {
     display: 'flex',
     flexFlow: 'column',
+    color: '#ffffff',
     backgroundImage: 'linear-gradient(to bottom, #7d5daf, #c483a3)',
-    width: 1000,
-    height: 500,
+    width: '1000px',
     alignItems: 'center',
   },
 });
