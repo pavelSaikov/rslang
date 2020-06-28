@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'rslang-v1-4';
-  src: url('../assets/fonts/rslang-v1-4.eot?wgf5gh');
-  src: url('../assets/fonts/rslang-v1-4.eot?wgf5gh#iefix') format('embedded-opentype'),
-    url('../assets/fonts/rslang-v1-4.ttf?wgf5gh') format('truetype'),
-    url('../assets/fonts/rslang-v1-4.woff?wgf5gh') format('woff'),
-    url('../assets/fonts/rslang-v1-4.svg?wgf5gh#rslang-v1-1') format('svg');
+  font-family: 'rslang-v1-5';
+  src: url('../assets/fonts/rslang-v1-5.eot?t9luhd');
+  src: url('../assets/fonts/rslang-v1-5.eot?t9luhd#iefix') format('embedded-opentype'),
+    url('../assets/fonts/rslang-v1-5.ttf?t9luhd') format('truetype'),
+    url('../assets/fonts/rslang-v1-5.woff?t9luhd') format('woff'),
+    url('../assets/fonts/rslang-v1-5.svg?t9luhd#rslang-v1-5') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -13,7 +13,7 @@
 [class^='icon-'],
 [class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'rslang-v1-4' !important;
+  font-family: 'rslang-v1-5' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -26,6 +26,60 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-image:before {
+  content: '\e90d';
+}
+.icon-headphones:before {
+  content: '\e910';
+}
+.icon-dice:before {
+  content: '\e915';
+}
+.icon-pacman1:before {
+  content: '\e917';
+}
+.icon-bullhorn:before {
+  content: '\e91a';
+}
+.icon-phone:before {
+  content: '\e942';
+}
+.icon-phone-hang-up:before {
+  content: '\e943';
+}
+.icon-clock:before {
+  content: '\e94e';
+}
+.icon-clock2:before {
+  content: '\e94f';
+}
+.icon-stopwatch:before {
+  content: '\e952';
+}
+.icon-cloud:before {
+  content: '\e9c1';
+}
+.icon-sphere:before {
+  content: '\e9c9';
+}
+.icon-earth:before {
+  content: '\e9ca';
+}
+.icon-sun:before {
+  content: '\e9d4';
+}
+.icon-volume-high:before {
+  content: '\ea26';
+}
+.icon-arrow-right:before {
+  content: '\ea34';
+}
+.icon-arrow-right2:before {
+  content: '\ea3c';
+}
+.icon-table2:before {
+  content: '\ea71';
+}
 .icon-difficult:before {
   content: '\e9d9';
 }
@@ -39,22 +93,42 @@
 .icon-volume-medium:before {
   content: '\e900';
 }
-
-.ic-eye:before {
-  content: '\e902';
+.icon-pacman:before {
+  content: '\e916';
 }
-
-.ic-check:before {
-  color: green;
+.icon-book:before {
+  content: '\e91f';
+}
+.icon-floppy-disk:before {
+  content: '\e962';
+}
+.icon-users:before {
+  content: '\e972';
+}
+.icon-cog:before {
+  content: '\e994';
+}
+.icon-stats-bars:before {
+  content: '\e99c';
+}
+.icon-enter:before {
+  content: '\ea13';
+}
+.icon-exit:before {
+  content: '\ea14';
+}
+.icon-text-color:before {
+  content: '\ea6d';
+}
+.icon-check:before {
   content: '\e901';
 }
-
-.ic-x:before {
-  color: red;
-  content: '\e904';
+.icon-eye:before {
+  content: '\e902';
 }
-
-.iс-forward:before {
-  color: white;
+.icon-log-in:before {
   content: '\e903';
+}
+.icon-x-circle:before {
+  content: '\e904';
 }
