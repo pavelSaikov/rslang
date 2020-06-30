@@ -8,6 +8,7 @@ import {
   setIsAssociationPictureVisible,
   setIsUserOpinionCheckingVisible,
   setIsStatusCheckingVisible,
+  setIsShowAnswerButtonAvailable,
 } from './store/Settings.actions';
 
 export const singleToggleSettingsConfig = [
@@ -30,6 +31,11 @@ export const singleToggleSettingsConfig = [
     settingName: 'isStatusCheckingVisible',
     action: setIsStatusCheckingVisible,
     settingString: 'Is Status Checking Visible',
+  },
+  {
+    settingName: 'isShowAnswerButtonAvailable',
+    action: setIsShowAnswerButtonAvailable,
+    settingString: 'Is Show Answer Button Available',
   },
 ];
 

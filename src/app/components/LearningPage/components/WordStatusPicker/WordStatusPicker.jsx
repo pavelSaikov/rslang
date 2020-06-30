@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../UserWordAssessment/Button/Button';
 import { useStyles } from './WordStatusPicker.styles';
 
-export const WordStatusChoicer = ({ onStatusChoice, wordStatuses }) => {
+export const WordStatusPicker = ({ onStatusChoice, wordStatuses }) => {
   const classes = useStyles();
 
   return (
@@ -19,7 +19,7 @@ export const WordStatusChoicer = ({ onStatusChoice, wordStatuses }) => {
   );
 };
 
-WordStatusChoicer.propTypes = {
+WordStatusPicker.propTypes = {
   onStatusChoice: PropTypes.func.isRequired,
   wordStatuses: PropTypes.array.isRequired,
 };

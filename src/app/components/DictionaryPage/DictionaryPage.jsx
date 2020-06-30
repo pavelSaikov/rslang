@@ -1,15 +1,50 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
-import { WORD_STATUS, WORD_STATUSES } from './DictionaryPage.models.js';
+import { WORD_STATUS, WORD_STATUSES, createUserWord } from './DictionaryPage.models.js';
 import { useStyles } from './DictionaryPage.styles.js';
 import { WordInfo } from './components/WordInfo/WordInfo.jsx';
-import { WORDS } from '../LearningPage/words.js';
 import { StatusTab } from './components/StatusTab/StatusTab.jsx';
+import { useSelector, useDispatch } from 'react-redux';
+import { wordsService } from '../../services/WordsService/WordsService.js';
+import { updateUserWord } from './store/UserDictionary.actions.js';
+import { userDictionarySelector } from './store/UserDictionary.selectors.js';
+import { authorizationInfoSelector } from '../../store/App.selectors.js';
 
 export const DictionaryPage = () => {
-  const [wordsDescription, setWordDescription] = useState(WORDS);
+  const userDictionary = useSelector(userDictionarySelector);
+  const { token, userId } = useSelector(authorizationInfoSelector);
+  const dispatch = useDispatch();
+  const [wordsDescription, setWordDescription] = useState(null);
   const [wordsStatusForView, setWordsStatusForView] = useState(WORD_STATUS.LEARNED);
+  const [updatedWordInfo, setUpdatedWordInfo] = useState(null);
   const classes = useStyles();
+
+  useEffect(() => {
+    if (wordsDescription) {
+      return;
+    }
+
+    Promise.all(
+      userDictionary.map(wordUserInfo =>
+        wordsService.getWordInfo({ wordId: wordUserInfo.wordId }).then(wordInfo => ({ ...wordInfo, ...wordUserInfo })),
+      ),
+    ).then(words => setWordDescription(words));
+  }, [userDictionary, wordsDescription]);
+
+  useEffect(() => {
+    if (updatedWordInfo) {
+      wordsService
+        .updateUserWord({
+          token,
+          userId,
+          wordId: updatedWordInfo.wordId,
+          wordPayload: createUserWord({ ...updatedWordInfo }),
+        })
+        .then(() => {
+          setUpdatedWordInfo(null);
+        });
+    }
+  }, [updatedWordInfo, token, userId]);
 
   const onViewStatusChangeClick = useCallback(
     newWordStatusForView => {
@@ -22,11 +57,17 @@ export const DictionaryPage = () => {
 
   const onStatusChangeClick = useCallback(
     (status, wordId) => {
+      if (updatedWordInfo) {
+        return;
+      }
+
       const otherWords = wordsDescription.filter(word => word.wordId !== wordId);
       const targetWord = { ...wordsDescription.find(word => word.wordId === wordId), status };
       setWordDescription([targetWord, ...otherWords]);
+      dispatch(updateUserWord(createUserWord({ ...targetWord })));
+      setUpdatedWordInfo(createUserWord({ ...targetWord }));
     },
-    [wordsDescription],
+    [wordsDescription, dispatch, updatedWordInfo],
   );
 
   return (

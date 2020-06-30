@@ -23,7 +23,9 @@ export const WordInfo = ({
   isRemovable,
 }) => {
   const {
-    requiredParameters: { isTranslationVisible, isWordDescriptionVisible, isExampleSentenceVisible },
+    isTranslationVisible,
+    isWordDescriptionVisible,
+    isExampleSentenceVisible,
     isTranscriptionVisible,
     isAssociationPictureVisible,
   } = useSelector(settingsSelector);

@@ -47,7 +47,7 @@ export const useStyles = createUseStyles({
     },
   },
   on: {
-    background: 'rgba(94, 111, 217, 1)',
+    background: '#438c9a',
     color: '#fff',
     right: '50%',
     alignItems: 'center',

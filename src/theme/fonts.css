@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'rslang-v1-5';
-  src: url('../assets/fonts/rslang-v1-5.eot?t9luhd');
-  src: url('../assets/fonts/rslang-v1-5.eot?t9luhd#iefix') format('embedded-opentype'),
-    url('../assets/fonts/rslang-v1-5.ttf?t9luhd') format('truetype'),
-    url('../assets/fonts/rslang-v1-5.woff?t9luhd') format('woff'),
-    url('../assets/fonts/rslang-v1-5.svg?t9luhd#rslang-v1-5') format('svg');
+  font-family: 'rslang-v1-6';
+  src: url('../assets/fonts/rslang-v1-6.eot?wgf5gh');
+  src: url('../assets/fonts/rslang-v1-6.eot?wgf5gh#iefix') format('embedded-opentype'),
+    url('../assets/fonts/rslang-v1-6.ttf?wgf5gh') format('truetype'),
+    url('../assets/fonts/rslang-v1-6.woff?wgf5gh') format('woff'),
+    url('../assets/fonts/rslang-v1-6.svg?wgf5gh#rslang-v1-1') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -13,7 +13,7 @@
 [class^='icon-'],
 [class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'rslang-v1-5' !important;
+  font-family: 'rslang-v1-6' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -26,6 +26,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-volume-mute:before {
+  content: '\ea2a';
+}
 .icon-image:before {
   content: '\e90d';
 }
@@ -89,7 +92,6 @@
 .icon-removed:before {
   content: '\ea0f';
 }
-
 .icon-volume-medium:before {
   content: '\e900';
 }

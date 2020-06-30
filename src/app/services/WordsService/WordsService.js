@@ -1,8 +1,13 @@
-import { WORDS_PER_PAGE } from './WordsService.models';
+import {
+  WORDS_PER_PAGE,
+  DEFAULT_WORDS_PER_PAGE,
+  DEFAULT_PAGES_IN_EACH_GROUP,
+  DEFAULT_GROUPS_NUMBER,
+} from './WordsService.models';
 
 export class WordsService {
   constructor() {
-    this.endpoint = 'https://afternoon-falls-25894.herokuapp.com';
+    this.endpoint = 'http://pacific-castle-12388.herokuapp.com';
     this.githubEndpoint = 'https://raw.githubusercontent.com/pavelSaikov/rslang-data/master/';
   }
 
@@ -36,7 +41,7 @@ export class WordsService {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ difficulty: null, optional: wordPayload }),
+      body: JSON.stringify({ difficulty: 'not defined', optional: wordPayload }),
     }).then(response => response.json());
   }
 
@@ -49,11 +54,15 @@ export class WordsService {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ difficulty: null, optional: wordPayload }),
+      body: JSON.stringify({ difficulty: 'not defined', optional: wordPayload }),
     }).then(response => response.json());
   }
 
-  getPagesNumberInGroup({ groupNumber, wordPerExampleSentenceLTE = 10, wordsPerPage = 10 }) {
+  getPagesNumberInGroupLimitedWordsPerExampleSentence({
+    groupNumber,
+    wordPerExampleSentenceLTE = 10,
+    wordsPerPage = 10,
+  }) {
     const searchParams = new URLSearchParams([
       ['group', groupNumber],
       ['wordsPerExampleSentenceLTE', wordPerExampleSentenceLTE],
@@ -65,7 +74,12 @@ export class WordsService {
       .then(({ count }) => count);
   }
 
-  getWordsFromGroupAndPage({ groupNumber, pageNumber, wordPerExampleSentenceLTE = 10, wordsPerPage = 10 }) {
+  getWordsFromGroupAndPageLimitedWordsPerExampleSentence({
+    groupNumber,
+    pageNumber,
+    wordPerExampleSentenceLTE = 10,
+    wordsPerPage = 10,
+  }) {
     const searchParams = new URLSearchParams([
       ['group', groupNumber],
       ['page', pageNumber],
@@ -74,6 +88,54 @@ export class WordsService {
     ]);
 
     return fetch(`${this.endpoint}/words?${searchParams}`).then(response => response.json());
+  }
+
+  getWordsNumberInGroup({ groupNumber }) {
+    const searchParams = new URLSearchParams([['group', groupNumber]]);
+
+    return fetch(`${this.endpoint}/words/count?${searchParams}`)
+      .then(response => response.json())
+      .then(({ count }) => count);
+  }
+
+  getWordsFromGroupAndPage({ groupNumber, pageNumber }) {
+    const searchParams = new URLSearchParams([
+      ['group', groupNumber],
+      ['page', pageNumber],
+    ]);
+
+    return fetch(`${this.endpoint}/words?${searchParams}`).then(response => response.json());
+  }
+
+  calculateNextWordPosition({ group, page, index }) {
+    const indexNextWord = index === DEFAULT_WORDS_PER_PAGE - 1 ? 0 : index + 1;
+    const pageNextWord = indexNextWord ? (page === DEFAULT_PAGES_IN_EACH_GROUP - 1 ? 0 : page + 1) : page;
+    const groupNextWord = pageNextWord ? group : group + 1;
+
+    if (groupNextWord >= DEFAULT_GROUPS_NUMBER) {
+      return;
+    }
+
+    return { group: groupNextWord, page: pageNextWord, index: indexNextWord };
+  }
+
+  getWordByPosition({ group, page, index }) {
+    if (group >= DEFAULT_GROUPS_NUMBER || page >= DEFAULT_PAGES_IN_EACH_GROUP || index >= DEFAULT_WORDS_PER_PAGE) {
+      return Promise.resolve();
+    }
+
+    return this.getWordsFromGroupAndPage({
+      groupNumber: group,
+      pageNumber: page,
+    })
+      .then(words => words[index])
+      .then(wordInfo => ({
+        ...wordInfo,
+        audio: `${this.githubEndpoint}${wordInfo.audio}`,
+        image: `${this.githubEndpoint}${wordInfo.image}`,
+        audioMeaning: `${this.githubEndpoint}${wordInfo.audioMeaning}`,
+        audioExample: `${this.githubEndpoint}${wordInfo.audioExample}`,
+      }));
   }
 
   getRandomWordsFromGroup({ groupNumber, wordsNumber, wordPerExampleSentenceLTE }) {
@@ -122,7 +184,27 @@ export class WordsService {
         ...wordInfo,
         audio: `${this.githubEndpoint}${wordInfo.audio}`,
         image: `${this.githubEndpoint}${wordInfo.image}`,
+        audioMeaning: `${this.githubEndpoint}${wordInfo.audioMeaning}`,
+        audioExample: `${this.githubEndpoint}${wordInfo.audioExample}`,
       }));
+  }
+
+  removeAllUserWord({ token, userId }) {
+    return this.getAllUserWords({ token, userId }).then(words =>
+      Promise.all(
+        words.map(word =>
+          fetch(`${this.endpoint}/users/${userId}/words/${word.wordId}`, {
+            method: 'DELETE',
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          }),
+        ),
+      ),
+    );
   }
 }
 
