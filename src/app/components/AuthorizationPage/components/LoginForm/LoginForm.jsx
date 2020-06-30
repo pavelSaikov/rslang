@@ -13,7 +13,7 @@ export const LoginForm = () => {
 
   const submit = useCallback(() => {
     if (emailState.isValid && passwordState.isValid) {
-      console.log('Ok');
+      return;
     }
   }, [emailState.isValid, passwordState.isValid]);
 

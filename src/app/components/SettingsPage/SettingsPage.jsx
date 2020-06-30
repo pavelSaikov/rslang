@@ -35,7 +35,6 @@ export const SettingsPage = () => {
       }, 0);
 
       if (!flag && countTrueFlag === 1) {
-        console.log('Select at least one item');
         return;
       }
       dispatch(action(flag));

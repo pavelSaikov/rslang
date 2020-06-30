@@ -32,8 +32,6 @@ export const AudioChallenge = () => {
   const clickContinueButton = useCallback(() => {
     if (gameStatus === GAME_STATUS.CHOICE) {
       setGameStatus(GAME_STATUS.IS_INCORRECT);
-    } else {
-      console.log('nextWord()');
     }
   }, [gameStatus]);
 

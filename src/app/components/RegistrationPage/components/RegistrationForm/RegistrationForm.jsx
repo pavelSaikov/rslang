@@ -19,7 +19,7 @@ export const RegistrationForm = () => {
       secondPasswordState.isValid &&
       firstPasswordState.password === secondPasswordState.password
     ) {
-      console.log('Ok');
+      return;
     }
   }, [
     emailState.isValid,

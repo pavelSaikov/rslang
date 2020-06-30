@@ -3,9 +3,7 @@ import React, { useCallback } from 'react';
 import { Timer } from './components/Timer';
 
 export const Sprint = () => {
-  const onTimerEnd = useCallback(() => {
-    console.log('End game. Showing statistics');
-  }, []);
+  const onTimerEnd = useCallback(() => {}, []);
 
   return (
     <div>
