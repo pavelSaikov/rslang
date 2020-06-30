@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Toggle } from './components/Toggle';
@@ -8,10 +8,20 @@ import { groupToggleForCardSettingsConfig } from './settings-config';
 import { numberInputSettingsConfig } from './settings-config';
 import { settingsSelector } from './store/Settings.selectors';
 import { useStyles } from './SettingsPage.styles';
+import { settingsService } from '../../services/SettingsService/SettingsService';
+import { authorizationInfoSelector } from '../../store/App.selectors';
 
 export const SettingsPage = () => {
   const settings = useSelector(settingsSelector);
+  const { token, userId } = useSelector(authorizationInfoSelector);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const controller = new AbortController();
+    settingsService.setUserSettings({ token, userId, controller, settings });
+
+    return () => controller.abort();
+  }, [token, userId, settings]);
 
   const callbackForNoGroupToggleSettings = useCallback(
     (action, flag) => {
