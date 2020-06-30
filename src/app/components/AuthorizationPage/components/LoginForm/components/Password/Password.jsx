@@ -12,7 +12,6 @@ export const Password = ({ setPasswordState, caption }) => {
 
   const validatePassword = useCallback(() => {
     const password = input.current.value;
-    console.log(PASSWORD.test(password));
     if (PASSWORD.test(password)) {
       setPasswordState({ isValid: true, password: password });
     } else {
