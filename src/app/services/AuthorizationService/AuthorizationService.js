@@ -1,8 +1,9 @@
 import { MAXIMUM_TOKEN_AGE } from './AuthorizationService.models';
+import { ENDPOINT } from '../services.models';
 
 export class AuthorizationService {
   constructor() {
-    this.endpoint = 'http://pacific-castle-12388.herokuapp.com';
+    this.endpoint = ENDPOINT;
   }
 
   signIn({ email, password, controller }) {

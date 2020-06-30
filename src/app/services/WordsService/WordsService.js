@@ -4,10 +4,11 @@ import {
   DEFAULT_PAGES_IN_EACH_GROUP,
   DEFAULT_GROUPS_NUMBER,
 } from './WordsService.models';
+import { ENDPOINT } from '../services.models';
 
 export class WordsService {
   constructor() {
-    this.endpoint = 'http://pacific-castle-12388.herokuapp.com';
+    this.endpoint = ENDPOINT;
     this.githubEndpoint = 'https://raw.githubusercontent.com/pavelSaikov/rslang-data/master/';
   }
 
