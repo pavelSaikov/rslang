@@ -1,6 +1,8 @@
+import { ENDPOINT } from '../services.models';
+
 export class StatisticsService {
   constructor() {
-    this.endpoint = 'http://pacific-castle-12388.herokuapp.com';
+    this.endpoint = ENDPOINT;
   }
 
   getUserStatistics({ token, userId, controller }) {
