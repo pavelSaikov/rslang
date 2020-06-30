@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { ROUTES } from '../../../../routing/routes';
-import { Link } from 'react-router-dom';
 import { useStyles } from './MenuHeader.styles';
 
 export const MenuHeader = () => {

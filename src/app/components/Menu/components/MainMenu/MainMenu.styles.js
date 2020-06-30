@@ -1,8 +1,11 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
-  menu: {
+  mainMenu: {
     display: 'flex',
-    flexDirection: 'column',
+    position: 'fixed',
+    alignItems: 'center',
+    padding: '6px 60px',
+    zIndex: '500',
   },
 });

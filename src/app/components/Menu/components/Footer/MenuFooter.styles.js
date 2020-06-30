@@ -2,8 +2,9 @@ import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
   footer: {
-    width: '200px',
-    height: '50px',
+    width: '400px',
+    position: 'absolute',
+    height: '100px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -12,5 +13,9 @@ export const useStyles = createUseStyles({
   footerLink: {
     color: 'white',
     fontWeight: '500',
+    fontSize: '20px',
+  },
+  navigationIcon: {
+    paddingRight: '10px',
   },
 });
