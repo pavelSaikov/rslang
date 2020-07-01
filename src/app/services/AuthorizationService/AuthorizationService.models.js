@@ -1,2 +1,12 @@
 export const MAXIMUM_TOKEN_AGE = 3 * 60 * 60 * 1000;
-export const INCORRECT_EMAIL_OR_PASSWORD_MESSAGE = 'Incorrect Email or Password';
+
+export const ERROR_MESSAGE = {
+  INCORRECT_EMAIL_OR_PASSWORD: 'Incorrect Email or Password',
+};
+
+export const ERROR_MESSAGES = Object.keys(ERROR_MESSAGE).map(key => ERROR_MESSAGE[key]);
+
+export const ERROR_MESSAGES_RESPONSE_STATUS_MAP = new Map([
+  [422, ERROR_MESSAGE.INCORRECT_EMAIL_OR_PASSWORD],
+  [403, ERROR_MESSAGE.INCORRECT_EMAIL_OR_PASSWORD],
+]);

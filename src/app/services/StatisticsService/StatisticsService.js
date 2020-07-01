@@ -1,4 +1,5 @@
 import { ENDPOINT } from '../services.models';
+import { ERROR_MESSAGES_RESPONSE_STATUS_MAP } from './StatisticsService.models';
 
 export class StatisticsService {
   constructor() {
@@ -15,8 +16,18 @@ export class StatisticsService {
       },
       signal: controller.signal,
     })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
       .then(response => response.json())
-      .then(({ optional: { statistics } }) => JSON.parse(statistics));
+      .then(({ optional: { statistics } }) => JSON.parse(statistics))
+      .catch(e => {
+        throw new Error(e.message);
+      });
   }
 
   updateStatistics({ token, userId, statistics, controller }) {
@@ -32,7 +43,17 @@ export class StatisticsService {
       },
       body: JSON.stringify({ learnedWords: 0, optional: optionalMock }),
       signal: controller.signal,
-    });
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
+      .catch(e => {
+        throw new Error(e.message);
+      });
   }
 }
 

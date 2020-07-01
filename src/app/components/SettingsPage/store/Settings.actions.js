@@ -1,5 +1,6 @@
 import { createAction } from '../../../store/create-action';
 
+export const setSettings = createAction('[Settings] Set User Settings');
 export const setMaxCardsPerDay = createAction('[Settings] Set Max Cards Number Per Day');
 export const setMaxNewWordsPerDay = createAction('[Settings] Set Max New Words Number Per Day');
 export const setIsTranslationVisible = createAction('[Settings] Set Is Translation Visible');

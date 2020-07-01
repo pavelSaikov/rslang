@@ -1,3 +1,5 @@
+import { ERROR_MESSAGES_RESPONSE_STATUS_MAP } from './SettingsService.models';
+
 const { ENDPOINT } = require('../services.models');
 
 class SettingsService {
@@ -15,10 +17,17 @@ class SettingsService {
       },
       signal: controller.signal,
     })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
       .then(response => response.json())
       .then(({ optional }) => optional)
-      .catch(() => {
-        throw new Error('Can not get user settings from backend');
+      .catch(e => {
+        throw new Error(e.message);
       });
   }
 
@@ -32,9 +41,17 @@ class SettingsService {
       },
       body: JSON.stringify({ wordsPerDay: 1, optional: settings }),
       signal: controller.signal,
-    }).catch(() => {
-      throw new Error('Can not update user settings in backend');
-    });
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
+      .catch(e => {
+        throw new Error(e.message);
+      });
   }
 }
 

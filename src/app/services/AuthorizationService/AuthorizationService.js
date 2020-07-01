@@ -1,4 +1,4 @@
-import { MAXIMUM_TOKEN_AGE, INCORRECT_EMAIL_OR_PASSWORD_MESSAGE } from './AuthorizationService.models';
+import { MAXIMUM_TOKEN_AGE, ERROR_MESSAGES_RESPONSE_STATUS_MAP } from './AuthorizationService.models';
 import { ENDPOINT } from '../services.models';
 
 export class AuthorizationService {
@@ -17,10 +17,11 @@ export class AuthorizationService {
       signal: controller.signal,
     })
       .then(response => {
-        if (response.ok) {
-          return response;
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
         }
-        throw new Error(INCORRECT_EMAIL_OR_PASSWORD_MESSAGE);
+
+        return response;
       })
       .then(response => response.json())
       .then(({ token, userId }) => ({ token, userId, creationDate: Date.now() }))
@@ -39,10 +40,17 @@ export class AuthorizationService {
       body: JSON.stringify({ email, password }),
       signal: controller.signal,
     })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
       .then(response => response.json())
       .then(() => ({ email, password }))
-      .catch(() => {
-        throw new Error('User with this email is already exists');
+      .catch(e => {
+        throw new Error(e.message);
       });
   }
 
