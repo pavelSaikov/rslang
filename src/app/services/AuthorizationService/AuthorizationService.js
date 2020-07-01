@@ -54,6 +54,28 @@ export class AuthorizationService {
       });
   }
 
+  removeUser({ token, userId, controller }) {
+    return fetch(`${this.endpoint}/users/${userId}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
+      .catch(e => {
+        throw new Error(e.message);
+      });
+  }
+
   checkIsAuthorizationTokenValid({ creationDate }) {
     const currentDate = Date.now();
     const tokenAge = currentDate - creationDate;
