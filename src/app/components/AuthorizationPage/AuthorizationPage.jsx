@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LoginForm } from './components/LoginForm/LoginForm';
@@ -15,14 +15,17 @@ import { authorizationInfoSelector } from './store/AuthorizationPage.selectors';
 export const AuthorizationPage = () => {
   const [renderState, setRenderState] = useState(false);
   const [previousUserInput, setPreviousUserInput] = useState(null);
+  const [isUserLogin, setIsUserLogin] = useState(false);
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const authorizationInfo = useSelector(authorizationInfoSelector);
   const abortControllerRef = useRef(null);
+  const location = useLocation();
 
   useEffect(() => {
     if (
+      !isUserLogin &&
       authorizationInfo &&
       authorizationService.checkIsAuthorizationTokenValid({ creationDate: authorizationInfo.creationDate })
     ) {
@@ -31,7 +34,7 @@ export const AuthorizationPage = () => {
       dispatch(setAuthorizationInfo(null));
       setRenderState(true);
     }
-  }, [dispatch, history, authorizationInfo]);
+  }, [dispatch, history, authorizationInfo, isUserLogin]);
 
   const onSendClick = useCallback(
     (email, password) => {
@@ -43,11 +46,13 @@ export const AuthorizationPage = () => {
         abortControllerRef.current.abort();
       }
 
+      const from = location.state && location.state.from ? location.state.from : ROUTES.MAIN;
+
       abortControllerRef.current = new AbortController();
-      dispatch(getUserData(email, password, history, ROUTES.MAIN, abortControllerRef.current));
+      dispatch(getUserData(email, password, history, from, setIsUserLogin, abortControllerRef.current));
       setPreviousUserInput({ email, password });
     },
-    [dispatch, history, previousUserInput],
+    [dispatch, history, previousUserInput, location],
   );
 
   return (

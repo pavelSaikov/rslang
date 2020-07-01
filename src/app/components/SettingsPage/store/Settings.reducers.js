@@ -11,11 +11,15 @@ import {
   setIsWordDescriptionTranslationVisible,
   setIsExampleSentenceTranslationVisible,
   setIsShowAnswerButtonAvailable,
+  setSettings,
 } from './Settings.actions';
 import { createSettings } from './create-settings';
 
 export const settingsReducer = (state = createSettings({}), action) => {
   switch (action.type) {
+    case setSettings.type: {
+      return createSettings({ ...action.payload });
+    }
     case setMaxCardsPerDay.type:
       return createSettings({ ...state, maxCardsNumberPerDay: action.payload });
     case setMaxNewWordsPerDay.type:

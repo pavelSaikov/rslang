@@ -3,6 +3,7 @@ import {
   DEFAULT_WORDS_PER_PAGE,
   DEFAULT_PAGES_IN_EACH_GROUP,
   DEFAULT_GROUPS_NUMBER,
+  ERROR_MESSAGES_RESPONSE_STATUS_MAP,
 } from './WordsService.models';
 import { ENDPOINT } from '../services.models';
 
@@ -12,7 +13,7 @@ export class WordsService {
     this.githubEndpoint = 'https://raw.githubusercontent.com/pavelSaikov/rslang-data/master/';
   }
 
-  getAllUserWords({ token, userId }) {
+  getAllUserWords({ token, userId, controller }) {
     return fetch(`${this.endpoint}/users/${userId}/words`, {
       method: 'GET',
       withCredentials: true,
@@ -20,7 +21,15 @@ export class WordsService {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
       },
+      signal: controller.signal,
     })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
       .then(response => response.json())
       .then(res =>
         res.map(({ optional }) => ({
@@ -30,7 +39,10 @@ export class WordsService {
           repetitionNumber: Number.parseInt(optional.repetitionNumber),
           isRepeatedToday: false,
         })),
-      );
+      )
+      .catch(e => {
+        throw new Error(e.message);
+      });
   }
 
   addUserWord({ token, userId, wordId, wordPayload }) {
@@ -43,7 +55,17 @@ export class WordsService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ difficulty: 'not defined', optional: wordPayload }),
-    }).then(response => response.json());
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
+      .catch(e => {
+        throw new Error(e.message);
+      });
   }
 
   updateUserWord({ token, userId, wordId, wordPayload }) {
@@ -56,7 +78,17 @@ export class WordsService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ difficulty: 'not defined', optional: wordPayload }),
-    }).then(response => response.json());
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(ERROR_MESSAGES_RESPONSE_STATUS_MAP.get(response.status));
+        }
+
+        return response;
+      })
+      .catch(e => {
+        throw new Error(e.message);
+      });
   }
 
   getPagesNumberInGroupLimitedWordsPerExampleSentence({
