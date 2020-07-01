@@ -1,20 +1,22 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
+  background: {
+    position: 'absolute',
+    left: '40vw',
+    top: '50px',
+    zIndex: '-100',
+    height: '90vh',
+  },
   wrapperFlexRow: {
-    width: '80vw',
+    width: '90vw',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    overflow: 'hidden',
+    margin: '20px 3vw',
   },
-  wrapperFlexColumn: {
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  wrapper: {
-    borderRadius: '10px',
-    padding: '30px',
-    boxShadow: '2px 2px 20px grey',
+  formContainer: {
+    position: 'relative',
+    zIndex: '10',
   },
 });

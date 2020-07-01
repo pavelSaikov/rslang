@@ -9,7 +9,7 @@ import { numberInputSettingsConfig } from './settings-config';
 import { settingsSelector } from './store/Settings.selectors';
 import { useStyles } from './SettingsPage.styles';
 import { settingsService } from '../../services/SettingsService/SettingsService';
-import { authorizationInfoSelector } from '../../store/App.selectors';
+import { authorizationInfoSelector } from '../AuthorizationPage/store/AuthorizationPage.selectors';
 
 export const SettingsPage = () => {
   const settings = useSelector(settingsSelector);

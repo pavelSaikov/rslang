@@ -19,7 +19,3 @@ input[type='number']::-webkit-inner-spin-button {
 input[type='number']:focus {
   outline-width: 0px;
 }
-
-.login-page {
-  font-family: 'rslang-v1-4' !important;
-}

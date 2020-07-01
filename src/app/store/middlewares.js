@@ -1,4 +1,4 @@
-import { setAuthorizationInfo } from './App.actions';
+import { setAuthorizationInfo } from '../components/AuthorizationPage/store/AuthorizationPage.actions';
 
 export const localStorageMiddleware = () => next => action => {
   if (action.type === setAuthorizationInfo.type) {

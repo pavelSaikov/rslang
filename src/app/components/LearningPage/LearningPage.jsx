@@ -30,7 +30,6 @@ import { UserWordAssessment } from './components/UserWordAssessment/UserWordAsse
 import { createUserWord, WORD_STATUS } from '../DictionaryPage/DictionaryPage.models';
 import { createCommonStatistics } from '../StatisticsPage/store/common-statistics/create-common-statistics';
 import { statisticsSelector } from '../StatisticsPage/store/Statistics.selectors';
-import { authorizationInfoSelector } from '../../store/App.selectors';
 import { ProgressStrip } from './components/ProgressStrip/ProgressStrip';
 import { DailyStatistics } from './components/DailyStatistics/DailyStatistics';
 import { setIsTranslationVisible } from '../SettingsPage/store/Settings.actions';
@@ -40,6 +39,7 @@ import { createLearningPageConfig } from './store/create-learning-page-config';
 import { useInitializeGame } from './hooks/useInitializeGame';
 import { useUpdateBackend } from './hooks/useUpdateBackend';
 import { useStyles } from './LearningPage.styles';
+import { authorizationInfoSelector } from '../AuthorizationPage/store/AuthorizationPage.selectors';
 
 export const LearningPage = () => {
   const [isStorePrepared] = useState(false);
