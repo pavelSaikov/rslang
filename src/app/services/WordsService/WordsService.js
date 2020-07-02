@@ -45,7 +45,7 @@ export class WordsService {
       });
   }
 
-  addUserWord({ token, userId, wordId, wordPayload }) {
+  addUserWord({ token, userId, wordId, wordPayload, controller }) {
     return fetch(`${this.endpoint}/users/${userId}/words/${wordId}`, {
       method: 'POST',
       withCredentials: true,
@@ -55,6 +55,7 @@ export class WordsService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ difficulty: 'not defined', optional: wordPayload }),
+      signal: controller.signal,
     })
       .then(response => {
         if (!response.ok) {
@@ -68,7 +69,7 @@ export class WordsService {
       });
   }
 
-  updateUserWord({ token, userId, wordId, wordPayload }) {
+  updateUserWord({ token, userId, wordId, wordPayload, controller }) {
     return fetch(`${this.endpoint}/users/${userId}/words/${wordId}`, {
       method: 'PUT',
       withCredentials: true,
@@ -78,6 +79,7 @@ export class WordsService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ difficulty: 'not defined', optional: wordPayload }),
+      signal: controller.signal,
     })
       .then(response => {
         if (!response.ok) {
@@ -142,8 +144,8 @@ export class WordsService {
 
   calculateNextWordPosition({ group, page, index }) {
     const indexNextWord = index === DEFAULT_WORDS_PER_PAGE - 1 ? 0 : index + 1;
-    const pageNextWord = indexNextWord ? (page === DEFAULT_PAGES_IN_EACH_GROUP - 1 ? 0 : page + 1) : page;
-    const groupNextWord = pageNextWord ? group : group + 1;
+    const pageNextWord = indexNextWord ? page : page === DEFAULT_PAGES_IN_EACH_GROUP - 1 ? 0 : page + 1;
+    const groupNextWord = !pageNextWord && page === DEFAULT_PAGES_IN_EACH_GROUP - 1 ? group + 1 : group;
 
     if (groupNextWord >= DEFAULT_GROUPS_NUMBER) {
       return;

@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 
-import { Email } from '../../../common/Email/Email';
-import { Password } from '../../../common/Password/Password';
-import { Button } from '../../../common/Button/Button';
-import { LinkWithDescription } from '../../../common/LinkWithDescription/LinkWithDescription';
+import { Email } from '../../common/Email/Email';
+import { Password } from '../../common/Password/Password';
+import { Button } from '../../common/Button/Button';
+import { LinkWithDescription } from '../../common/LinkWithDescription/LinkWithDescription';
 import { useStyles } from './RegistrationForm.styles';
-import { ROUTES } from '../../../../routing/routes';
+import { ROUTES } from '../../../routing/routes';
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({ onSignUpClick }) => {
   const [emailState, setEmailState] = useState({ isValid: false, email: null });
   const [firstPasswordState, setFirstPasswordState] = useState({ isValid: false, password: null });
   const [secondPasswordState, setSecondPasswordState] = useState({ isValid: false, password: null });
@@ -20,15 +21,9 @@ export const RegistrationForm = () => {
       secondPasswordState.isValid &&
       firstPasswordState.password === secondPasswordState.password
     ) {
-      return;
+      onSignUpClick({ email: emailState.email, password: firstPasswordState.password });
     }
-  }, [
-    emailState.isValid,
-    firstPasswordState.isValid,
-    firstPasswordState.password,
-    secondPasswordState.isValid,
-    secondPasswordState.password,
-  ]);
+  }, [emailState, firstPasswordState, secondPasswordState, onSignUpClick]);
 
   return (
     <div className={classes.container}>
@@ -49,4 +44,8 @@ export const RegistrationForm = () => {
       </div>
     </div>
   );
+};
+
+RegistrationForm.propTypes = {
+  onSignUpClick: PropTypes.func.isRequired,
 };
