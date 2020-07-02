@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GameDescription } from '../GameDescription/GameDescription';
+import { GameDescription } from '../common/GameDescription/GameDescription';
 import { GAME_INFO } from './SpeakIt.models';
 
 export const SpeakIt = () => {

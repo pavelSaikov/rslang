@@ -10,7 +10,7 @@ import { commonStatisticsReducer } from '../components/StatisticsPage/store/comm
 import { dailyStatisticsReducer } from '../components/StatisticsPage/store/daily-statistics/DailyStatistics.reducers';
 import { learningPageConfigReducer } from '../components/LearningPage/store/LearningPage.reducers';
 import { errorsReducer } from '../components/errors/store/Errors.reducer';
-import { gameDescriptionReducer } from '../components/GamesPage/components/GameDescription/store/GameDescription.reducer';
+import { gameDescriptionReducer } from '../components/GamesPage/components/common/GameDescription/store/GameDescription.reducer';
 
 export const store = createStore(
   combineReducers({
