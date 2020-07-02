@@ -21,7 +21,7 @@ export const useInitializeGame = ({
   setGameWords,
   setIndexCurrentWord,
   setIsGamePrepared,
-  isStorePrepared,
+  isStatisticsPrepared,
   isGamePrepared,
 }) => {
   const {
@@ -32,7 +32,7 @@ export const useInitializeGame = ({
   } = store.getState();
 
   useEffect(() => {
-    if (isStorePrepared && !isGamePrepared) {
+    if (isStatisticsPrepared && userDictionary && settings && !isGamePrepared) {
       const newWordsCount = GAME_MODE_MAX_NEW_WORDS_PER_GAME_MAP.get(repeatableWordStatus);
 
       const learnedWordsCount = GAME_MODE_MAX_LEARNED_WORDS_PER_GAME_MAP.get(repeatableWordStatus);
@@ -90,7 +90,7 @@ export const useInitializeGame = ({
   }, [
     commonStatistics,
     isGamePrepared,
-    isStorePrepared,
+    isStatisticsPrepared,
     repeatableWordStatus,
     setGameWords,
     setIndexCurrentWord,

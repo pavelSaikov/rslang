@@ -1,6 +1,7 @@
 /* eslint-disable indent */
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import { statisticsService } from '../../services/StatisticsService/StatisticsService';
 import {
@@ -15,11 +16,18 @@ import {
   setCardsCounter,
   setIsWasShownCardsStatistics,
   setIsWasShownNewWordsStatistics,
+  setDailyStatistics,
 } from '../StatisticsPage/store/daily-statistics/DailyStatistics.actions';
 import { updateUserWord, addUserWord } from '../DictionaryPage/store/UserDictionary.actions';
 import { userDictionarySelector } from '../DictionaryPage/store/UserDictionary.selectors';
 import { settingsSelector } from '../SettingsPage/store/Settings.selectors';
-import { WORD_GAME_STATE, SETTINGS, WORD_STATUS_PICKER_GAME_MODE_MAP, GAME_MODE } from './LearningPage.models';
+import {
+  WORD_GAME_STATE,
+  SETTINGS,
+  WORD_STATUS_PICKER_GAME_MODE_MAP,
+  GAME_MODE,
+  CHECKING_INTERVAL,
+} from './LearningPage.models';
 import { dailyStatisticsSelector } from '../StatisticsPage/store/daily-statistics/DailyStatistics.selectors';
 import { commonSettingsSelector } from '../StatisticsPage/store/common-statistics/CommonStatistics.selectors';
 import { WordCard } from './components/WordCard/WordCard';
@@ -40,11 +48,17 @@ import { useInitializeGame } from './hooks/useInitializeGame';
 import { useUpdateBackend } from './hooks/useUpdateBackend';
 import { useStyles } from './LearningPage.styles';
 import { authorizationInfoSelector } from '../AuthorizationPage/store/AuthorizationPage.selectors';
+import { ROUTES } from './../../routing/routes';
+import { loadDictionary, loadSettings, loadStatistics } from './store/LearningPage.thunks';
+import { Menu } from '../Menu/Menu';
+import { createDailyStatistics } from '../StatisticsPage/store/daily-statistics/create-daily-statistics';
+import { Button } from './components/UserWordAssessment/Button/Button';
 
 export const LearningPage = () => {
-  const [isStorePrepared] = useState(false);
-
   const classes = useStyles();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const { token, userId } = useSelector(authorizationInfoSelector);
   const { repeatableWordStatus } = useSelector(learningPageConfigSelector);
   const userDictionary = useSelector(userDictionarySelector);
@@ -53,8 +67,8 @@ export const LearningPage = () => {
   const commonStatistics = useSelector(commonSettingsSelector);
   const statistics = useSelector(statisticsSelector);
 
-  const dispatch = useDispatch();
-
+  const [isStatisticsPrepared, setIsStatisticsPrepared] = useState(false);
+  const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
   const [isGamePrepared, setIsGamePrepared] = useState(false);
   const [isGameEnded, setIsGameEnded] = useState(false);
   const [isShowAnswer, setIsShowAnswer] = useState(false);
@@ -67,6 +81,7 @@ export const LearningPage = () => {
   const [isShowDailyStatistics, setIsShowDailyStatistics] = useState(false);
   const [lengthSeriesCorrectAnswers, setLengthSeriesCorrectAnswers] = useState(0);
   const [autoPlayMode, setAutoPlayMode] = useState(true);
+  const backendUpdatingAbortController = useRef(null);
 
   const continueGame = useMemo(
     () => () => {
@@ -84,7 +99,78 @@ export const LearningPage = () => {
     [indexCurrentWord, gameWords],
   );
 
-  useInitializeGame({ setGameWords, setIndexCurrentWord, setIsGamePrepared, isStorePrepared, isGamePrepared });
+  useEffect(
+    () => () => {
+      if (backendUpdatingAbortController.current) {
+        backendUpdatingAbortController.current.abort();
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (userDictionary) {
+      return;
+    }
+
+    const controller = new AbortController();
+    dispatch(loadDictionary({ setIsRedirectToLoginPage, controller }));
+
+    return () => controller.abort();
+  }, [userDictionary, dispatch]);
+
+  useEffect(() => {
+    if (settings) {
+      return;
+    }
+
+    const controller = new AbortController();
+    dispatch(loadSettings({ setIsRedirectToLoginPage, controller }));
+
+    return () => controller.abort();
+  }, [settings, dispatch]);
+
+  useEffect(() => {
+    if (isStatisticsPrepared) {
+      return;
+    }
+
+    if (
+      statistics.commonStatistics &&
+      statistics.dailyStatistics &&
+      !statisticsService.isStatisticsResetNeeded({ ...statistics })
+    ) {
+      setIsStatisticsPrepared(true);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    dispatch(loadStatistics({ setIsRedirectToLoginPage, setIsStatisticsPrepared, controller }));
+
+    return () => controller.abort();
+  }, [statistics, dispatch, isStatisticsPrepared]);
+
+  useEffect(() => {
+    if (statistics.commonStatistics) {
+      const intervalId = setInterval(() => {
+        if (statisticsService.isStatisticsResetNeeded({ commonStatistics: statistics.commonStatistics })) {
+          dispatch(setDailyStatistics(createDailyStatistics({})));
+        }
+      }, CHECKING_INTERVAL);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [statistics, dispatch]);
+
+  useEffect(() => {
+    if (isGameEnded) {
+      dispatch(setLearningPageConfig(createLearningPageConfig({ repeatableWordStatus: GAME_MODE.LEARNED_AND_NEW })));
+      statisticsService.updateStatistics({ token, userId, statistics, controller: new AbortController() });
+    }
+  }, [isGameEnded, statistics, token, userId, dispatch]);
+
+  useInitializeGame({ setGameWords, setIndexCurrentWord, setIsGamePrepared, isStatisticsPrepared, isGamePrepared });
 
   useUpdateBackend({
     isLocalUserInfoUpdated,
@@ -96,14 +182,11 @@ export const LearningPage = () => {
     isWasMistake,
   });
 
-  useEffect(() => {
-    if (isGameEnded) {
-      dispatch(setLearningPageConfig(createLearningPageConfig({ repeatableWordStatus: GAME_MODE.LEARNED_AND_NEW })));
-      statisticsService.updateStatistics({ token, userId, statistics, controller: new AbortController() });
-    }
-  }, [isGameEnded, statistics, token, userId, dispatch]);
-
   const onCorrectInput = useCallback(() => {
+    if (isLocalUserInfoUpdated) {
+      return;
+    }
+
     const currentGameWord = gameWords[indexCurrentWord];
     const word = userDictionary.find(word => word.wordId === gameWords[indexCurrentWord].id);
     if (currentGameWord.gameState === WORD_GAME_STATE.LEARNED || word) {
@@ -167,9 +250,14 @@ export const LearningPage = () => {
     lengthSeriesCorrectAnswers,
     dailyStatistics,
     commonStatistics,
+    isLocalUserInfoUpdated,
   ]);
 
   const onIncorrectInput = useCallback(() => {
+    if (isLocalUserInfoUpdated) {
+      return;
+    }
+
     const currentGameWord = gameWords[indexCurrentWord];
     const word = userDictionary.find(word => word.wordId === gameWords[indexCurrentWord].id);
     if (currentGameWord.gameState === WORD_GAME_STATE.LEARNED || word) {
@@ -216,7 +304,15 @@ export const LearningPage = () => {
     setIsWasMistake(true);
 
     setIsLocalUserInfoUpdated(true);
-  }, [dispatch, userDictionary, indexCurrentWord, gameWords, dailyStatistics, commonStatistics]);
+  }, [
+    dispatch,
+    userDictionary,
+    indexCurrentWord,
+    gameWords,
+    dailyStatistics,
+    commonStatistics,
+    isLocalUserInfoUpdated,
+  ]);
 
   const onShowAnswerClick = useCallback(() => setIsShowAnswer(true), []);
 
@@ -298,71 +394,99 @@ export const LearningPage = () => {
     [dispatch, settings],
   );
 
-  if (isShowDailyStatistics) {
+  const onRestartClick = useCallback(() => {
+    setIsGamePrepared(false);
+    setIsGameEnded(false);
+  }, []);
+
+  const onOpenStatisticsClick = useCallback(() => history.push(ROUTES.STATISTIC), [history]);
+
+  if (isRedirectToLoginPage) {
+    return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.LEARNING } }} />;
+  }
+
+  if (isShowDailyStatistics && isStatisticsPrepared) {
     return (
-      <div className={classes.wrapper}>
-        <DailyStatistics
-          settings={settings}
-          dailyStatistics={dailyStatistics}
-          onContinueGameClick={onContinueGameClick}
-        />
+      <div className={classes.pageWrapper}>
+        <Menu />
+        <div className={classes.statisticsWrapper}>
+          <DailyStatistics
+            settings={settings}
+            dailyStatistics={dailyStatistics}
+            onContinueGameClick={onContinueGameClick}
+            isGameEnd={false}
+          />
+        </div>
       </div>
     );
   }
 
   if (isGamePrepared && !isGameEnded) {
     return (
-      <div className={classes.wrapper}>
-        <div className={classes.componentsContainer}>
-          <div className={classes.learningInfoContainer}>
-            <WordCard
-              wordInfo={gameWords[indexCurrentWord]}
-              onCorrectInput={onCorrectInput}
-              onIncorrectInput={onIncorrectInput}
-              onShowAnswerClick={onShowAnswerClick}
-              onAutoPlayToggle={onAutoPlayToggleClick}
-              isAutoPlayActive={autoPlayMode}
-              isShowAnswer={isShowAnswer}
-              gameWordIndex={indexCurrentWord}
-            />
-            {settings.isStatusCheckingVisible &&
-              gameWords[indexCurrentWord].userInfo &&
-              gameWords[indexCurrentWord].userInfo.status !== WORD_STATUS.DEFAULT && (
+      <div className={classes.pageWrapper}>
+        <Menu />
+        <div className={classes.componentsWrapper}>
+          <div className={classes.componentsContainer}>
+            <div className={classes.learningInfoContainer}>
+              <WordCard
+                wordInfo={gameWords[indexCurrentWord]}
+                onCorrectInput={onCorrectInput}
+                onIncorrectInput={onIncorrectInput}
+                onShowAnswerClick={onShowAnswerClick}
+                onAutoPlayToggle={onAutoPlayToggleClick}
+                isAutoPlayActive={autoPlayMode}
+                isShowAnswer={isShowAnswer}
+                gameWordIndex={indexCurrentWord}
+              />
+              {settings.isStatusCheckingVisible &&
+                gameWords[indexCurrentWord].userInfo &&
+                gameWords[indexCurrentWord].userInfo.status !== WORD_STATUS.DEFAULT && (
+                  <div>
+                    <WordStatusPicker
+                      wordStatuses={WORD_STATUS_PICKER_GAME_MODE_MAP.get(repeatableWordStatus)}
+                      onStatusChoice={onWordStatusChoice}
+                    />
+                  </div>
+                )}
+              {isShowWordDifficultyAssessment && (
                 <div>
-                  <WordStatusPicker
-                    wordStatuses={WORD_STATUS_PICKER_GAME_MODE_MAP.get(repeatableWordStatus)}
-                    onStatusChoice={onWordStatusChoice}
-                  />
+                  <UserWordAssessment onChangeStatusClick={onAssessmentClick} />
                 </div>
               )}
-            {isShowWordDifficultyAssessment && (
-              <div>
-                <UserWordAssessment onChangeStatusClick={onAssessmentClick} />
-              </div>
-            )}
-            <div className={classes.ghostContainer}></div>
-            <ProgressStrip currentProgress={indexCurrentWord} partsNumber={gameWords.length} />
-          </div>
-          <div className={classes.settingsContainer}>
-            {SETTINGS.map(({ option, name, action }) => (
-              <div key={option}>
-                <div>{option}</div>
-                <Toggle defaultState={settings[name]} action={action} toggleClick={onToggleClick} />
-              </div>
-            ))}
+              <div className={classes.ghostContainer}></div>
+              <ProgressStrip currentProgress={indexCurrentWord} partsNumber={gameWords.length} />
+            </div>
+            <div className={classes.settingsContainer}>
+              {SETTINGS.map(({ option, name, action }) => (
+                <div key={option}>
+                  <div>{option}</div>
+                  <Toggle defaultState={settings[name]} action={action} toggleClick={onToggleClick} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     );
   }
 
-  if (isGameEnded) {
+  if (isGameEnded && isGamePrepared) {
     return (
-      isGameEnded && (
-        <div className={classes.wrapper}>
-          <h1>The End</h1>
+      <div className={classes.pageWrapper}>
+        <Menu />
+        <div className={classes.endGameContainer}>
+          <DailyStatistics
+            settings={settings}
+            dailyStatistics={dailyStatistics}
+            onContinueGameClick={onContinueGameClick}
+            isGameEnd={true}
+          />
+          <div className={classes.endGameButtonsContainer}>
+            <Button styleClasses={classes.buttonStyle} onClick={onOpenStatisticsClick} message={'Open Statistics'} />
+            <Button styleClasses={classes.buttonStyle} onClick={onRestartClick} message={'Restart'} />
+          </div>
         </div>
-      )
+      </div>
     );
   }
 
@@ -375,7 +499,8 @@ export const LearningPage = () => {
   }
 
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.pageWrapper}>
+      <Menu />
       <h1>Hello</h1>
     </div>
   );
@@ -388,7 +513,14 @@ const updateCommonStatistics = ({
     lastLearnedWord: { group: previousGroup, page: previousPage, index: previousIndex },
   },
 }) => {
-  if (group >= previousGroup && page >= previousPage && index >= previousIndex) {
+  if (group > previousGroup) {
+    dispatch(setCommonStatistics(createCommonStatistics({ lastLearnedWord: { group, page, index } })));
+  }
+  if (group === previousGroup && page > previousPage) {
+    dispatch(setCommonStatistics(createCommonStatistics({ lastLearnedWord: { group, page, index } })));
+  }
+
+  if (group === previousGroup && page === previousPage && index > previousIndex) {
     dispatch(setCommonStatistics(createCommonStatistics({ lastLearnedWord: { group, page, index } })));
   }
 };

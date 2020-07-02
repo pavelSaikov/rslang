@@ -5,8 +5,8 @@ import {
 } from '../SettingsPage/store/Settings.actions';
 import { WORD_STATUS } from '../DictionaryPage/DictionaryPage.models';
 
-export const MAX_NEW_WORDS_PER_GAME = 5;
-export const MAX_LEARNED_WORDS_PER_GAME = 20;
+export const MAX_NEW_WORDS_PER_GAME = 2;
+export const MAX_LEARNED_WORDS_PER_GAME = 2;
 export const REPETITION_NUMBER_PER_GAME = 2;
 export const DEFAULT_WORDS_NUMBER_PER_GAME =
   (MAX_NEW_WORDS_PER_GAME + MAX_LEARNED_WORDS_PER_GAME) * REPETITION_NUMBER_PER_GAME;
@@ -67,3 +67,5 @@ export const SETTINGS = [
     name: 'isWordDescriptionTranslationVisible',
   },
 ];
+
+export const CHECKING_INTERVAL = 1000;

@@ -8,7 +8,12 @@ import { DifficultySelector } from './components/DifficultySelector/DifficultySe
 import { setLevel } from './store/GameDescription.action';
 import { levelSelector } from './store/DifficultySelector.selector';
 
-export const GameDescription = ({ gameName, shortDescription }) => {
+export const GameDescription = ({
+  gameName,
+  shortDescription,
+  onStartGameWithUserWords,
+  onStartGameWithRandomWords,
+}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const selectedLevel = useSelector(levelSelector);
@@ -25,8 +30,8 @@ export const GameDescription = ({ gameName, shortDescription }) => {
           <div>{shortDescription}</div>
         </div>
         <div className={classes.wrapperFlexRow}>
-          <Button text="First" submit={() => {}} />
-          <Button text="Second" submit={() => {}} />
+          <Button text="Start With User Words" submit={onStartGameWithUserWords} />
+          <Button text="Start With Random Words" submit={onStartGameWithRandomWords} />
           <DifficultySelector selectedLevel={selectedLevel} onSelect={onLevelSelect} />
         </div>
       </div>
@@ -37,4 +42,6 @@ export const GameDescription = ({ gameName, shortDescription }) => {
 GameDescription.propTypes = {
   gameName: PropTypes.string.isRequired,
   shortDescription: PropTypes.string.isRequired,
+  onStartGameWithUserWords: PropTypes.func.isRequired,
+  onStartGameWithRandomWords: PropTypes.func.isRequired,
 };

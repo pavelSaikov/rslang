@@ -11,12 +11,20 @@ import { settingsSelector } from './store/Settings.selectors';
 import { useStyles } from './SettingsPage.styles';
 import { ROUTES } from '../../routing/routes';
 import { initializeSettingsPage, updateSettings } from './store/Settings.thunks';
+import { updateCommonStatistics } from '../LearningPage/store/LearningPage.thunks';
 
 export const SettingsPage = () => {
   const settings = useSelector(settingsSelector);
   const dispatch = useDispatch();
   const [isPageInitialized, setIsPageInitialized] = useState(false);
   const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    dispatch(updateCommonStatistics({ setIsRedirectToLoginPage, controller }));
+
+    return () => controller.abort();
+  }, [dispatch]);
 
   useEffect(() => {
     const controller = new AbortController();

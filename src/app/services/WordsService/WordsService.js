@@ -217,10 +217,10 @@ export class WordsService {
       .then(response => response.json())
       .then(wordInfo => ({
         ...wordInfo,
-        audio: `${this.githubEndpoint}${wordInfo.audio}`,
-        image: `${this.githubEndpoint}${wordInfo.image}`,
-        audioMeaning: `${this.githubEndpoint}${wordInfo.audioMeaning}`,
-        audioExample: `${this.githubEndpoint}${wordInfo.audioExample}`,
+        audio: `data:audio/mpeg;base64,${wordInfo.audio}`,
+        image: `data:image/jpg;base64,${wordInfo.image}`,
+        audioMeaning: `data:audio/mpeg;base64,${wordInfo.audioMeaning}`,
+        audioExample: `data:audio/mpeg;base64,${wordInfo.audioExample}`,
       }));
   }
 

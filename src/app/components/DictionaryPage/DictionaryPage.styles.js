@@ -1,10 +1,15 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
+  pageContainer: {
+    minHeight: '100%',
+    background: '#f7f2ee',
+  },
   dictionaryContainer: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: 1100,
+    alignItems: 'center',
   },
   wordStatusesContainer: {
     display: 'flex',
@@ -14,6 +19,7 @@ export const useStyles = createUseStyles({
   },
   wordsGroupContainer: {
     display: 'flex',
-    flexDirection: 'column',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
   },
 });

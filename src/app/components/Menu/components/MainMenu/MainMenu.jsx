@@ -2,8 +2,8 @@ import React, { useRef, useCallback } from 'react';
 
 import { useStyles } from './MainMenu.styles';
 import { useOnClickOutside } from '../onClickOutside';
-import { HamburgerButton } from '../HamburgerButton/HamburgerButton';
-import { SideMenu } from '../SideMenu/SideMenu';
+import { HamburgerButton } from './components/HamburgerButton/HamburgerButton';
+import { SideMenu } from './components/SideMenu/SideMenu';
 import { useSelector, useDispatch } from 'react-redux';
 import { menuSelector } from '../../store/Menu.selectors';
 import { setIsMenuOpen } from '../../store/Menu.actions';

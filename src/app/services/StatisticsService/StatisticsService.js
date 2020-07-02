@@ -1,5 +1,5 @@
 import { ENDPOINT } from '../services.models';
-import { ERROR_MESSAGES_RESPONSE_STATUS_MAP } from './StatisticsService.models';
+import { ERROR_MESSAGES_RESPONSE_STATUS_MAP, ONE_DAY_IN_MILLISECONDS } from './StatisticsService.models';
 
 export class StatisticsService {
   constructor() {
@@ -54,6 +54,14 @@ export class StatisticsService {
       .catch(e => {
         throw new Error(e.message);
       });
+  }
+
+  isStatisticsResetNeeded({ commonStatistics }) {
+    const passedTime = Date.now() - commonStatistics.lastVisiting;
+    const currentDate = new Date().getDate();
+    const lastVisitingDate = new Date().getDate();
+
+    return passedTime >= ONE_DAY_IN_MILLISECONDS || currentDate - lastVisitingDate;
   }
 }
 

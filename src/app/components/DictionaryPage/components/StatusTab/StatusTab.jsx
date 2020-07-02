@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { useStyles } from './StatusTab.styles';
 
 export const StatusTab = ({ status, onViewStatusChangeClick, isSelected }) => {
-  const classes = useStyles();
+  const classes = useStyles({ status, isSelected });
 
   const onViewStatusChange = useCallback(() => onViewStatusChangeClick(status), [status, onViewStatusChangeClick]);
 
   return (
-    <div onClick={onViewStatusChange} className={isSelected ? `${classes.statusTab} selected` : classes.statusTab}>
+    <div onClick={onViewStatusChange} className={classes.statusTab}>
       {status}
     </div>
   );

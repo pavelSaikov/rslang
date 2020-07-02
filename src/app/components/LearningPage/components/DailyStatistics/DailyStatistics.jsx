@@ -13,12 +13,16 @@ import { useStyles } from './DailyStatistics.styles';
 
 export const DailyStatistics = ({
   onContinueGameClick,
+  isGameEnd,
   dailyStatistics: { learnedWordsId, mistakesNumber, maxSeriesLength, cardsCounter },
   settings: { maxCardsNumberPerDay, maxNewWordsPerDay },
 }) => {
   const classes = useStyles();
 
   const header = useMemo(() => {
+    if (isGameEnd) {
+      return 'Game end';
+    }
     if (cardsCounter === maxCardsNumberPerDay && learnedWordsId.length === maxNewWordsPerDay) {
       return 'You have repeated maximum cards number for today and have learned maximum new words for today';
     }
@@ -28,12 +32,12 @@ export const DailyStatistics = ({
     if (cardsCounter === maxCardsNumberPerDay && learnedWordsId.length !== maxNewWordsPerDay) {
       return 'You have repeated maximum cards number for today';
     }
-  }, [cardsCounter, maxCardsNumberPerDay, learnedWordsId, maxNewWordsPerDay]);
+  }, [cardsCounter, maxCardsNumberPerDay, learnedWordsId, maxNewWordsPerDay, isGameEnd]);
 
-  const percentCorrectAnswers = useMemo(() => Math.floor((mistakesNumber / cardsCounter) * 100), [
-    mistakesNumber,
-    cardsCounter,
-  ]);
+  const percentCorrectAnswers = useMemo(
+    () => Math.floor(((cardsCounter - mistakesNumber) / (cardsCounter || 1)) * 100),
+    [mistakesNumber, cardsCounter],
+  );
 
   return (
     <div className={classes.statisticsCard}>
@@ -41,26 +45,28 @@ export const DailyStatistics = ({
         <h4>{header}</h4>
       </div>
       <div className={classes.statisticsContainer}>
-        <div className={classes.statisticsItem}>
+        <div className={`${classes.statisticsItem} ${classes.cardsCompleted}`}>
           <div className={classes.statisticsSentence}>{CARDS_COMPLETED_SENTENCE}</div>
           <div>{cardsCounter}</div>
         </div>
-        <div className={classes.statisticsItem}>
+        <div className={`${classes.statisticsItem} ${classes.correctAnswers}`}>
           <div className={classes.statisticsSentence}>{CORRECT_ANSWERS_SENTENCE}</div>
           <div>{`${percentCorrectAnswers}%`}</div>
         </div>
-        <div className={classes.statisticsItem}>
+        <div className={`${classes.statisticsItem} ${classes.newWords}`}>
           <div className={classes.statisticsSentence}>{NEW_WORDS_SENTENCE}</div>
           <div>{learnedWordsId.length}</div>
         </div>
-        <div className={classes.statisticsItem}>
+        <div className={`${classes.statisticsItem} ${classes.seriesLength}`}>
           <div className={classes.statisticsSentence}>{MAX_SERIES_SENTENCE}</div>
           <div>{maxSeriesLength}</div>
         </div>
       </div>
-      <div className={classes.buttonContainer}>
-        <Button onClick={onContinueGameClick} message={CONTINUE_GAME_SENTENCE} />
-      </div>
+      {!isGameEnd && (
+        <div className={classes.buttonContainer}>
+          <Button onClick={onContinueGameClick} styleClasses={classes.button} message={CONTINUE_GAME_SENTENCE} />
+        </div>
+      )}
     </div>
   );
 };
@@ -77,4 +83,5 @@ DailyStatistics.propTypes = {
     maxCardsNumberPerDay: PropTypes.number.isRequired,
     maxNewWordsPerDay: PropTypes.number.isRequired,
   }),
+  isGameEnd: PropTypes.bool.isRequired,
 };

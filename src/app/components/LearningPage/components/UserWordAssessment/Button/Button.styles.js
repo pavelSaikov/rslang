@@ -7,5 +7,6 @@ export const useStyles = createUseStyles({
     justifyContent: 'center',
     padding: '10px 20px',
     borderRadius: 5,
+    cursor: 'pointer',
   },
 });
