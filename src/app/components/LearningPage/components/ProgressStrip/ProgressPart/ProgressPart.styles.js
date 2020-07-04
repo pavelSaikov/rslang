@@ -1,10 +1,11 @@
 import { createUseStyles } from 'react-jss';
+import { PROGRESS_TYPE_PART_COLOR_MAP, PROGRESS_TYPE_FILLED_PART_COLOR_MAP } from '../ProgressPart.models';
 
 export const useStyles = createUseStyles({
   progressPart: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#c0dbdf',
+    background: ({ progressType }) => PROGRESS_TYPE_PART_COLOR_MAP.get(progressType),
     '&.first': {
       borderRadius: '5px 0 0 5px',
     },
@@ -12,7 +13,7 @@ export const useStyles = createUseStyles({
       borderRadius: '0 5px 5px 0',
     },
     '&.filled': {
-      background: '#438c9a',
+      background: ({ progressType }) => PROGRESS_TYPE_FILLED_PART_COLOR_MAP.get(progressType),
     },
   },
 });

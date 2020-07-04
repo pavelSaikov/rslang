@@ -59,7 +59,7 @@ export class StatisticsService {
   isStatisticsResetNeeded({ commonStatistics }) {
     const passedTime = Date.now() - commonStatistics.lastVisiting;
     const currentDate = new Date().getDate();
-    const lastVisitingDate = new Date().getDate();
+    const lastVisitingDate = new Date(commonStatistics.lastVisiting).getDate();
 
     return passedTime >= ONE_DAY_IN_MILLISECONDS || currentDate - lastVisitingDate;
   }

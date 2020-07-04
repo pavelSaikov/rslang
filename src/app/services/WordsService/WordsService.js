@@ -122,7 +122,17 @@ export class WordsService {
       ['wordsPerPage', wordsPerPage],
     ]);
 
-    return fetch(`${this.endpoint}/words?${searchParams}`).then(response => response.json());
+    return fetch(`${this.endpoint}/words?${searchParams}`)
+      .then(response => response.json())
+      .then(words =>
+        words.map(wordInfo => ({
+          ...wordInfo,
+          audio: `${this.githubEndpoint}${wordInfo.audio}`,
+          image: `${this.githubEndpoint}${wordInfo.image}`,
+          audioMeaning: `${this.githubEndpoint}${wordInfo.audioMeaning}`,
+          audioExample: `${this.githubEndpoint}${wordInfo.audioExample}`,
+        })),
+      );
   }
 
   getWordsNumberInGroup({ groupNumber }) {
@@ -139,7 +149,17 @@ export class WordsService {
       ['page', pageNumber],
     ]);
 
-    return fetch(`${this.endpoint}/words?${searchParams}`).then(response => response.json());
+    return fetch(`${this.endpoint}/words?${searchParams}`)
+      .then(response => response.json())
+      .then(words =>
+        words.map(wordInfo => ({
+          ...wordInfo,
+          audio: `${this.githubEndpoint}${wordInfo.audio}`,
+          image: `${this.githubEndpoint}${wordInfo.image}`,
+          audioMeaning: `${this.githubEndpoint}${wordInfo.audioMeaning}`,
+          audioExample: `${this.githubEndpoint}${wordInfo.audioExample}`,
+        })),
+      );
   }
 
   calculateNextWordPosition({ group, page, index }) {
@@ -162,15 +182,7 @@ export class WordsService {
     return this.getWordsFromGroupAndPage({
       groupNumber: group,
       pageNumber: page,
-    })
-      .then(words => words[index])
-      .then(wordInfo => ({
-        ...wordInfo,
-        audio: `${this.githubEndpoint}${wordInfo.audio}`,
-        image: `${this.githubEndpoint}${wordInfo.image}`,
-        audioMeaning: `${this.githubEndpoint}${wordInfo.audioMeaning}`,
-        audioExample: `${this.githubEndpoint}${wordInfo.audioExample}`,
-      }));
+    }).then(words => words[index]);
   }
 
   getRandomWordsFromGroup({ groupNumber, wordsNumber, wordPerExampleSentenceLTE }) {

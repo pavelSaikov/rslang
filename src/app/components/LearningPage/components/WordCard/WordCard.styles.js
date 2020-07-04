@@ -7,7 +7,7 @@ export const useStyles = createUseStyles({
     alignItems: 'center',
     width: '100%',
     maxWidth: 700,
-    padding: 10,
+    padding: 20,
     borderRadius: 5,
     background: 'white',
     boxShadow: '0px 0px 6px 4px #e1e0de',
@@ -49,5 +49,6 @@ export const useStyles = createUseStyles({
   },
   button: {
     boxShadow: '2px 2px 3px 2px #e1e0de',
+    background: '#f5f5f5',
   },
 });

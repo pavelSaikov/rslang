@@ -11,6 +11,7 @@ import { MAX_LEARNED_WORDS_PER_GAME } from '../../LearningPage/LearningPage.mode
 import { DEFAULT_WORDS_PER_PAGE } from '../../../services/WordsService/WordsService.models';
 import { wordsService } from '../../../services/WordsService/WordsService';
 import { createUserWord } from '../../DictionaryPage/DictionaryPage.models';
+import { createLongTermStatistics } from '../../StatisticsPage/store/long-term-statistics/LongTermStatistics.models';
 
 export const registerUser = ({ email, password, controller, setIsUserRegistered }) => dispatch => {
   authorizationService
@@ -61,6 +62,7 @@ export const registerUser = ({ email, password, controller, setIsUserRegistered 
           statistics: {
             dailyStatistics: createDailyStatistics({}),
             commonStatistics: createCommonStatistics({ lastLearnedWord: lastRegisteredWord }),
+            longTermStatistics: createLongTermStatistics({}),
           },
           controller,
         }),

@@ -1,4 +1,5 @@
 import { createUseStyles } from 'react-jss';
+import { PROGRESS_TYPE_FILLED_PART_COLOR_MAP } from './ProgressPart.models';
 
 export const useStyles = createUseStyles({
   progressStrip: {
@@ -7,11 +8,20 @@ export const useStyles = createUseStyles({
     flexWrap: 'no-wrap',
     width: '100%',
     maxWidth: 600,
+    minWidth: 250,
     height: 10,
     marginBottom: 20,
   },
   numericBorder: {
     padding: '0 5px',
-    color: '#438c9a',
+    width: 50,
+    color: ({ progressType }) => PROGRESS_TYPE_FILLED_PART_COLOR_MAP.get(progressType),
+    textAlign: 'center',
+  },
+  progressParts: {
+    width: '98%',
+    height: 10,
+    display: 'flex',
+    flexWrap: 'no-wrap',
   },
 });

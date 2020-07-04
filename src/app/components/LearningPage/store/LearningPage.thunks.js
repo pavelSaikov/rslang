@@ -14,6 +14,11 @@ import { setAuthorizationInfo } from '../../AuthorizationPage/store/Authorizatio
 import { ERROR_MESSAGE_SETTINGS_SERVICE } from '../../../services/SettingsService/SettingsService.models';
 import { ERROR_MESSAGE_STATISTICS_SERVICE } from '../../../services/StatisticsService/StatisticsService.models';
 import { createUserWord } from '../../DictionaryPage/DictionaryPage.models';
+import { setLongTermStatistics } from '../../StatisticsPage/store/long-term-statistics/LongTermStatistics.actions';
+import {
+  createLongTermStatistics,
+  createLongTermStatisticsItem,
+} from '../../StatisticsPage/store/long-term-statistics/LongTermStatistics.models';
 
 const USER_ABORT_REQUEST = 'The user aborted a request.';
 
@@ -34,6 +39,10 @@ export const loadDictionary = ({ setIsRedirectToLoginPage, controller }) => disp
       if (e.message === ERROR_MESSAGE_WORDS_SERVICE.INVALID_ACCESS_TOKEN) {
         dispatch(setAuthorizationInfo(null));
         setIsRedirectToLoginPage(true);
+        return;
+      }
+
+      if (e.message === USER_ABORT_REQUEST) {
         return;
       }
 
@@ -67,17 +76,30 @@ export const loadSettings = ({ setIsRedirectToLoginPage, controller }) => dispat
     });
 };
 
-export const resetDailyStatistics = ({ setIsRedirectToLoginPage, setIsStatisticsPrepared, controller }) => dispatch => {
-  const { authorizationInfo, statistics } = store.getState();
+export const resetDailyStatistics = ({
+  statistics,
+  setIsRedirectToLoginPage,
+  setIsStatisticsPrepared,
+  controller,
+}) => dispatch => {
+  const { authorizationInfo } = store.getState();
 
   if (!authorizationInfo) {
     setIsRedirectToLoginPage(true);
     return;
   }
 
+  if (!checkIsAllStatisticsLoaded({ statistics })) {
+    return;
+  }
+
   const updatedStatistics = {
+    ...statistics,
     commonStatistics: createCommonStatistics({ ...statistics.commonStatistics }),
     dailyStatistics: createDailyStatistics({}),
+    longTermStatistics: createLongTermStatistics({
+      longTermStatistics: [...statistics.longTermStatistics, createLongTermStatisticsItem({ ...statistics })],
+    }),
   };
 
   return statisticsService
@@ -88,14 +110,17 @@ export const resetDailyStatistics = ({ setIsRedirectToLoginPage, setIsStatistics
       controller,
     })
     .then(() => {
-      dispatch(setDailyStatistics(updatedStatistics.dailyStatistics));
-      dispatch(setCommonStatistics(updatedStatistics.commonStatistics));
+      setAllStatistics({ statistics: updatedStatistics, dispatch });
       setIsStatisticsPrepared(true);
     })
     .catch(e => {
       if (e.message === ERROR_MESSAGE_STATISTICS_SERVICE.INVALID_ACCESS_TOKEN) {
         dispatch(setAuthorizationInfo(null));
         setIsRedirectToLoginPage(true);
+        return;
+      }
+
+      if (e.message === USER_ABORT_REQUEST) {
         return;
       }
 
@@ -119,11 +144,12 @@ export const loadStatistics = ({ setIsRedirectToLoginPage, setIsStatisticsPrepar
     })
     .then(statistics => {
       if (statisticsService.isStatisticsResetNeeded({ commonStatistics: statistics.commonStatistics })) {
-        return resetDailyStatistics({ setIsRedirectToLoginPage, setIsStatisticsPrepared, controller });
+        return resetDailyStatistics({ statistics, setIsRedirectToLoginPage, setIsStatisticsPrepared, controller })(
+          dispatch,
+        );
       }
 
-      dispatch(setDailyStatistics(statistics.dailyStatistics));
-      dispatch(setCommonStatistics(statistics.commonStatistics));
+      setAllStatistics({ statistics, dispatch });
       setIsStatisticsPrepared(true);
     })
     .catch(e => {
@@ -142,23 +168,26 @@ export const loadStatistics = ({ setIsRedirectToLoginPage, setIsStatisticsPrepar
 };
 
 export const updateCommonStatistics = ({ setIsRedirectToLoginPage, controller }) => dispatch => {
-  const {
-    authorizationInfo,
-    statistics: { commonStatistics, dailyStatistics },
-  } = store.getState();
+  const { authorizationInfo, statistics } = store.getState();
 
   if (!authorizationInfo) {
     setIsRedirectToLoginPage(true);
     return;
   }
 
-  if (statisticsService.isStatisticsResetNeeded({ commonStatistics })) {
-    return dispatch(resetDailyStatistics({ setIsRedirectToLoginPage, setIsStatisticsPrepared: () => {}, controller }));
+  if (!checkIsAllStatisticsLoaded({ statistics })) {
+    return;
+  }
+
+  if (statisticsService.isStatisticsResetNeeded({ commonStatistics: statistics.commonStatistics })) {
+    return dispatch(
+      resetDailyStatistics({ statistics, setIsRedirectToLoginPage, setIsStatisticsPrepared: () => {}, controller }),
+    )(dispatch);
   }
 
   const updatedStatistics = {
-    dailyStatistics,
-    commonStatistics: createCommonStatistics({ ...commonStatistics }),
+    ...statistics,
+    commonStatistics: createCommonStatistics({ ...statistics.commonStatistics }),
   };
 
   return statisticsService
@@ -168,10 +197,7 @@ export const updateCommonStatistics = ({ setIsRedirectToLoginPage, controller })
       statistics: updatedStatistics,
       controller,
     })
-    .then(() => {
-      dispatch(setDailyStatistics(dailyStatistics));
-      dispatch(setCommonStatistics(commonStatistics));
-    })
+    .then(() => setAllStatistics({ statistics: updatedStatistics, dispatch }))
     .catch(e => {
       if (e.message === ERROR_MESSAGE_STATISTICS_SERVICE.INVALID_ACCESS_TOKEN) {
         dispatch(setAuthorizationInfo(null));
@@ -218,3 +244,12 @@ export const modifyUserWord = ({ setIsRedirectToLoginPage, controller, updatedWo
       dispatch(addError(e.message));
     });
 };
+
+export const setAllStatistics = ({ statistics, dispatch }) => {
+  dispatch(setDailyStatistics(statistics.dailyStatistics));
+  dispatch(setCommonStatistics(statistics.commonStatistics));
+  dispatch(setLongTermStatistics(statistics.longTermStatistics));
+};
+
+export const checkIsAllStatisticsLoaded = ({ statistics }) =>
+  statistics && statistics.commonStatistics && statistics.dailyStatistics && statistics.longTermStatistics;

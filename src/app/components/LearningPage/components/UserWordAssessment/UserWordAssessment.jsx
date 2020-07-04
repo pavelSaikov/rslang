@@ -15,7 +15,12 @@ export const UserWordAssessment = ({ onChangeStatusClick }) => {
       <div>Describe your filling about this word</div>
       <div className={classes.buttonsContainer}>
         {USER_OPINIONS_ABOUT_WORD.map(difficulty => (
-          <Button key={difficulty} message={difficulty} onClick={() => onChangeStatus(difficulty)} />
+          <Button
+            key={difficulty}
+            message={difficulty}
+            onClick={() => onChangeStatus(difficulty)}
+            styleClasses={classes.button}
+          />
         ))}
       </div>
     </div>
