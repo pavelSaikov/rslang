@@ -24,10 +24,12 @@ export const useUpdateBackend = ({
     authorizationInfo: { token, userId },
   } = store.getState();
 
+  const controller = new AbortController();
+
   useEffect(() => {
     if (isLocalUserInfoUpdated) {
       Promise.all([
-        statisticsService.updateStatistics({ token, userId, statistics, controller: new AbortController() }),
+        statisticsService.updateStatistics({ token, userId, statistics, controller }),
         (function () {
           if (changesInUserDictionary.gameState === WORD_GAME_STATE.NEW) {
             return wordsService.addUserWord({
@@ -35,6 +37,7 @@ export const useUpdateBackend = ({
               userId,
               wordId: changesInUserDictionary.word.wordId,
               wordPayload: changesInUserDictionary.word,
+              controller,
             });
           }
 
@@ -43,6 +46,7 @@ export const useUpdateBackend = ({
             userId,
             wordId: changesInUserDictionary.word.wordId,
             wordPayload: changesInUserDictionary.word,
+            controller,
           });
         })(),
       ]).then(() => {
@@ -77,6 +81,7 @@ export const useUpdateBackend = ({
     continueGame,
     setIsLocalUserInfoUpdated,
     setIsShowDailyStatistics,
+    controller,
   ]);
 };
 

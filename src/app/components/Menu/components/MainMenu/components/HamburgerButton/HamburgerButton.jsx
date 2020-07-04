@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useStyles } from './HamburgerButton.style';
-import { menuSelector } from '../../store/Menu.selectors';
-import { setIsMenuOpen } from '../../store/Menu.actions';
+import { menuSelector } from '../../../../store/Menu.selectors';
+import { setIsMenuOpen } from '../../../../store/Menu.actions';
 
 export const HamburgerButton = () => {
   const isMenuOpen = useSelector(menuSelector);

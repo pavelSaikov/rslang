@@ -1,26 +1,68 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { WORD_STATUS, WORD_STATUSES, createUserWord } from './DictionaryPage.models.js';
 import { useStyles } from './DictionaryPage.styles.js';
 import { WordInfo } from './components/WordInfo/WordInfo.jsx';
 import { StatusTab } from './components/StatusTab/StatusTab.jsx';
-import { useSelector, useDispatch } from 'react-redux';
 import { wordsService } from '../../services/WordsService/WordsService.js';
 import { updateUserWord } from './store/UserDictionary.actions.js';
 import { userDictionarySelector } from './store/UserDictionary.selectors.js';
 import { authorizationInfoSelector } from '../AuthorizationPage/store/AuthorizationPage.selectors.js';
-
+import { ROUTES } from '../../routing/routes.js';
+import { Menu } from '../Menu/Menu.jsx';
+import { settingsSelector } from '../SettingsPage/store/Settings.selectors.js';
+import { loadDictionary, loadSettings, loadStatistics } from '../LearningPage/store/LearningPage.thunks.js';
+import { statisticsSelector } from '../StatisticsPage/store/Statistics.selectors.js';
+import { updateUserWordAndStatistics } from './store/UserDictionary.thunks.js';
 export const DictionaryPage = () => {
   const userDictionary = useSelector(userDictionarySelector);
-  const { token, userId } = useSelector(authorizationInfoSelector);
+  const authorizationInfo = useSelector(authorizationInfoSelector);
+  const { commonStatistics, dailyStatistics } = useSelector(statisticsSelector);
+  const settings = useSelector(settingsSelector);
   const dispatch = useDispatch();
+  const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
   const [wordsDescription, setWordDescription] = useState(null);
   const [wordsStatusForView, setWordsStatusForView] = useState(WORD_STATUS.LEARNED);
   const [updatedWordInfo, setUpdatedWordInfo] = useState(null);
   const classes = useStyles();
 
   useEffect(() => {
-    if (wordsDescription) {
+    if (userDictionary) {
+      return;
+    }
+
+    const controller = new AbortController();
+    dispatch(loadDictionary({ setIsRedirectToLoginPage, controller }));
+
+    return () => controller.abort();
+  }, [userDictionary, dispatch]);
+
+  useEffect(() => {
+    if (settings) {
+      return;
+    }
+
+    const controller = new AbortController();
+    dispatch(loadSettings({ setIsRedirectToLoginPage, controller }));
+
+    return () => controller.abort();
+  }, [dispatch, settings]);
+
+  useEffect(() => {
+    if (commonStatistics && dailyStatistics) {
+      return;
+    }
+
+    const controller = new AbortController();
+    dispatch(loadStatistics({ setIsRedirectToLoginPage, setIsStatisticsPrepared: () => {}, controller }));
+
+    return () => controller.abort();
+  }, [dispatch, commonStatistics, dailyStatistics]);
+
+  useEffect(() => {
+    if (!userDictionary || wordsDescription) {
       return;
     }
 
@@ -33,18 +75,14 @@ export const DictionaryPage = () => {
 
   useEffect(() => {
     if (updatedWordInfo) {
-      wordsService
-        .updateUserWord({
-          token,
-          userId,
-          wordId: updatedWordInfo.wordId,
-          wordPayload: createUserWord({ ...updatedWordInfo }),
-        })
-        .then(() => {
-          setUpdatedWordInfo(null);
-        });
+      const controller = new AbortController();
+      dispatch(
+        updateUserWordAndStatistics({ updatedWordInfo, setUpdatedWordInfo, setIsRedirectToLoginPage, controller }),
+      );
+
+      return () => controller.abort();
     }
-  }, [updatedWordInfo, token, userId]);
+  }, [updatedWordInfo, authorizationInfo, commonStatistics, dailyStatistics, dispatch]);
 
   const onViewStatusChangeClick = useCallback(
     newWordStatusForView => {
@@ -70,33 +108,42 @@ export const DictionaryPage = () => {
     [wordsDescription, dispatch, updatedWordInfo],
   );
 
+  if (isRedirectToLoginPage) {
+    return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.DICTIONARY } }} />;
+  }
+
   return (
-    wordsDescription && (
-      <div className={classes.dictionaryContainer}>
-        <div className={classes.wordStatusesContainer}>
-          {WORD_STATUSES.map(status => (
-            <StatusTab
-              key={status}
-              status={status}
-              onViewStatusChangeClick={onViewStatusChangeClick}
-              isSelected={status === wordsStatusForView}
-            />
-          ))}
-        </div>
-        <div className={classes.wordsGroupContainer}>
-          {wordsDescription.map(wordInfo => {
-            if (wordInfo.status === wordsStatusForView) {
-              return (
-                <WordInfo
-                  key={wordInfo.wordId}
-                  wordInfo={wordInfo}
-                  onStatusChangeClick={onStatusChangeClick}
-                  newStatus={wordsStatusForView === WORD_STATUS.LEARNED ? WORD_STATUS.DIFFICULT : WORD_STATUS.LEARNED}
-                  isRemovable={wordsStatusForView !== WORD_STATUS.REMOVED ? true : false}
-                />
-              );
-            }
-          })}
+    wordsDescription &&
+    commonStatistics &&
+    dailyStatistics && (
+      <div className={classes.pageContainer}>
+        <Menu />
+        <div className={classes.dictionaryContainer}>
+          <div className={classes.wordStatusesContainer}>
+            {WORD_STATUSES.map(status => (
+              <StatusTab
+                key={status}
+                status={status}
+                onViewStatusChangeClick={onViewStatusChangeClick}
+                isSelected={status === wordsStatusForView}
+              />
+            ))}
+          </div>
+          <div className={classes.wordsGroupContainer}>
+            {wordsDescription.map(wordInfo => {
+              if (wordInfo.status === wordsStatusForView) {
+                return (
+                  <WordInfo
+                    key={wordInfo.wordId}
+                    wordInfo={wordInfo}
+                    onStatusChangeClick={onStatusChangeClick}
+                    newStatus={wordsStatusForView === WORD_STATUS.LEARNED ? WORD_STATUS.DIFFICULT : WORD_STATUS.LEARNED}
+                    isRemovable={wordsStatusForView !== WORD_STATUS.REMOVED ? true : false}
+                  />
+                );
+              }
+            })}
+          </div>
         </div>
       </div>
     )

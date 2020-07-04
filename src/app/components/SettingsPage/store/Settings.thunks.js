@@ -3,7 +3,7 @@ import { store } from '../../../store';
 import { settingsService } from '../../../services/SettingsService/SettingsService';
 import { setSettings } from './Settings.actions';
 import { setAuthorizationInfo } from '../../AuthorizationPage/store/AuthorizationPage.actions';
-import { ERROR_MESSAGE } from '../../../services/AuthorizationService/AuthorizationService.models';
+import { ERROR_MESSAGE_AUTHORIZATION_SERVICE } from '../../../services/AuthorizationService/AuthorizationService.models';
 
 export const initializeSettingsPage = ({ setIsPageInitialized, setIsRedirectToLoginPage, controller }) => dispatch => {
   const { authorizationInfo } = store.getState();
@@ -31,7 +31,7 @@ export const updateSettings = ({ setIsRedirectToLoginPage, controller, settings 
       settings,
     })
     .catch(e => {
-      if (ERROR_MESSAGE.INVALID_ACCESS_TOKEN === e.message) {
+      if (ERROR_MESSAGE_AUTHORIZATION_SERVICE.INVALID_ACCESS_TOKEN === e.message) {
         dispatch(setAuthorizationInfo(null));
         setIsRedirectToLoginPage(true);
       }

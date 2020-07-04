@@ -1,6 +1,6 @@
 import { setUserDictionary, updateUserWord, addUserWord } from './UserDictionary.actions';
 
-const DEFAULT_USER_DICTIONARY = [];
+const DEFAULT_USER_DICTIONARY = null;
 export const userDictionaryReducer = (state = DEFAULT_USER_DICTIONARY, action) => {
   switch (action.type) {
     case setUserDictionary.type:

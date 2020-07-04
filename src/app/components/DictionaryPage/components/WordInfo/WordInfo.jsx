@@ -84,24 +84,32 @@ export const WordInfo = ({
           </div>
         )}
       </div>
-      <div className={classes.translationContainer}>
+      <div className={`${classes.translationContainer} ${classes.textColor} ${classes.border}`}>
         {isTranslationVisible && <div>{wordTranslate}</div>}
         <div onClick={onSpeakerClick} className={classes.voiceIcon}>
           <i className={`icon-volume-medium ${classes.icon}`}></i>
         </div>
       </div>
-      {isTranscriptionVisible && <div>{transcription}</div>}
+      {isTranscriptionVisible && (
+        <div className={classes.definitionContainer}>
+          <p className={classes.bold}>Transcription: </p>
+          {transcription}
+        </div>
+      )}
       {isWordDescriptionVisible && (
-        <div>
+        <div className={classes.definitionContainer}>
+          <p className={classes.bold}>Description: </p>
           <div dangerouslySetInnerHTML={{ __html: textMeaning }}></div>
         </div>
       )}
       {isExampleSentenceVisible && (
-        <div>
+        <div className={classes.definitionContainer}>
+          <p className={classes.bold}>Example Sentence:</p>
           <div dangerouslySetInnerHTML={{ __html: textExample }}></div>
         </div>
       )}
-      <div>
+      <div className={classes.definitionContainer}>
+        <p className={classes.bold}>Statistics:</p>
         <div>Repetitions number: {repetitionNumber}</div>
         <div>
           Last Repetition:

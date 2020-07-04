@@ -15,7 +15,7 @@ import {
 } from './Settings.actions';
 import { createSettings } from './create-settings';
 
-export const settingsReducer = (state = createSettings({}), action) => {
+export const settingsReducer = (state = null, action) => {
   switch (action.type) {
     case setSettings.type: {
       return createSettings({ ...action.payload });
