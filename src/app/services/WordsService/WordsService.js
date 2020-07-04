@@ -174,7 +174,11 @@ export class WordsService {
   }
 
   getRandomWordsFromGroup({ groupNumber, wordsNumber, wordPerExampleSentenceLTE }) {
-    return this.getPagesNumberInGroup({ groupNumber, wordPerExampleSentenceLTE, WORDS_PER_PAGE })
+    return this.getPagesNumberInGroupLimitedWordsPerExampleSentence({
+      groupNumber,
+      wordPerExampleSentenceLTE,
+      WORDS_PER_PAGE,
+    })
       .then(pagesNumberInGroup => {
         const numberOfPagesForRequesting =
           wordsNumber % WORDS_PER_PAGE ? Math.floor(wordsNumber / WORDS_PER_PAGE) + 1 : wordsNumber / WORDS_PER_PAGE;
