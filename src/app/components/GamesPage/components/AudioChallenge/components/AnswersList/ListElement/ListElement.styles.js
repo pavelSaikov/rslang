@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-import { GAME_STATUS } from '../../../AudioChallenge.models';
+import { GAME_STATUS } from './../../../AudioChallenge.models';
 
 export const useStyles = createUseStyles({
   iconLearned: {

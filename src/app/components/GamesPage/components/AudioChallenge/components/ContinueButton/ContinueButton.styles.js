@@ -14,12 +14,13 @@ export const useStyles = createUseStyles({
     backgroundColor: gameStatus =>
       gameStatus === GAME_STATUS.CHOICE ? 'rgba(255,255,255, 0.0)' : 'rgba(255,255,255, 0.2)',
     cursor: 'pointer',
+    color: '#ffffff',
     opacity: '0.4',
     '&:hover': {
-      backgroundColor: 'rgba(255,255,255, 0.2)',
+      backgroundColor: 'rgba(255,255,255, 0.4)',
     },
     '&:active': {
-      backgroundColor: 'rgba(255,255,255, 0.4)',
+      backgroundColor: 'rgba(255,255,255, 0.6)',
     },
     '&:focus': {
       outline: 'none',
