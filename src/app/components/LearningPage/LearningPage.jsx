@@ -16,20 +16,13 @@ import {
   setCardsCounter,
   setIsWasShownCardsStatistics,
   setIsWasShownNewWordsStatistics,
-  setDailyStatistics,
 } from '../StatisticsPage/store/daily-statistics/DailyStatistics.actions';
 import { updateUserWord, addUserWord } from '../DictionaryPage/store/UserDictionary.actions';
 import { userDictionarySelector } from '../DictionaryPage/store/UserDictionary.selectors';
 import { settingsSelector } from '../SettingsPage/store/Settings.selectors';
-import {
-  WORD_GAME_STATE,
-  SETTINGS,
-  WORD_STATUS_PICKER_GAME_MODE_MAP,
-  GAME_MODE,
-  CHECKING_INTERVAL,
-} from './LearningPage.models';
+import { WORD_GAME_STATE, SETTINGS, WORD_STATUS_PICKER_GAME_MODE_MAP, GAME_MODE } from './LearningPage.models';
 import { dailyStatisticsSelector } from '../StatisticsPage/store/daily-statistics/DailyStatistics.selectors';
-import { commonSettingsSelector } from '../StatisticsPage/store/common-statistics/CommonStatistics.selectors';
+import { commonStatisticsSelector } from '../StatisticsPage/store/common-statistics/CommonStatistics.selectors';
 import { WordCard } from './components/WordCard/WordCard';
 import { WordStatusPicker } from './components/WordStatusPicker/WordStatusPicker';
 import { learningPageConfigSelector } from './store/LearningPage.selectors';
@@ -49,10 +42,11 @@ import { useUpdateBackend } from './hooks/useUpdateBackend';
 import { useStyles } from './LearningPage.styles';
 import { authorizationInfoSelector } from '../AuthorizationPage/store/AuthorizationPage.selectors';
 import { ROUTES } from './../../routing/routes';
-import { loadDictionary, loadSettings, loadStatistics } from './store/LearningPage.thunks';
+import { loadDictionary, loadSettings, loadStatistics, checkIsAllStatisticsLoaded } from './store/LearningPage.thunks';
 import { Menu } from '../Menu/Menu';
-import { createDailyStatistics } from '../StatisticsPage/store/daily-statistics/create-daily-statistics';
 import { Button } from './components/UserWordAssessment/Button/Button';
+import { PROGRESS_TYPE } from './components/ProgressStrip/ProgressPart.models';
+import { useCheckCommonStatistics } from '../common/hooks/useCheckCommonStatistics';
 
 export const LearningPage = () => {
   const classes = useStyles();
@@ -64,11 +58,12 @@ export const LearningPage = () => {
   const userDictionary = useSelector(userDictionarySelector);
   const settings = useSelector(settingsSelector);
   const dailyStatistics = useSelector(dailyStatisticsSelector);
-  const commonStatistics = useSelector(commonSettingsSelector);
+  const commonStatistics = useSelector(commonStatisticsSelector);
   const statistics = useSelector(statisticsSelector);
 
   const [isStatisticsPrepared, setIsStatisticsPrepared] = useState(false);
   const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
+  const [isDictionaryCategoryChosen, setIsDictionaryCategoryChosen] = useState(false);
   const [isGamePrepared, setIsGamePrepared] = useState(false);
   const [isGameEnded, setIsGameEnded] = useState(false);
   const [isShowAnswer, setIsShowAnswer] = useState(false);
@@ -89,6 +84,7 @@ export const LearningPage = () => {
       setIsShowAnswer(false);
       setIsWasMistake(false);
       setIsShowDailyStatistics(false);
+      setIsDictionaryCategoryChosen(false);
 
       if (indexCurrentWord === gameWords.length - 1) {
         setIsGameEnded(true);
@@ -135,11 +131,7 @@ export const LearningPage = () => {
       return;
     }
 
-    if (
-      statistics.commonStatistics &&
-      statistics.dailyStatistics &&
-      !statisticsService.isStatisticsResetNeeded({ ...statistics })
-    ) {
+    if (checkIsAllStatisticsLoaded({ statistics })) {
       setIsStatisticsPrepared(true);
       return;
     }
@@ -151,17 +143,12 @@ export const LearningPage = () => {
     return () => controller.abort();
   }, [statistics, dispatch, isStatisticsPrepared]);
 
-  useEffect(() => {
-    if (statistics.commonStatistics) {
-      const intervalId = setInterval(() => {
-        if (statisticsService.isStatisticsResetNeeded({ commonStatistics: statistics.commonStatistics })) {
-          dispatch(setDailyStatistics(createDailyStatistics({})));
-        }
-      }, CHECKING_INTERVAL);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [statistics, dispatch]);
+  useCheckCommonStatistics({
+    statistics,
+    dispatch,
+    setIsRedirectToLoginPage,
+    setIsStatisticsPrepared,
+  });
 
   useEffect(() => {
     if (isGameEnded) {
@@ -207,7 +194,6 @@ export const LearningPage = () => {
       const newWord = createUserWord({
         wordId: currentGameWord.id,
         status: WORD_STATUS.LEARNED,
-        mistakesNumber: 0,
         lastRepetition: Date.now(),
         isWasMistakeInLastGame: false,
       });
@@ -329,6 +315,7 @@ export const LearningPage = () => {
         dispatch(updateUserWord(updatedWordInfo));
 
         setChangesInUserDictionary(changes => ({ ...changes, word: { ...updatedWordInfo } }));
+        setIsDictionaryCategoryChosen(true);
       }
     },
     [gameWords, indexCurrentWord, userDictionary, dispatch],
@@ -438,23 +425,23 @@ export const LearningPage = () => {
                 isShowAnswer={isShowAnswer}
                 gameWordIndex={indexCurrentWord}
               />
-              {settings.isStatusCheckingVisible &&
+              {!isDictionaryCategoryChosen &&
+                settings.isStatusCheckingVisible &&
                 gameWords[indexCurrentWord].userInfo &&
                 gameWords[indexCurrentWord].userInfo.status !== WORD_STATUS.DEFAULT && (
-                  <div>
-                    <WordStatusPicker
-                      wordStatuses={WORD_STATUS_PICKER_GAME_MODE_MAP.get(repeatableWordStatus)}
-                      onStatusChoice={onWordStatusChoice}
-                    />
-                  </div>
+                  <WordStatusPicker
+                    wordStatuses={WORD_STATUS_PICKER_GAME_MODE_MAP.get(repeatableWordStatus)}
+                    onStatusChoice={onWordStatusChoice}
+                  />
                 )}
-              {isShowWordDifficultyAssessment && (
-                <div>
-                  <UserWordAssessment onChangeStatusClick={onAssessmentClick} />
-                </div>
-              )}
+              {isShowWordDifficultyAssessment && <UserWordAssessment onChangeStatusClick={onAssessmentClick} />}
               <div className={classes.ghostContainer}></div>
-              <ProgressStrip currentProgress={indexCurrentWord} partsNumber={gameWords.length} />
+              <ProgressStrip
+                currentProgress={indexCurrentWord}
+                partsNumber={gameWords.length}
+                progressType={PROGRESS_TYPE.GAME_PROGRESS}
+                supremum={gameWords.length}
+              />
             </div>
             <div className={classes.settingsContainer}>
               {SETTINGS.map(({ option, name, action }) => (

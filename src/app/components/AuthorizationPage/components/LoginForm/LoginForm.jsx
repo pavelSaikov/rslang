@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Email } from '../../../common/Email/Email';
-import { Password } from '../../../common/Password/Password';
-import { Button } from '../../../common/Button/Button';
-import { LinkWithDescription } from '../../../common/LinkWithDescription/LinkWithDescription';
+import { Email } from '../../../common/components/Email/Email';
+import { Password } from '../../../common/components/Password/Password';
+import { Button } from '../../../common/components/Button/Button';
+import { LinkWithDescription } from '../../../common/components/LinkWithDescription/LinkWithDescription';
 import { useStyles } from './LoginForm.styles';
 import { ROUTES } from '../../../../routing/routes';
 

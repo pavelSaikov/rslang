@@ -12,7 +12,7 @@ export const WordStatusPicker = ({ onStatusChoice, wordStatuses }) => {
       <div>Choice Dictionary category for this word</div>
       <div className={classes.buttons}>
         {wordStatuses.map(status => (
-          <Button key={status} message={status} onClick={() => onStatusChoice(status)} />
+          <Button key={status} message={status} onClick={() => onStatusChoice(status)} styleClasses={classes.button} />
         ))}
       </div>
     </div>

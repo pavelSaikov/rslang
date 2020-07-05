@@ -11,6 +11,7 @@ import { dailyStatisticsReducer } from '../components/StatisticsPage/store/daily
 import { learningPageConfigReducer } from '../components/LearningPage/store/LearningPage.reducers';
 import { errorsReducer } from '../components/errors/store/Errors.reducer';
 import { gameDescriptionReducer } from '../components/GamesPage/components/common/GameDescription/store/GameDescription.reducer';
+import { longTermStatisticsReducer } from '../components/StatisticsPage/store/long-term-statistics/LongTermStatistics.reducers';
 
 export const store = createStore(
   combineReducers({
@@ -19,7 +20,11 @@ export const store = createStore(
     userDictionary: userDictionaryReducer,
     menuState: menuReducer,
     learningPageConfig: learningPageConfigReducer,
-    statistics: combineReducers({ commonStatistics: commonStatisticsReducer, dailyStatistics: dailyStatisticsReducer }),
+    statistics: combineReducers({
+      commonStatistics: commonStatisticsReducer,
+      dailyStatistics: dailyStatisticsReducer,
+      longTermStatistics: longTermStatisticsReducer,
+    }),
     errors: errorsReducer,
     gameDescription: gameDescriptionReducer,
   }),

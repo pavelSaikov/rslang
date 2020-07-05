@@ -1,42 +1,44 @@
+import { ROUTES } from '../../../../../../../../routing/routes';
+
 export const NAVIGATION = [
   {
     icon: 'icon-enter',
     name: 'Main page',
-    link: '/main',
+    link: ROUTES.MAIN,
   },
   {
     icon: 'icon-enter',
     name: 'Login',
-    link: '/login',
+    link: ROUTES.LOGIN,
   },
   {
     icon: 'icon-book',
     name: 'Learning',
-    link: '/learning',
+    link: ROUTES.LEARNING,
   },
   {
     icon: 'icon-floppy-disk',
     name: 'Dictionary',
-    link: '/dictionary',
+    link: ROUTES.DICTIONARY,
   },
   {
     icon: 'icon-pacman',
     name: 'Mini games',
-    link: '/games',
+    link: ROUTES.GAMES,
   },
   {
     icon: 'icon-stats-bars',
     name: 'Statistics',
-    link: '/statistic',
+    link: ROUTES.STATISTIC,
   },
   {
     icon: 'icon-users',
     name: 'Our Team',
-    link: '/team',
+    link: ROUTES.TEAM,
   },
   {
     icon: 'icon-cog',
     name: 'Settings',
-    link: '/settings',
+    link: ROUTES.SETTINGS,
   },
 ];

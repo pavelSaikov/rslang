@@ -2,9 +2,12 @@ import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
   statisticsCard: {
+    padding: 20,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    borderRadius: 5,
+    boxShadow: '0px 0px 6px 4px #e1e0de',
   },
   headerContainer: {
     padding: '20px 10px',

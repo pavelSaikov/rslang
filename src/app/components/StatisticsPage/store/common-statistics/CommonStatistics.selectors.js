@@ -1,1 +1,1 @@
-export const commonSettingsSelector = ({ statistics: { commonStatistics } }) => commonStatistics;
+export const commonStatisticsSelector = ({ statistics: { commonStatistics } }) => commonStatistics;

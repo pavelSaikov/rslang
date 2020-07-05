@@ -10,11 +10,21 @@ import { numberInputSettingsConfig } from './settings-config';
 import { settingsSelector } from './store/Settings.selectors';
 import { useStyles } from './SettingsPage.styles';
 import { ROUTES } from '../../routing/routes';
-import { initializeSettingsPage, updateSettings } from './store/Settings.thunks';
-import { updateCommonStatistics } from '../LearningPage/store/LearningPage.thunks';
+import { updateSettings } from './store/Settings.thunks';
+import {
+  updateCommonStatistics,
+  loadStatistics,
+  loadSettings,
+  checkIsAllStatisticsLoaded,
+} from '../LearningPage/store/LearningPage.thunks';
+import { Menu } from '../Menu/Menu';
+import { useSetLastVisiting } from '../common/hooks/useSetLastVisiting';
+import { useCheckCommonStatistics } from '../common/hooks/useCheckCommonStatistics';
+import { statisticsSelector } from '../StatisticsPage/store/Statistics.selectors';
 
 export const SettingsPage = () => {
   const settings = useSelector(settingsSelector);
+  const statistics = useSelector(statisticsSelector);
   const dispatch = useDispatch();
   const [isPageInitialized, setIsPageInitialized] = useState(false);
   const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
@@ -24,14 +34,30 @@ export const SettingsPage = () => {
     dispatch(updateCommonStatistics({ setIsRedirectToLoginPage, controller }));
 
     return () => controller.abort();
-  }, [dispatch]);
+  }, [dispatch, settings]);
 
   useEffect(() => {
+    if (checkIsAllStatisticsLoaded({ statistics })) {
+      return;
+    }
+
     const controller = new AbortController();
-    dispatch(initializeSettingsPage({ setIsPageInitialized, setIsRedirectToLoginPage, controller }));
+    dispatch(loadStatistics({ setIsRedirectToLoginPage, setIsStatisticsPrepared: () => {}, controller }));
 
     return () => controller.abort();
-  }, [dispatch]);
+  }, [dispatch, statistics]);
+
+  useEffect(() => {
+    if (settings) {
+      setIsPageInitialized(true);
+      return;
+    }
+
+    const controller = new AbortController();
+    dispatch(loadSettings({ setIsRedirectToLoginPage, controller }));
+
+    return () => controller.abort();
+  }, [settings, dispatch]);
 
   useEffect(() => {
     if (!isPageInitialized) {
@@ -43,6 +69,10 @@ export const SettingsPage = () => {
 
     return () => controller.abort();
   }, [settings, isPageInitialized, dispatch]);
+
+  useSetLastVisiting({ setIsRedirectToLoginPage, dispatch });
+
+  useCheckCommonStatistics({ statistics, dispatch, setIsRedirectToLoginPage, setIsStatisticsPrepared: () => {} });
 
   const callbackForNoGroupToggleSettings = useCallback(
     (action, flag) => {
@@ -82,6 +112,7 @@ export const SettingsPage = () => {
   return (
     isPageInitialized && (
       <div>
+        <Menu />
         <h2 className={settingsPageTitle}>Settings Page</h2>
         {numberInputSettingsConfig.map(({ settingString, action, settingName }) => {
           return (
