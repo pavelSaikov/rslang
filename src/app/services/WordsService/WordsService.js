@@ -143,10 +143,12 @@ export class WordsService {
       .then(({ count }) => count);
   }
 
-  getWordsFromGroupAndPage({ groupNumber, pageNumber }) {
+  getWordsFromGroupAndPage({ groupNumber, pageNumber, wordPerExampleSentenceLTE, wordsPerPage }) {
     const searchParams = new URLSearchParams([
       ['group', groupNumber],
       ['page', pageNumber],
+      ['wordPerExampleSentenceLTE', wordPerExampleSentenceLTE],
+      ['wordsPerPage', wordsPerPage],
     ]);
 
     return fetch(`${this.endpoint}/words?${searchParams}`)
@@ -189,7 +191,7 @@ export class WordsService {
     return this.getPagesNumberInGroupLimitedWordsPerExampleSentence({
       groupNumber,
       wordPerExampleSentenceLTE,
-      WORDS_PER_PAGE,
+      wordsPerPage: WORDS_PER_PAGE,
     })
       .then(pagesNumberInGroup => {
         const numberOfPagesForRequesting =
@@ -214,7 +216,7 @@ export class WordsService {
               groupNumber,
               pageNumber,
               wordPerExampleSentenceLTE,
-              WORDS_PER_PAGE,
+              wordsPerPage: WORDS_PER_PAGE,
             }).then(words => {
               if (index === arr.length - 1 && wordsNumber % WORDS_PER_PAGE !== 0) {
                 return words.slice(0, wordsNumber % WORDS_PER_PAGE);
