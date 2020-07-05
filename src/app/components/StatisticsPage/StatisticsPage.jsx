@@ -17,6 +17,7 @@ import { Example } from './components/Chart';
 import { useCheckCommonStatistics } from '../common/hooks/useCheckCommonStatistics';
 import { useSetLastVisiting } from '../common/hooks/useSetLastVisiting';
 import { statisticsSelector } from './store/Statistics.selectors';
+import { Loading } from '../common/components/Loading/Loading';
 
 export const StatisticsPage = () => {
   const classes = useStyles();
@@ -73,9 +74,9 @@ export const StatisticsPage = () => {
         </div>
         <ProgressStrip
           currentProgress={learnedWordsNumber - 1}
-          partsNumber={partsNumber}
+          partsNumber={Number.parseInt(partsNumber)}
           progressType={PROGRESS_TYPE.NEW_WORDS_PROGRESS}
-          supremum={dailyLearnedWordsNorm}
+          supremum={Number.parseInt(dailyLearnedWordsNorm)}
         />
       </div>
     );
@@ -100,9 +101,9 @@ export const StatisticsPage = () => {
         </div>
         <ProgressStrip
           currentProgress={repeatedCardsNumber - 1}
-          partsNumber={partsNumber}
+          partsNumber={Number.parseInt(partsNumber)}
           progressType={PROGRESS_TYPE.CARDS_PROGRESS}
-          supremum={dailyCardNorm}
+          supremum={Number.parseInt(dailyCardNorm)}
         />
       </div>
     );
@@ -122,9 +123,8 @@ export const StatisticsPage = () => {
     return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.STATISTIC } }} />;
   }
 
-  return (
-    isStatisticsPrepared &&
-    settings && (
+  if (isStatisticsPrepared && settings) {
+    return (
       <div className={classes.pageWrapper}>
         <Menu />
         <div className={classes.componentsWrapper}>
@@ -149,6 +149,8 @@ export const StatisticsPage = () => {
           </div>
         </div>
       </div>
-    )
-  );
+    );
+  }
+
+  return <Loading />;
 };

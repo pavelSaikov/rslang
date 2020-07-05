@@ -17,11 +17,13 @@ export const WORD_GAME_STATE = {
 };
 
 export const GAME_MODE = {
-  LEARNED: 'LEARNED',
-  ONLY_NEW: 'ONLY_NEW',
-  LEARNED_AND_NEW: 'LEARNED_AND_NEW',
-  DIFFICULT: 'DIFFICULT',
+  LEARNED: 'Learned',
+  ONLY_NEW: 'Only New',
+  LEARNED_AND_NEW: 'Learned And New',
+  DIFFICULT: 'Difficult',
 };
+
+export const GAME_MODES = Object.keys(GAME_MODE).map(key => GAME_MODE[key]);
 
 export const WORD_STATUS_GAME_MODE_MAP = new Map([
   [GAME_MODE.LEARNED, [WORD_STATUS.LEARNED]],

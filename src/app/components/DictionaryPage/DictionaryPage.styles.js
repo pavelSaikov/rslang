@@ -11,6 +11,21 @@ export const useStyles = createUseStyles({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  header: {
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  repeatButtonContainer: {
+    position: 'absolute',
+    right: 40,
+  },
+  repeatButton: {
+    color: 'white',
+    background: '#1a3b71',
+  },
   wordStatusesContainer: {
     display: 'flex',
     justifyContent: 'flex-start',

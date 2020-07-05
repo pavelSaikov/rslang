@@ -21,6 +21,7 @@ import { Menu } from '../Menu/Menu';
 import { useSetLastVisiting } from '../common/hooks/useSetLastVisiting';
 import { useCheckCommonStatistics } from '../common/hooks/useCheckCommonStatistics';
 import { statisticsSelector } from '../StatisticsPage/store/Statistics.selectors';
+import { Loading } from '../common/components/Loading/Loading';
 
 export const SettingsPage = () => {
   const settings = useSelector(settingsSelector);
@@ -74,19 +75,9 @@ export const SettingsPage = () => {
 
   useCheckCommonStatistics({ statistics, dispatch, setIsRedirectToLoginPage, setIsStatisticsPrepared: () => {} });
 
-  const callbackForNoGroupToggleSettings = useCallback(
-    (action, flag) => {
-      dispatch(action(flag));
-    },
-    [dispatch],
-  );
+  const callbackForNoGroupToggleSettings = useCallback((action, flag) => dispatch(action(flag)), [dispatch]);
 
-  const callbackForInputNumberSettings = useCallback(
-    (action, flag) => {
-      dispatch(action(flag));
-    },
-    [dispatch],
-  );
+  const callbackForInputNumberSettings = useCallback((action, flag) => dispatch(action(flag)), [dispatch]);
 
   const callbackForGroupToggleCardSettings = useCallback(
     (action, flag) => {
@@ -109,18 +100,20 @@ export const SettingsPage = () => {
     return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.SETTINGS } }} />;
   }
 
-  return (
-    isPageInitialized && (
+  if (isPageInitialized) {
+    return (
       <div>
         <Menu />
         <h2 className={settingsPageTitle}>Settings Page</h2>
-        {numberInputSettingsConfig.map(({ settingString, action, settingName }) => {
+        {numberInputSettingsConfig.map(({ settingString, action, settingName, minValue, maxValue }) => {
           return (
             <div key={settingString} className={settingWrapper}>
               <InputNumber
                 inputChange={callbackForInputNumberSettings}
-                defaultState={settings[settingName]}
+                defaultState={Number.parseInt(settings[settingName])}
                 action={action}
+                min={minValue}
+                max={maxValue}
               />
               <div>{settingString}</div>
             </div>
@@ -153,6 +146,8 @@ export const SettingsPage = () => {
           );
         })}
       </div>
-    )
-  );
+    );
+  }
+
+  return <Loading />;
 };

@@ -61,7 +61,7 @@ export const useStyles = createUseStyles({
     padding: '20px 0',
   },
   buttonStyle: {
-    color: '333366',
+    color: '#333366',
     boxShadow: '2px 2px 3px 2px #e1e0de',
   },
 });

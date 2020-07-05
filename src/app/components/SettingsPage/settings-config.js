@@ -62,10 +62,14 @@ export const numberInputSettingsConfig = [
     settingName: 'maxCardsNumberPerDay',
     action: setMaxCardsPerDay,
     settingString: 'Max Cards Number Per Day',
+    maxValue: 250,
+    minValue: 50,
   },
   {
     settingName: 'maxNewWordsPerDay',
     action: setMaxNewWordsPerDay,
     settingString: 'Max New Words Number Per Day',
+    maxValue: 25,
+    minValue: 5,
   },
 ];

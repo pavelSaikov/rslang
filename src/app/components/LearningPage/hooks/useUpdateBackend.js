@@ -8,6 +8,7 @@ import {
   setIsWasShownCardsStatistics,
   setIsWasShownNewWordsStatistics,
 } from '../../StatisticsPage/store/daily-statistics/DailyStatistics.actions';
+import { ERROR_MESSAGE_WORDS_SERVICE } from '../../../services/WordsService/WordsService.models';
 
 export const useUpdateBackend = ({
   isLocalUserInfoUpdated,
@@ -17,24 +18,26 @@ export const useUpdateBackend = ({
   continueGame,
   dispatch,
   isWasMistake,
+  setIsRedirectToLoginPage,
 }) => {
-  const {
-    statistics,
-    settings,
-    authorizationInfo: { token, userId },
-  } = store.getState();
+  const { statistics, settings, authorizationInfo } = store.getState();
 
   const controller = new AbortController();
 
   useEffect(() => {
     if (isLocalUserInfoUpdated) {
       Promise.all([
-        statisticsService.updateStatistics({ token, userId, statistics, controller }),
+        statisticsService.updateStatistics({
+          token: authorizationInfo.token,
+          userId: authorizationInfo.userId,
+          statistics,
+          controller,
+        }),
         (function () {
           if (changesInUserDictionary.gameState === WORD_GAME_STATE.NEW) {
             return wordsService.addUserWord({
-              token,
-              userId,
+              token: authorizationInfo.token,
+              userId: authorizationInfo.userId,
               wordId: changesInUserDictionary.word.wordId,
               wordPayload: changesInUserDictionary.word,
               controller,
@@ -42,38 +45,43 @@ export const useUpdateBackend = ({
           }
 
           return wordsService.updateUserWord({
-            token,
-            userId,
+            token: authorizationInfo.token,
+            userId: authorizationInfo.userId,
             wordId: changesInUserDictionary.word.wordId,
             wordPayload: changesInUserDictionary.word,
             controller,
           });
         })(),
-      ]).then(() => {
-        setIsLocalUserInfoUpdated(false);
-        if (isWasMistake) {
-          return;
-        }
+      ])
+        .then(() => {
+          setIsLocalUserInfoUpdated(false);
+          if (isWasMistake) {
+            return;
+          }
 
-        if (
-          checkIsDailyStatisticsShouldShown({
-            dailyStatistics: statistics.dailyStatistics,
-            settings,
-            setIsShowDailyStatistics,
-            dispatch,
-          })
-        ) {
-          return;
-        }
+          if (
+            checkIsDailyStatisticsShouldShown({
+              dailyStatistics: statistics.dailyStatistics,
+              settings,
+              setIsShowDailyStatistics,
+              dispatch,
+            })
+          ) {
+            return;
+          }
 
-        continueGame();
-      });
+          continueGame();
+        })
+        .catch(e => {
+          if (e.message === ERROR_MESSAGE_WORDS_SERVICE.INVALID_ACCESS_TOKEN) {
+            setIsRedirectToLoginPage(true);
+          }
+        });
     }
   }, [
     statistics,
     settings,
-    token,
-    userId,
+    authorizationInfo,
     isLocalUserInfoUpdated,
     changesInUserDictionary,
     isWasMistake,
@@ -82,6 +90,7 @@ export const useUpdateBackend = ({
     setIsLocalUserInfoUpdated,
     setIsShowDailyStatistics,
     controller,
+    setIsRedirectToLoginPage,
   ]);
 };
 
