@@ -176,7 +176,7 @@ export class WordsService {
     return { group: groupNextWord, page: pageNextWord, index: indexNextWord };
   }
 
-  getWordByPosition({ group, page, index }) {
+  getWordByPosition({ group, page, index, wordPerExampleSentenceLTE, wordsPerPage }) {
     if (group >= DEFAULT_GROUPS_NUMBER || page >= DEFAULT_PAGES_IN_EACH_GROUP || index >= DEFAULT_WORDS_PER_PAGE) {
       return Promise.resolve();
     }
@@ -184,6 +184,8 @@ export class WordsService {
     return this.getWordsFromGroupAndPage({
       groupNumber: group,
       pageNumber: page,
+      wordPerExampleSentenceLTE,
+      wordsPerPage,
     }).then(words => words[index]);
   }
 
