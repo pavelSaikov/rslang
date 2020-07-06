@@ -12,6 +12,7 @@ import { DEFAULT_WORDS_PER_PAGE } from '../../../services/WordsService/WordsServ
 import { wordsService } from '../../../services/WordsService/WordsService';
 import { createUserWord } from '../../DictionaryPage/DictionaryPage.models';
 import { createLongTermStatistics } from '../../StatisticsPage/store/long-term-statistics/LongTermStatistics.models';
+import { wordsPerPage, wordPerExampleSentenceLTE } from './RegistrationPage.models';
 
 export const registerUser = ({ email, password, controller, setIsUserRegistered }) => dispatch => {
   authorizationService
@@ -27,7 +28,12 @@ export const registerUser = ({ email, password, controller, setIsUserRegistered 
       return Promise.all([
         Promise.resolve({ token, userId }),
         ...Array.from({ length: requiredPagesNumber }, (_, index) => index).map((_, index) =>
-          wordsService.getWordsFromGroupAndPage({ groupNumber: group, pageNumber: index }),
+          wordsService.getWordsFromGroupAndPage({
+            groupNumber: group,
+            pageNumber: index,
+            wordsPerPage,
+            wordPerExampleSentenceLTE,
+          }),
         ),
       ]);
     })
