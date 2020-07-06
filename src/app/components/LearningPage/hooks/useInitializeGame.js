@@ -16,6 +16,7 @@ import {
   USER_OPINIONS_ABOUT_WORD,
   USER_OPINION_ABOUT_WORD_DIFFICULTY_INDEX_MAP,
 } from '../components/UserWordAssessment/UserWordAssessment.models';
+import { wordsPerPage, wordPerExampleSentenceLTE } from '../../RegistrationPage/store/RegistrationPage.models';
 
 export const useInitializeGame = ({
   setGameWords,
@@ -56,7 +57,7 @@ export const useInitializeGame = ({
                 acc.lastLearnedWord = { ...newWordPosition };
                 acc.newWords.push(
                   wordsService
-                    .getWordByPosition({ ...newWordPosition })
+                    .getWordByPosition({ ...newWordPosition, wordsPerPage, wordPerExampleSentenceLTE })
                     .then(wordInfo => ({ ...wordInfo, gameState: WORD_GAME_STATE.NEW, wordPosition: newWordPosition })),
                 );
                 return acc;
