@@ -77,6 +77,7 @@ export const registerUser = ({
             longTermStatistics: createLongTermStatistics({}),
             speakItStatistics: {},
             sprintStatistics: {},
+            savannaStatistics: {},
           },
           controller,
         }),

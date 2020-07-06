@@ -18,6 +18,7 @@ import {
 } from '../components/GamesPage/components/SpeakIt/store/SpeakIt.reducer';
 import { resetStore } from './App.actions';
 import { sprintStatisticsReducer } from '../components/GamesPage/components/Sprint/store/sprint-statistics/SprintStatistics.reducers';
+import { savannaStatisticsReducer } from '../components/GamesPage/components/Savanna/store/Savanna.reducers';
 
 const appReducer = combineReducers({
   authorizationInfo: authorizationInfoReducer,
@@ -32,6 +33,7 @@ const appReducer = combineReducers({
     longTermStatistics: longTermStatisticsReducer,
     speakItStatistics: speakItStatisticsReducer,
     sprintStatistics: sprintStatisticsReducer,
+    savannaStatistics: savannaStatisticsReducer,
   }),
   errors: errorsReducer,
   gameDescription: gameDescriptionReducer,
