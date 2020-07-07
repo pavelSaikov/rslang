@@ -6,7 +6,6 @@ export const useStyles = createUseStyles({
     flexFlow: 'column',
     color: '#ffffff',
     backgroundImage: 'linear-gradient(to bottom, #7d5daf, #c483a3)',
-    width: '1000px',
     alignItems: 'center',
   },
 });

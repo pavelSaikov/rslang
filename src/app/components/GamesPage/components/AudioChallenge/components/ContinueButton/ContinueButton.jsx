@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useStyles } from './ContinueButton.styles';
 import { GAME_STATUS } from './../../AudioChallenge.models';
 
-export const ContinueButton = ({ gameStatus, clickContinueButton }) => {
+export const ContinueButton = ({ gameStatus, isAudioPlay, clickContinueButton }) => {
   const classes = useStyles(gameStatus);
   const valueBtn = useMemo(
     () =>
@@ -17,7 +17,7 @@ export const ContinueButton = ({ gameStatus, clickContinueButton }) => {
   );
 
   return (
-    <button className={classes.continueButton} onClick={clickContinueButton}>
+    <button className={classes.continueButton} onClick={!isAudioPlay ? clickContinueButton : undefined}>
       {valueBtn}
     </button>
   );
@@ -26,4 +26,5 @@ export const ContinueButton = ({ gameStatus, clickContinueButton }) => {
 ContinueButton.propTypes = {
   gameStatus: PropTypes.string.isRequired,
   clickContinueButton: PropTypes.func.isRequired,
+  isAudioPlay: PropTypes.bool.isRequired,
 };

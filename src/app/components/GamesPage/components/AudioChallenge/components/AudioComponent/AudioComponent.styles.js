@@ -19,7 +19,7 @@ export const useStyles = createUseStyles({
     width: '124px',
     height: '124px',
     margin: '0 auto',
-    backgroundImage: ({ linkToImg }) => `url(${linkToImg})`,
+    backgroundImage: ({ correctAnswerInThisRound }) => `url(${correctAnswerInThisRound.image})`,
     borderRadius: '50%',
     border: 'solid 2px #ffffff',
     backgroundSize: 'cover',

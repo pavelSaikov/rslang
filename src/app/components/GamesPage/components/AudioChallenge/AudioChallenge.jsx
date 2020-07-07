@@ -1,50 +1,70 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { AudioComponent } from './components/AudioComponent/AudioComponent';
 import { AnswersList } from './components/AnswersList/AnswersList';
 import { ContinueButton } from './components/ContinueButton/ContinueButton';
-import {
-  GAME_LINK_AUDIO,
-  GAME_LINK_IMG,
-  ANSWERS,
-  CORRECT_ANSWER,
-  GAME_STATUS,
-  CORRECT_ANSWER_TRANSLATE,
-} from './AudioChallenge.models';
+import { GAME_STATUS, MAX_ROUNDS_NUM } from './AudioChallenge.models';
+import { loadRandomWords } from './store/AudioChallenge.thunks';
 import { useStyles } from './AudioChallenge.styles';
 
 export const AudioChallenge = () => {
-  const [wrongAnswers, setWrongAnswers] = useState([]);
-  const [gameStatus, setGameStatus] = useState(GAME_STATUS.CHOICE);
+  const [gameStatus, setGameStatus] = useState(GAME_STATUS.LOADING);
+  const [roundsWords, setRoundsWords] = useState();
+  const [roundNum, setRoundNum] = useState(0);
+  const [correctAnswerInThisRound, setCorrectAnswerInThisRound] = useState();
+  const [isAudioPlay, setIsAudioPlay] = useState(false);
+  const dispatch = useDispatch();
   const classes = useStyles();
+
+  useEffect(() => {
+    dispatch(loadRandomWords({ setRoundsWords }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!roundsWords) return;
+    const randomNum = Math.floor(Math.random() * 5);
+    setCorrectAnswerInThisRound(roundsWords[roundNum][randomNum]);
+    setGameStatus(GAME_STATUS.CHOICE);
+  }, [roundsWords, roundNum, setCorrectAnswerInThisRound]);
+
   const checkAnswer = useCallback(
-    selectedAnswer => {
-      if (selectedAnswer === CORRECT_ANSWER) {
+    selectedAnswerId => {
+      if (selectedAnswerId === correctAnswerInThisRound.id) {
         setGameStatus(GAME_STATUS.IS_CORRECT);
       } else {
         setGameStatus(GAME_STATUS.IS_INCORRECT);
-        setWrongAnswers([...wrongAnswers, selectedAnswer]);
       }
     },
-    [wrongAnswers],
+    [correctAnswerInThisRound],
   );
 
   const clickContinueButton = useCallback(() => {
     if (gameStatus === GAME_STATUS.CHOICE) {
       setGameStatus(GAME_STATUS.IS_INCORRECT);
+      return;
     }
-  }, [gameStatus]);
+    roundNum === MAX_ROUNDS_NUM ? setGameStatus(GAME_STATUS.END) : setRoundNum(roundNum + 1);
+  }, [gameStatus, roundNum]);
 
-  return (
+  return gameStatus === GAME_STATUS.LOADING || gameStatus === GAME_STATUS.END ? (
+    'Game loading or End'
+  ) : (
     <div className={classes.audioChallenge}>
       <AudioComponent
         gameStatus={gameStatus}
-        linkToAudio={GAME_LINK_AUDIO}
-        linkToImg={GAME_LINK_IMG}
-        correctAnswerTranslate={CORRECT_ANSWER_TRANSLATE}
+        isAudioPlay={isAudioPlay}
+        setIsAudioPlay={setIsAudioPlay}
+        correctAnswerInThisRound={correctAnswerInThisRound}
       />
-      <AnswersList gameStatus={gameStatus} answers={ANSWERS} correctAnswer={CORRECT_ANSWER} checkAnswer={checkAnswer} />
-      <ContinueButton gameStatus={gameStatus} clickContinueButton={clickContinueButton} />
+      <AnswersList
+        gameStatus={gameStatus}
+        isAudioPlay={isAudioPlay}
+        answers={roundsWords[roundNum]}
+        correctAnswerInThisRound={correctAnswerInThisRound}
+        checkAnswer={checkAnswer}
+      />
+      <ContinueButton gameStatus={gameStatus} isAudioPlay={isAudioPlay} clickContinueButton={clickContinueButton} />
     </div>
   );
 };

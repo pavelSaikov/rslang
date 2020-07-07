@@ -8,5 +8,6 @@ export const useStyles = createUseStyles({
     listStyleType: 'none',
     fontSize: '17px',
     lineHeight: '45px',
+    userSelect: 'none',
   },
 });

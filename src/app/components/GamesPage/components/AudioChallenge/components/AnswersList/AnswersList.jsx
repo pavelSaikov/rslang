@@ -7,18 +7,17 @@ import { ListElement } from './ListElement/ListElement';
 
 import './../../../../../../../theme/fonts.css';
 
-export const AnswersList = ({ answers, checkAnswer, gameStatus, correctAnswer }) => {
-  const [userAnswer, setUserAnswer] = useState('');
+export const AnswersList = ({ answers, checkAnswer, gameStatus, isAudioPlay, correctAnswerInThisRound }) => {
+  const [userAnswerId, setUserAnswerId] = useState('');
   const classes = useStyles();
-
   useEffect(() => {
     const onKeypress = e => {
-      if (gameStatus === GAME_STATUS.CHOICE) {
+      if (!isAudioPlay && gameStatus === GAME_STATUS.CHOICE) {
         e.preventDefault();
         const btnKey = Number(e.key);
         if (1 <= btnKey && btnKey <= 5) {
-          setUserAnswer(answers[btnKey - 1]);
-          checkAnswer(answers[btnKey - 1]);
+          setUserAnswerId(answers[btnKey - 1].id);
+          checkAnswer(answers[btnKey - 1].id);
         }
       }
     };
@@ -26,17 +25,17 @@ export const AnswersList = ({ answers, checkAnswer, gameStatus, correctAnswer })
     document.addEventListener('keydown', onKeypress);
 
     return () => document.removeEventListener('keydown', onKeypress);
-  }, [checkAnswer, answers, gameStatus]);
+  }, [checkAnswer, answers, gameStatus, isAudioPlay]);
 
   const click = useCallback(
     e => {
-      const clickOnAnswer = answers[Number(e.target.dataset.num)];
-      if (gameStatus === GAME_STATUS.CHOICE) {
-        setUserAnswer(clickOnAnswer);
-        checkAnswer(clickOnAnswer);
+      if (!isAudioPlay && gameStatus === GAME_STATUS.CHOICE) {
+        const clickOnAnswerId = answers[Number(e.target.dataset.num)].id;
+        setUserAnswerId(clickOnAnswerId);
+        checkAnswer(clickOnAnswerId);
       }
     },
-    [gameStatus, checkAnswer, answers],
+    [isAudioPlay, gameStatus, answers, checkAnswer],
   );
 
   return (
@@ -44,12 +43,12 @@ export const AnswersList = ({ answers, checkAnswer, gameStatus, correctAnswer })
       {answers.map((answer, answerIndex) => {
         return (
           <ListElement
-            key={answer}
+            key={answer.id}
             gameStatus={gameStatus}
             answer={answer}
             answerIndex={answerIndex}
-            correctAnswer={correctAnswer}
-            userAnswer={userAnswer}
+            isAnswerCorrect={answer.id === correctAnswerInThisRound.id}
+            userAnswerId={userAnswerId}
           />
         );
       })}
@@ -61,5 +60,6 @@ AnswersList.propTypes = {
   answers: PropTypes.array.isRequired,
   checkAnswer: PropTypes.func.isRequired,
   gameStatus: PropTypes.string.isRequired,
-  correctAnswer: PropTypes.string.isRequired,
+  correctAnswerInThisRound: PropTypes.object.isRequired,
+  isAudioPlay: PropTypes.bool.isRequired,
 };
