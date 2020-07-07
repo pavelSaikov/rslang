@@ -14,7 +14,13 @@ import { createUserWord } from '../../DictionaryPage/DictionaryPage.models';
 import { createLongTermStatistics } from '../../StatisticsPage/store/long-term-statistics/LongTermStatistics.models';
 import { wordsPerPage, wordPerExampleSentenceLTE } from './RegistrationPage.models';
 
-export const registerUser = ({ email, password, controller, setIsUserRegistered }) => dispatch => {
+export const registerUser = ({
+  email,
+  password,
+  controller,
+  setIsUserRegistered,
+  setIsShowLoadingPage,
+}) => dispatch => {
   authorizationService
     .register({ email, password, controller })
     .then(() => authorizationService.signIn({ email, password, controller }))
@@ -83,11 +89,15 @@ export const registerUser = ({ email, password, controller, setIsUserRegistered 
     .catch(e => {
       if (ERROR_MESSAGES.includes(e.message)) {
         dispatch(addError(e.message));
+        setIsShowLoadingPage(false);
         return;
       }
 
-      authorizationService.signIn({ email, password, controller: new AbortController() }).then(({ token, userId }) => {
-        authorizationService.removeUser({ token, userId, controller: new AbortController() });
-      });
+      authorizationService
+        .signIn({ email, password, controller: new AbortController() })
+        .then(({ token, userId }) => {
+          authorizationService.removeUser({ token, userId, controller: new AbortController() });
+        })
+        .then(() => setIsShowLoadingPage(false));
     });
 };

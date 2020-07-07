@@ -6,6 +6,7 @@ import { GameCard } from './components/GameCard/GameCard';
 import { CARDS } from './components/GameCard/GameCard.models';
 import { useStyles } from './Games.styles';
 import { ROUTES } from '../../routing/routes';
+import { Menu } from '../Menu/Menu';
 
 export const Games = () => {
   const location = useLocation();
@@ -20,11 +21,11 @@ export const Games = () => {
   const onLinkClick = useCallback(() => setIsGameSelected(true), []);
 
   return (
-    <div>
-      {!isGameSelected && (
-        <div>
-          <h2> Games Page</h2>
-          <div className={classes.gameCards}>
+    <div className={classes.pageWrapper}>
+      <Menu />
+      <div className={classes.componentsWrapper}>
+        {!isGameSelected && (
+          <div className={classes.gameCardsContainer}>
             {CARDS.map(CARDS => {
               return (
                 <GameCard
@@ -37,9 +38,8 @@ export const Games = () => {
               );
             })}
           </div>
-        </div>
-      )}
-
+        )}
+      </div>
       <Switch>
         {CARDS.map(card => {
           return <PrivateRoute exact path={`${path}${card.link}`} component={card.component} key={card.link} />;

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Email } from '../../../common/components/Email/Email';
@@ -19,21 +19,33 @@ export const LoginForm = ({ onSendClick }) => {
     }
   }, [emailState, passwordState, onSendClick]);
 
+  useEffect(() => {
+    const onInputClick = e => {
+      const isIncorrectKeyboardPressing = e.key !== 'Enter' || e.repeat;
+
+      if (isIncorrectKeyboardPressing) {
+        return;
+      }
+
+      submit();
+    };
+
+    window.addEventListener('keydown', onInputClick);
+
+    return () => window.removeEventListener('keydown', onInputClick);
+  }, [submit]);
+
   return (
     <div className="login-page">
-      <div className={classes.wrapperFlexRow}>
-        <div className={classes.wrapperFlexColumn}>
-          <div className={classes.wrapper}>
-            <Email setEmailState={setEmailState} header="Log In" caption="Email or login"></Email>
-            <Password setPasswordState={setPasswordState} caption="Password"></Password>
-            <Button text="Log In" submit={submit}></Button>
-            <LinkWithDescription
-              description="Don't have an account? "
-              linkCaption="Sign Up"
-              path={ROUTES.REGISTRATION}
-            ></LinkWithDescription>
-          </div>
-        </div>
+      <div className={classes.wrapper}>
+        <Email setEmailState={setEmailState} header="Log In" caption="Email or login"></Email>
+        <Password setPasswordState={setPasswordState} caption="Password"></Password>
+        <Button text="Log In" submit={submit}></Button>
+        <LinkWithDescription
+          description="Don't have an account? "
+          linkCaption="Sign Up"
+          path={ROUTES.REGISTRATION}
+        ></LinkWithDescription>
       </div>
     </div>
   );

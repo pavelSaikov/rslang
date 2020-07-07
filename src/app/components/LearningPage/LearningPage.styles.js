@@ -24,6 +24,7 @@ export const useStyles = createUseStyles({
     width: '100%',
     display: 'flex',
     flexGrow: 1,
+    color: '#333366',
   },
   learningInfoContainer: {
     flexGrow: 1,

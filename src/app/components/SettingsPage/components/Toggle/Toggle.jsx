@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { useStyles } from '../SettingsPage.styles';
+import { useStyles } from './Toggle.styles';
 
 export const Toggle = ({ toggleClick, defaultState, action }) => {
   const onToggleClick = useCallback(() => {

@@ -5,6 +5,7 @@ export const useStyles = createUseStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center',
     padding: '10px 20px',
     borderRadius: 5,
     cursor: 'pointer',

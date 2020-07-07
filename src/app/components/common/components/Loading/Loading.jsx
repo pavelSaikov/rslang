@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Load from '../../../../../assets/images/loading.svg';
-import { Menu } from '../../../Menu/Menu';
 import { useStyles } from './Loading.styles';
 
 export const Loading = () => {
@@ -9,7 +8,6 @@ export const Loading = () => {
 
   return (
     <div className={classes.pageWrapper}>
-      <Menu />
       <div className={classes.contentContainer}>
         <div className={classes.imageContainer}>
           <img src={Load} />

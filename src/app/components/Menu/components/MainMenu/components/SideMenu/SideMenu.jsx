@@ -18,15 +18,16 @@ export const SideMenu = () => {
 
   const onLogOut = useCallback(() => {
     dispatch(setAuthorizationInfo(null));
+    dispatch(setIsMenuOpen(false));
     history.push(ROUTES.LOGIN);
   }, [dispatch, history]);
 
   const onLinkClick = useCallback(() => dispatch(setIsMenuOpen(false)), [dispatch]);
 
   return (
-    <nav className={navigation} open={isMenuOpen}>
+    <div className={navigation} open={isMenuOpen} id={'navigation'}>
       <Navigation onLinkClick={onLinkClick} />
       <MenuFooter onLogOut={onLogOut} />
-    </nav>
+    </div>
   );
 };

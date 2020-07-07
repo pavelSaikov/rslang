@@ -16,6 +16,7 @@ export const useStyles = createUseStyles({
     alignItems: 'stretch',
     backgroundColor: '#182F51',
     transition: 'all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)',
+    overflow: 'scroll',
     transform: isMenuOpen => (isMenuOpen ? 'translateX(0)' : 'translateX(-100%)'),
     '& a': {
       position: 'relative',
@@ -23,7 +24,6 @@ export const useStyles = createUseStyles({
       textAlign: 'left',
       maxWidth: '100%',
       paddingTop: '25px',
-      paddingBottom: '25px',
       paddingLeft: '16%',
       backgroundPosition: '88% 50%',
       backgroundSize: '36px',

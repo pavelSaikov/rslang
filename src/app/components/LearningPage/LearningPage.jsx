@@ -34,7 +34,7 @@ import { statisticsSelector } from '../StatisticsPage/store/Statistics.selectors
 import { ProgressStrip } from './components/ProgressStrip/ProgressStrip';
 import { DailyStatistics } from './components/DailyStatistics/DailyStatistics';
 import { setIsTranslationVisible } from '../SettingsPage/store/Settings.actions';
-import { Toggle } from '../SettingsPage/components/Toggle';
+import { Toggle } from '../SettingsPage/components/Toggle/Toggle';
 import { setLearningPageConfig } from './store/LearningPage.actions';
 import { createLearningPageConfig } from './store/create-learning-page-config';
 import { useInitializeGame } from './hooks/useInitializeGame';

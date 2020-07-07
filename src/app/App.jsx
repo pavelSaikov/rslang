@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { ROUTES } from './routing/routes';
 import { PrivateRoute } from './routing/PrivateRoute';
-import { MainPage } from './components/MainPage/MainPage';
 import { Games } from './components/GamesPage/Games';
 import { LearningPage } from './components/LearningPage/LearningPage';
 import { AuthorizationPage } from './components/AuthorizationPage/AuthorizationPage';
@@ -24,7 +23,6 @@ export const App = () => {
         <Switch>
           <Route exact path={ROUTES.LOGIN} component={AuthorizationPage}></Route>
           <Route exact path={ROUTES.REGISTRATION} component={RegistrationPage}></Route>
-          <PrivateRoute exact path={ROUTES.MAIN} component={MainPage}></PrivateRoute>
           <PrivateRoute exact path={ROUTES.DICTIONARY} component={DictionaryPage}></PrivateRoute>
           <PrivateRoute path={ROUTES.GAMES} component={Games}></PrivateRoute>
           <PrivateRoute exact path={ROUTES.LEARNING} component={LearningPage}></PrivateRoute>
@@ -32,7 +30,7 @@ export const App = () => {
           <PrivateRoute exact path={ROUTES.TEAM} component={TeamPage}></PrivateRoute>
           <PrivateRoute exact path={ROUTES.SETTINGS} component={SettingsPage}></PrivateRoute>
           <Route exact path={'/'}>
-            <Redirect to={ROUTES.MAIN} />
+            <Redirect to={ROUTES.LEARNING} />
           </Route>
         </Switch>
       </BrowserRouter>

@@ -45,7 +45,8 @@ export const useStyles = createUseStyles({
     display: 'flex',
     justifyContent: 'space-between',
     padding: '10px 0',
-    width: '300px',
+    width: '100%',
+    maxWidth: 330,
   },
   button: {
     boxShadow: '2px 2px 3px 2px #e1e0de',

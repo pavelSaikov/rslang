@@ -2,16 +2,6 @@ import { ROUTES } from '../../../../../../../../routing/routes';
 
 export const NAVIGATION = [
   {
-    icon: 'icon-enter',
-    name: 'Main page',
-    link: ROUTES.MAIN,
-  },
-  {
-    icon: 'icon-enter',
-    name: 'Login',
-    link: ROUTES.LOGIN,
-  },
-  {
     icon: 'icon-book',
     name: 'Learning',
     link: ROUTES.LEARNING,
