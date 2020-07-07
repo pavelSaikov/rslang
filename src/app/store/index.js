@@ -12,6 +12,7 @@ import { learningPageConfigReducer } from '../components/LearningPage/store/Lear
 import { errorsReducer } from '../components/errors/store/Errors.reducer';
 import { gameDescriptionReducer } from '../components/GamesPage/components/common/GameDescription/store/GameDescription.reducer';
 import { longTermStatisticsReducer } from '../components/StatisticsPage/store/long-term-statistics/LongTermStatistics.reducers';
+import { speakItReducer } from '../components/GamesPage/components/SpeakIt/store/SpeakIt.reducer';
 import { resetStore } from './App.actions';
 
 const appReducer = combineReducers({
@@ -19,6 +20,7 @@ const appReducer = combineReducers({
   settings: settingsReducer,
   userDictionary: userDictionaryReducer,
   menuState: menuReducer,
+  speakIt: speakItReducer,
   learningPageConfig: learningPageConfigReducer,
   statistics: combineReducers({
     commonStatistics: commonStatisticsReducer,

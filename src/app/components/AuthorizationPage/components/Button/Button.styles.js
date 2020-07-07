@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 
 const INPUT_HEIGHT = 50;
-const FONT_SIZE = 14;
+const FONT_SIZE = 16;
 const MARGIN_NUM = 0;
 
 export const useStyles = createUseStyles({
@@ -13,13 +13,14 @@ export const useStyles = createUseStyles({
     borderRadius: '10px',
     background: '#333366',
     color: 'white',
-    padding: '20px 20px',
     margin: MARGIN_NUM,
     fontSize: FONT_SIZE,
     '&:focus': {
       outline: 0,
     },
-    fontWeight: 600,
+    '&:hover': {
+      backgroundColor: '#709EF7',
+    },
   },
   mark: {
     position: 'relative',

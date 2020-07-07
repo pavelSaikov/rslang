@@ -24,4 +24,11 @@ export const useStyles = createUseStyles({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  wrapperFlexButton: {
+    width: '700px',
+    height: '40px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: '0 auto',
+  },
 });

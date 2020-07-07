@@ -1,11 +1,19 @@
 import React from 'react';
-import { useStyles } from './Button.styles';
 import PropTypes from 'prop-types';
 
-export const Button = ({ text }) => {
+import { useStyles } from './Button.styles';
+
+export const Button = ({ text, onClickFunc }) => {
   const classes = useStyles();
 
-  return <button className={classes.btn}>{text}</button>;
+  return (
+    <button className={classes.btn} onClick={onClickFunc}>
+      {text}
+    </button>
+  );
 };
 
-Button.propTypes = { text: PropTypes.string.isRequired };
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+  onClickFunc: PropTypes.func.isRequired,
+};
