@@ -13,7 +13,7 @@ import {
 import { store } from '../../../store';
 import { wordsService } from '../../../services/WordsService/WordsService';
 import {
-  USER_OPINIONS_ABOUT_WORD,
+  DEFAULT_USER_OPINION_ABOUT_WORD,
   USER_OPINION_ABOUT_WORD_DIFFICULTY_INDEX_MAP,
 } from '../components/UserWordAssessment/UserWordAssessment.models';
 import { wordsPerPage, wordPerExampleSentenceLTE } from '../../RegistrationPage/store/RegistrationPage.models';
@@ -24,6 +24,7 @@ export const useInitializeGame = ({
   setIsGamePrepared,
   isStatisticsPrepared,
   isGamePrepared,
+  isGameConfigChosen,
 }) => {
   const {
     statistics: { commonStatistics },
@@ -33,10 +34,10 @@ export const useInitializeGame = ({
   } = store.getState();
 
   useEffect(() => {
-    if (isStatisticsPrepared && userDictionary && settings && !isGamePrepared) {
+    if (isStatisticsPrepared && userDictionary && settings && isGameConfigChosen && !isGamePrepared) {
       const newWordsCount = GAME_MODE_MAX_NEW_WORDS_PER_GAME_MAP.get(repeatableWordStatus);
-
       const learnedWordsCount = GAME_MODE_MAX_LEARNED_WORDS_PER_GAME_MAP.get(repeatableWordStatus);
+
       const learnedWords = sortUserDictionaryByDifficulty({ dictionary: [...userDictionary], settings })
         .filter(word => WORD_STATUS_GAME_MODE_MAP.get(repeatableWordStatus).includes(word.status))
         .slice(0, learnedWordsCount);
@@ -91,6 +92,7 @@ export const useInitializeGame = ({
   }, [
     commonStatistics,
     isGamePrepared,
+    isGameConfigChosen,
     isStatisticsPrepared,
     repeatableWordStatus,
     setGameWords,
@@ -115,7 +117,7 @@ const sortUserDictionaryByDifficulty = ({ dictionary, settings: { isUserOpinionC
   });
 
 const calculateDifficultyCoefficient = (word, isUserOpinionCheckingVisible) =>
-  word.userOpinionAboutWord !== USER_OPINIONS_ABOUT_WORD && isUserOpinionCheckingVisible
+  word.userOpinionAboutWord !== DEFAULT_USER_OPINION_ABOUT_WORD && isUserOpinionCheckingVisible
     ? calculateDifficultyCoefficientWithUserOpinion(word)
     : calculateDifficultyCoefficientWithoutUserOpinion(word);
 

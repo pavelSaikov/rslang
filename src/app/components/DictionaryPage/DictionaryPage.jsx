@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { WORD_STATUS, WORD_STATUSES, createUserWord } from './DictionaryPage.models.js';
@@ -16,11 +16,18 @@ import { settingsSelector } from '../SettingsPage/store/Settings.selectors.js';
 import { loadDictionary, loadSettings, loadStatistics } from '../LearningPage/store/LearningPage.thunks.js';
 import { statisticsSelector } from '../StatisticsPage/store/Statistics.selectors.js';
 import { updateUserWordAndStatistics } from './store/UserDictionary.thunks.js';
+import { Button } from '../LearningPage/components/UserWordAssessment/Button/Button.js';
+import { setLearningPageConfig } from '../LearningPage/store/LearningPage.actions.js';
+import { createLearningPageConfig } from '../LearningPage/store/create-learning-page-config.js';
+import { GAME_MODE } from '../LearningPage/LearningPage.models.js';
+import { Loading } from '../common/components/Loading/Loading.jsx';
+
 export const DictionaryPage = () => {
   const userDictionary = useSelector(userDictionarySelector);
   const authorizationInfo = useSelector(authorizationInfoSelector);
   const { commonStatistics, dailyStatistics } = useSelector(statisticsSelector);
   const settings = useSelector(settingsSelector);
+  const history = useHistory();
   const dispatch = useDispatch();
   const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
   const [wordsDescription, setWordDescription] = useState(null);
@@ -108,26 +115,40 @@ export const DictionaryPage = () => {
     [wordsDescription, dispatch, updatedWordInfo],
   );
 
+  const onRepeatButtonClick = useCallback(() => {
+    dispatch(setLearningPageConfig(createLearningPageConfig({ repeatableWordStatus: GAME_MODE.DIFFICULT })));
+    history.push(ROUTES.LEARNING);
+  }, [dispatch, history]);
+
   if (isRedirectToLoginPage) {
     return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.DICTIONARY } }} />;
   }
 
-  return (
-    wordsDescription &&
-    commonStatistics &&
-    dailyStatistics && (
+  if (wordsDescription && commonStatistics && dailyStatistics) {
+    return (
       <div className={classes.pageContainer}>
         <Menu />
         <div className={classes.dictionaryContainer}>
-          <div className={classes.wordStatusesContainer}>
-            {WORD_STATUSES.map(status => (
-              <StatusTab
-                key={status}
-                status={status}
-                onViewStatusChangeClick={onViewStatusChangeClick}
-                isSelected={status === wordsStatusForView}
-              />
-            ))}
+          <div className={classes.header}>
+            <div className={classes.wordStatusesContainer}>
+              {WORD_STATUSES.map(status => (
+                <StatusTab
+                  key={status}
+                  status={status}
+                  onViewStatusChangeClick={onViewStatusChangeClick}
+                  isSelected={status === wordsStatusForView}
+                />
+              ))}
+            </div>
+            {wordsStatusForView === WORD_STATUS.DIFFICULT && (
+              <div className={classes.repeatButtonContainer}>
+                <Button
+                  message={'Repeat Difficult Words'}
+                  styleClasses={classes.repeatButton}
+                  onClick={onRepeatButtonClick}
+                />
+              </div>
+            )}
           </div>
           <div className={classes.wordsGroupContainer}>
             {wordsDescription.map(wordInfo => {
@@ -146,6 +167,8 @@ export const DictionaryPage = () => {
           </div>
         </div>
       </div>
-    )
-  );
+    );
+  }
+
+  return <Loading />;
 };

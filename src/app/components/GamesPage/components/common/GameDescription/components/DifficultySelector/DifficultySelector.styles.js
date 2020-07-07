@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
-  levelPicker: {
+  categoryPicker: {
     margin: 20,
   },
   dropdownButton: {

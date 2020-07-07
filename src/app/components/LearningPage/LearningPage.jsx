@@ -47,13 +47,16 @@ import { Menu } from '../Menu/Menu';
 import { Button } from './components/UserWordAssessment/Button/Button';
 import { PROGRESS_TYPE } from './components/ProgressStrip/ProgressPart.models';
 import { useCheckCommonStatistics } from '../common/hooks/useCheckCommonStatistics';
+import { StartPage } from './components/StartPage/StartPage';
+import { NothingToLearnPage } from './components/NothingToLearnPage/NothingToLearnPage';
+import { Loading } from '../common/components/Loading/Loading';
 
 export const LearningPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { token, userId } = useSelector(authorizationInfoSelector);
+  const authorizationInfo = useSelector(authorizationInfoSelector);
   const { repeatableWordStatus } = useSelector(learningPageConfigSelector);
   const userDictionary = useSelector(userDictionarySelector);
   const settings = useSelector(settingsSelector);
@@ -64,6 +67,7 @@ export const LearningPage = () => {
   const [isStatisticsPrepared, setIsStatisticsPrepared] = useState(false);
   const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
   const [isDictionaryCategoryChosen, setIsDictionaryCategoryChosen] = useState(false);
+  const [isGameConfigChosen, setIsGameConfigChosen] = useState(repeatableWordStatus === GAME_MODE.DIFFICULT);
   const [isGamePrepared, setIsGamePrepared] = useState(false);
   const [isGameEnded, setIsGameEnded] = useState(false);
   const [isShowAnswer, setIsShowAnswer] = useState(false);
@@ -150,14 +154,31 @@ export const LearningPage = () => {
     setIsStatisticsPrepared,
   });
 
+  useEffect(
+    () => () =>
+      dispatch(setLearningPageConfig(createLearningPageConfig({ repeatableWordStatus: GAME_MODE.LEARNED_AND_NEW }))),
+    [dispatch],
+  );
+
   useEffect(() => {
     if (isGameEnded) {
-      dispatch(setLearningPageConfig(createLearningPageConfig({ repeatableWordStatus: GAME_MODE.LEARNED_AND_NEW })));
-      statisticsService.updateStatistics({ token, userId, statistics, controller: new AbortController() });
+      statisticsService.updateStatistics({
+        token: authorizationInfo.token,
+        userId: authorizationInfo.userId,
+        statistics,
+        controller: new AbortController(),
+      });
     }
-  }, [isGameEnded, statistics, token, userId, dispatch]);
+  }, [isGameEnded, statistics, authorizationInfo, dispatch]);
 
-  useInitializeGame({ setGameWords, setIndexCurrentWord, setIsGamePrepared, isStatisticsPrepared, isGamePrepared });
+  useInitializeGame({
+    setGameWords,
+    setIndexCurrentWord,
+    setIsGamePrepared,
+    isStatisticsPrepared,
+    isGamePrepared,
+    isGameConfigChosen,
+  });
 
   useUpdateBackend({
     isLocalUserInfoUpdated,
@@ -167,6 +188,7 @@ export const LearningPage = () => {
     continueGame,
     dispatch,
     isWasMistake,
+    setIsRedirectToLoginPage,
   });
 
   const onCorrectInput = useCallback(() => {
@@ -388,6 +410,14 @@ export const LearningPage = () => {
 
   const onOpenStatisticsClick = useCallback(() => history.push(ROUTES.STATISTIC), [history]);
 
+  const onGameConfigChosenClick = useCallback(() => setIsGameConfigChosen(true), []);
+
+  const onOpenStartPageClick = useCallback(() => {
+    setIsGameConfigChosen(false);
+    setIsGamePrepared(false);
+    setGameWords(null);
+  }, []);
+
   if (isRedirectToLoginPage) {
     return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.LEARNING } }} />;
   }
@@ -406,6 +436,10 @@ export const LearningPage = () => {
         </div>
       </div>
     );
+  }
+
+  if (!isGameConfigChosen) {
+    return <StartPage onStartClick={onGameConfigChosenClick} />;
   }
 
   if (isGamePrepared && !isGameEnded) {
@@ -477,20 +511,11 @@ export const LearningPage = () => {
     );
   }
 
-  if (gameWords && !gameWords.length && !indexCurrentWord) {
-    return (
-      <div className={classes.wrapper}>
-        <h1>Nothing to learn</h1>
-      </div>
-    );
+  if (gameWords && !gameWords.length) {
+    return <NothingToLearnPage onOpenStartPageClick={onOpenStartPageClick} />;
   }
 
-  return (
-    <div className={classes.pageWrapper}>
-      <Menu />
-      <h1>Hello</h1>
-    </div>
-  );
+  return <Loading />;
 };
 
 const updateCommonStatistics = ({
