@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { useStyles } from '../SettingsPage.styles';
-import '../../../../../src/theme/style.css';
+import { useStyles } from './InputNumber.styles';
 
 export const InputNumber = ({ inputChange, defaultState, action, min, max }) => {
   const onInputChange = useCallback(

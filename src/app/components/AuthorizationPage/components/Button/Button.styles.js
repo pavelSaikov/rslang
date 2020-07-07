@@ -11,7 +11,7 @@ export const useStyles = createUseStyles({
     textAlign: 'center',
     border: 'none',
     borderRadius: '10px',
-    background: '#407DF4',
+    background: '#333366',
     color: 'white',
     padding: '20px 20px',
     margin: MARGIN_NUM,
@@ -19,6 +19,7 @@ export const useStyles = createUseStyles({
     '&:focus': {
       outline: 0,
     },
+    fontWeight: 600,
   },
   mark: {
     position: 'relative',

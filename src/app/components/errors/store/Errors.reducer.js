@@ -5,7 +5,7 @@ const DEFAULT_STATE = [];
 export const errorsReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case addError.type:
-      return state.concat(action.payload);
+      return [action.payload];
     case removeError.type:
       // eslint-disable-next-line no-case-declarations
       const updatedState = [...state];

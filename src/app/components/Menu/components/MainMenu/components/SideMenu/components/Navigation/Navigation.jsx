@@ -8,7 +8,7 @@ import { NAVIGATION } from './navigation.model';
 export const Navigation = ({ onLinkClick }) => {
   const { navigationLink, navigationIcon, navigationList } = useStyles();
   return (
-    <ul className={navigationList}>
+    <div className={navigationList}>
       {NAVIGATION.map(value => {
         return (
           <Link key={value.link} className={navigationLink} to={value.link} onClick={onLinkClick}>
@@ -17,7 +17,7 @@ export const Navigation = ({ onLinkClick }) => {
           </Link>
         );
       })}
-    </ul>
+    </div>
   );
 };
 

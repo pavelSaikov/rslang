@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { Toggle } from './components/Toggle';
-import { InputNumber } from './components/InputNumber';
+import { Toggle } from './components/Toggle/Toggle';
+import { InputNumber } from './components/InputNumber/InputNumber';
 import { singleToggleSettingsConfig } from './settings-config';
 import { groupToggleForCardSettingsConfig } from './settings-config';
 import { numberInputSettingsConfig } from './settings-config';
@@ -24,6 +24,7 @@ import { statisticsSelector } from '../StatisticsPage/store/Statistics.selectors
 import { Loading } from '../common/components/Loading/Loading';
 
 export const SettingsPage = () => {
+  const classes = useStyles();
   const settings = useSelector(settingsSelector);
   const statistics = useSelector(statisticsSelector);
   const dispatch = useDispatch();
@@ -94,57 +95,66 @@ export const SettingsPage = () => {
     [dispatch, settings],
   );
 
-  const { settingWrapper, settingsPageTitle } = useStyles();
-
   if (isRedirectToLoginPage) {
     return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.SETTINGS } }} />;
   }
 
   if (isPageInitialized) {
     return (
-      <div>
+      <div className={classes.pageWrapper}>
         <Menu />
-        <h2 className={settingsPageTitle}>Settings Page</h2>
-        {numberInputSettingsConfig.map(({ settingString, action, settingName, minValue, maxValue }) => {
-          return (
-            <div key={settingString} className={settingWrapper}>
-              <InputNumber
-                inputChange={callbackForInputNumberSettings}
-                defaultState={Number.parseInt(settings[settingName])}
-                action={action}
-                min={minValue}
-                max={maxValue}
-              />
-              <div>{settingString}</div>
+        <div className={classes.componentsWrapper}>
+          <div className={classes.settingsContainer}>
+            <div className={classes.settingsGroupContainer}>
+              <h3 className={classes.settingsPageTitle}>Settings for card</h3>
+              {numberInputSettingsConfig.map(({ settingString, action, settingName, minValue, maxValue }) => {
+                return (
+                  <div key={settingString} className={classes.settingWrapper}>
+                    <InputNumber
+                      inputChange={callbackForInputNumberSettings}
+                      defaultState={Number.parseInt(settings[settingName])}
+                      action={action}
+                      min={minValue}
+                      max={maxValue}
+                    />
+                    <div className={classes.settingSentence}>{settingString}</div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
-        {singleToggleSettingsConfig.map(({ settingString, action, settingName }) => {
-          return (
-            <div key={settingString} className={settingWrapper}>
-              <Toggle
-                toggleClick={callbackForNoGroupToggleSettings}
-                defaultState={settings[settingName]}
-                action={action}
-              />
-              <div>{settingString}</div>
+            <div className={classes.settingsGroupContainer}>
+              <h3 className={classes.settingsPageTitle}>Settings for card</h3>
+              {singleToggleSettingsConfig.map(({ settingString, action, settingName }) => {
+                return (
+                  <div key={settingString} className={classes.settingWrapper}>
+                    <Toggle
+                      toggleClick={callbackForNoGroupToggleSettings}
+                      defaultState={settings[settingName]}
+                      action={action}
+                    />
+                    <div className={classes.settingSentence}>{settingString}</div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
-        <h3 className={settingsPageTitle}>Settings for card</h3>
-        {groupToggleForCardSettingsConfig.map(({ settingString, action, settingName }) => {
-          return (
-            <div key={settingName} className={settingWrapper}>
-              <Toggle
-                settingName={settingName}
-                toggleClick={callbackForGroupToggleCardSettings}
-                defaultState={settings[settingName]}
-                action={action}
-              />
-              <div>{settingString}</div>
+            <div className={classes.settingsGroupContainer}>
+              <h3 className={classes.settingsPageTitle}>Settings for card</h3>
+              {groupToggleForCardSettingsConfig.map(({ settingString, action, settingName }) => {
+                return (
+                  <div key={settingName} className={classes.settingWrapper}>
+                    <Toggle
+                      settingName={settingName}
+                      toggleClick={callbackForGroupToggleCardSettings}
+                      defaultState={settings[settingName]}
+                      action={action}
+                    />
+                    <div className={classes.settingSentence}>{settingString}</div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          </div>
+        </div>
       </div>
     );
   }

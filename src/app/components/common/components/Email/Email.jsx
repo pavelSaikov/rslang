@@ -40,28 +40,24 @@ export const Email = ({ setEmailState, caption, header }) => {
   );
 
   const renderEmailCheckSymbol = useMemo(() => {
-    return (
-      <div>
-        {spellCheck ? (
-          validationError ? (
-            <div className={classes.mark}>
-              <i className={`icon-check ${classes.iconCheck}`}></i>
-            </div>
-          ) : (
-            <div className={classes.mark}>
-              <i className={`icon-x-circle ${classes.iconX}`}></i>
-            </div>
-          )
-        ) : (
-          <div className={classes.mark}>
-            <div className={classes.hidden}>
-              <i className="icon-x-circle"></i>
-            </div>
-          </div>
-        )}
+    return spellCheck ? (
+      validationError ? (
+        <div className={classes.mark}>
+          <i className={`icon-check ${classes.iconCheck}`}></i>
+        </div>
+      ) : (
+        <div className={classes.mark}>
+          <i className={`icon-x-circle ${classes.iconX}`}></i>
+        </div>
+      )
+    ) : (
+      <div className={classes.mark}>
+        <div className={classes.hidden}>
+          <i className="icon-x-circle"></i>
+        </div>
       </div>
     );
-  }, [classes.hidden, classes.iconCheck, classes.iconX, classes.mark, spellCheck, validationError]);
+  }, [classes, spellCheck, validationError]);
 
   return (
     <div>
@@ -69,7 +65,7 @@ export const Email = ({ setEmailState, caption, header }) => {
       <label htmlFor="email" className={classes.caption}>
         {caption}
       </label>
-      <div className={classes.inputWrapper}>
+      <div className={classes.emailContainer}>
         <input
           ref={input}
           className={classes.input}
@@ -79,8 +75,8 @@ export const Email = ({ setEmailState, caption, header }) => {
           onKeyUp={handleKeyPress}
           onChange={startSpellCheck}
         />
+        {renderEmailCheckSymbol}
       </div>
-      {renderEmailCheckSymbol}
     </div>
   );
 };

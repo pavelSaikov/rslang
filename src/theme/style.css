@@ -4,10 +4,11 @@ html {
   height: 100%;
 }
 
-body{
+body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  font-family: 'Roboto';
 }
 
 * {
@@ -30,8 +31,15 @@ input[type='number']:focus {
   outline-width: 0px;
 }
 
-#root{
+a {
+  text-decoration: none;
+}
+
+#root {
   display: flex;
   flex-grow: 1;
 }
 
+#navigation::-webkit-scrollbar {
+  width: 0px;
+}

@@ -67,30 +67,26 @@ export const Password = ({ setPasswordState, caption }) => {
         )}
       </div>
     );
-  }, [caption, classes.caption, classes.captionCorrect, classes.captionWrong, spellCheck, validationError]);
+  }, [caption, classes, spellCheck, validationError]);
 
   const renderVisibilityToggle = useMemo(() => {
-    return (
-      <div>
-        {spellCheck ? (
-          <div className={classes.mark}>
-            <i className="icon-eye" onMouseDown={mousePressed} onMouseUp={mouseReleased}></i>
-          </div>
-        ) : (
-          <div className={classes.mark}>
-            <div className={classes.hidden}>
-              <i className="icon-x-circle"></i>
-            </div>
-          </div>
-        )}
+    return spellCheck ? (
+      <div className={classes.mark}>
+        <i className="icon-eye" onMouseDown={mousePressed} onMouseUp={mouseReleased}></i>
+      </div>
+    ) : (
+      <div className={classes.mark}>
+        <div className={classes.hidden}>
+          <i className="icon-x-circle"></i>
+        </div>
       </div>
     );
-  }, [classes.hidden, classes.mark, mousePressed, mouseReleased, spellCheck]);
+  }, [classes, mousePressed, mouseReleased, spellCheck]);
 
   return (
     <div>
       {renderPasswordCaption}
-      <div className={classes.inputWrapper}>
+      <div className={classes.passwordContainer}>
         <input
           ref={input}
           className={classes.input}
@@ -100,8 +96,8 @@ export const Password = ({ setPasswordState, caption }) => {
           onKeyUp={handleKeyPress}
           onChange={startSpellCheck}
         />
+        {renderVisibilityToggle}
       </div>
-      {renderVisibilityToggle}
     </div>
   );
 };

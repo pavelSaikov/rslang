@@ -3,8 +3,17 @@ import { setAuthorizationInfo } from './AuthorizationPage.actions';
 import { addError, resetErrors } from '../../errors/store/Errors.actions';
 import { ERROR_MESSAGES } from '../../../services/AuthorizationService/AuthorizationService.models';
 
-export const getUserData = (email, password, history, path, setIsUserLogin, controller) => dispatch => {
+export const getUserData = ({
+  email,
+  password,
+  history,
+  path,
+  setIsUserLogin,
+  controller,
+  setIsShowLoadingPage,
+}) => dispatch => {
   dispatch(resetErrors());
+
   authorizationService
     .signIn({
       email,
@@ -26,6 +35,7 @@ export const getUserData = (email, password, history, path, setIsUserLogin, cont
     .catch(e => {
       if (ERROR_MESSAGES.includes(e.message)) {
         dispatch(addError(e.message));
+        setIsShowLoadingPage(false);
       }
     });
 };

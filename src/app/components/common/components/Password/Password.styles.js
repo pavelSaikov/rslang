@@ -5,6 +5,7 @@ const FONT_SIZE = 14;
 const MARGIN_NUM = 0;
 
 export const useStyles = createUseStyles({
+  passwordContainer: { position: 'relative', display: 'flex', alignItems: 'center', marginBottom: 10 },
   input: {
     width: 300,
     height: INPUT_HEIGHT,
@@ -21,8 +22,8 @@ export const useStyles = createUseStyles({
     margin: MARGIN_NUM,
   },
   mark: {
-    position: 'relative',
-    top: `-${INPUT_HEIGHT / 2 + FONT_SIZE / 2 + MARGIN_NUM}px`,
+    display: 'inline',
+    position: 'absolute',
     left: '250px',
   },
   hidden: {

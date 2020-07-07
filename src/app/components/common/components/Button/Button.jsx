@@ -6,7 +6,7 @@ export const Button = ({ submit, text }) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div className={classes.btnContainer}>
       <button className={classes.btn} onClick={submit}>
         {text}
       </button>
