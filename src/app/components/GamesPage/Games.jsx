@@ -41,9 +41,9 @@ export const Games = () => {
         )}
       </div>
       <Switch>
-        {CARDS.map(card => {
-          return <PrivateRoute exact path={`${path}${card.link}`} component={card.component} key={card.link} />;
-        })}
+        {CARDS.map(card => (
+          <PrivateRoute exact path={`${path}${card.link}`} component={card.component} key={card.link} />
+        ))}
       </Switch>
     </div>
   );

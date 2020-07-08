@@ -16,7 +16,7 @@ export const Errors = () => {
   return (
     <div className={classes.errors}>
       {errors.map((errorMessage, index) => (
-        <ErrorNotification errorMessage={errorMessage} index={index} onClose={onClose} key={errorMessage} />
+        <ErrorNotification errorMessage={errorMessage} index={index} onClose={onClose} key={errorMessage + index} />
       ))}
     </div>
   );
