@@ -20,6 +20,7 @@ export const Sentence = ({
   const inputRef = useRef(null);
   const spanRef = useRef(null);
   const classes = useStyles(inputState);
+
   const checkUserAnswer = useMemo(
     () => () => {
       const userAnswer = inputRef.current.value;
@@ -94,20 +95,21 @@ export const Sentence = ({
       if (isIncorrectKeyboardPressing) {
         return;
       }
-
-      checkUserAnswer();
+      if (!isCheckAnswerClick && !isShowAnswer) {
+        checkUserAnswer();
+      }
     };
 
     window.addEventListener('keydown', onInputClick);
 
     return () => window.removeEventListener('keydown', onInputClick);
-  }, [checkUserAnswer]);
+  }, [checkUserAnswer, isShowAnswer, isCheckAnswerClick]);
 
   useEffect(() => {
-    if (isCheckAnswerClick) {
+    if (isCheckAnswerClick && !isShowAnswer) {
       checkUserAnswer();
     }
-  }, [isCheckAnswerClick, checkUserAnswer]);
+  }, [isCheckAnswerClick, checkUserAnswer, isShowAnswer]);
 
   return (
     sentence && (

@@ -54,7 +54,7 @@ export const RegistrationPage = () => {
   );
 
   if (isUserRegistered) {
-    return <Redirect to={ROUTES.MAIN} />;
+    return <Redirect to={ROUTES.LEARNING} />;
   }
 
   if (isShowLoadingPage) {

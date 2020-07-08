@@ -43,7 +43,7 @@ export const WordCard = ({
   useEffect(() => {
     setIsShowSentencesTranslation(false);
     setIsIgnoreCallbacksUpdate(false);
-  }, [gameWordIndex]);
+  }, [wordTranslate]);
 
   useEffect(() => {
     if (!isShowAnswer || isIgnoreCallbacksUpdate || isShowSentencesTranslation) {
@@ -57,9 +57,7 @@ export const WordCard = ({
         onCorrectInput(),
       );
     } else {
-      timerId.current = setTimeout(() => {
-        onCorrectInput();
-      }, DELAY);
+      timerId.current = setTimeout(() => onCorrectInput(), DELAY);
     }
   }, [
     isShowAnswer,
@@ -114,14 +112,18 @@ export const WordCard = ({
     setIsShowSentencesTranslation(true);
     setIsIgnoreCallbacksUpdate(true);
 
-    setIsCheckUserAnswer(false);
-
     if ((audioPlayer.current.currentSrc && !audioPlayer.current.ended) || !isAutoPlayActive) {
-      timerId.current = setTimeout(() => onCorrectInput(), DELAY);
+      timerId.current = setTimeout(() => {
+        onCorrectInput();
+        setIsCheckUserAnswer(false);
+      }, DELAY);
       return;
     }
 
-    playAudio({ audioPlayer, audio, audioExample, audioMeaning, settings }).then(() => onCorrectInput());
+    playAudio({ audioPlayer, audio, audioExample, audioMeaning, settings }).then(() => {
+      onCorrectInput();
+      setIsCheckUserAnswer(false);
+    });
   }, [isAutoPlayActive, settings, audio, audioMeaning, audioExample, onCorrectInput]);
 
   const onIncorrect = useCallback(() => {
@@ -132,10 +134,10 @@ export const WordCard = ({
   const onAutoplayToggleClick = useCallback(() => onAutoPlayToggle(), [onAutoPlayToggle]);
 
   const onCheckUserAnswerClick = useCallback(() => {
-    if (!isCheckUserAnswer && !isShowSentencesTranslation) {
+    if (!isCheckUserAnswer && !isShowAnswer) {
       setIsCheckUserAnswer(true);
     }
-  }, [isCheckUserAnswer, isShowSentencesTranslation]);
+  }, [isCheckUserAnswer, isShowAnswer]);
 
   return (
     <div className={classes.wordCard}>

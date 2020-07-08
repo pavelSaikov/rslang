@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { longTermStatisticsSelector } from '../store/long-term-statistics/LongTermStatistics.selectors';
 
-export const Example = () => {
+export const Chart = () => {
   const longTermStatistics = useSelector(longTermStatisticsSelector);
 
   const chartData = useMemo(

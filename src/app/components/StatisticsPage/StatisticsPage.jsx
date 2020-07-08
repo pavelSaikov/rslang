@@ -13,17 +13,19 @@ import {
   PROGRESS_TYPE,
   PROGRESS_TYPE_FILLED_PART_COLOR_MAP,
 } from '../LearningPage/components/ProgressStrip/ProgressPart.models';
-import { Example } from './components/Chart';
+import { Chart } from './components/Chart';
 import { useCheckCommonStatistics } from '../common/hooks/useCheckCommonStatistics';
 import { useSetLastVisiting } from '../common/hooks/useSetLastVisiting';
 import { statisticsSelector } from './store/Statistics.selectors';
 import { Loading } from '../common/components/Loading/Loading';
+import { longTermStatisticsSelector } from './store/long-term-statistics/LongTermStatistics.selectors';
 
 export const StatisticsPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const statistics = useSelector(statisticsSelector);
   const dailyStatistics = useSelector(dailyStatisticsSelector);
+  const longTermStatistics = useSelector(longTermStatisticsSelector);
   const settings = useSelector(settingsSelector);
   const [isRedirectToLoginPage, setIsRedirectToLoginPage] = useState(false);
   const [isStatisticsPrepared, setIsStatisticsPrepared] = useState(false);
@@ -141,12 +143,14 @@ export const StatisticsPage = () => {
               <h3>Max Series Length: {dailyStatistics.maxSeriesLength}</h3>
             </div>
           </div>
-          <div className={classes.chartContainer}>
-            <div className={classes.chartHeader}>
-              <h3>Statistics Of Learning New Words</h3>
+          {longTermStatistics.length !== 0 && (
+            <div className={classes.chartContainer}>
+              <div className={classes.chartHeader}>
+                <h3>Statistics Of Learning New Words</h3>
+              </div>
+              <Chart />
             </div>
-            <Example />
-          </div>
+          )}
         </div>
       </div>
     );
