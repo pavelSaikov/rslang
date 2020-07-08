@@ -12,21 +12,32 @@ import { learningPageConfigReducer } from '../components/LearningPage/store/Lear
 import { errorsReducer } from '../components/errors/store/Errors.reducer';
 import { gameDescriptionReducer } from '../components/GamesPage/components/common/GameDescription/store/GameDescription.reducer';
 import { longTermStatisticsReducer } from '../components/StatisticsPage/store/long-term-statistics/LongTermStatistics.reducers';
+import { resetStore } from './App.actions';
+
+const appReducer = combineReducers({
+  authorizationInfo: authorizationInfoReducer,
+  settings: settingsReducer,
+  userDictionary: userDictionaryReducer,
+  menuState: menuReducer,
+  learningPageConfig: learningPageConfigReducer,
+  statistics: combineReducers({
+    commonStatistics: commonStatisticsReducer,
+    dailyStatistics: dailyStatisticsReducer,
+    longTermStatistics: longTermStatisticsReducer,
+  }),
+  errors: errorsReducer,
+  gameDescription: gameDescriptionReducer,
+});
+
+const rootReducer = (state, action) => {
+  if (action.type === resetStore.type) {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 export const store = createStore(
-  combineReducers({
-    authorizationInfo: authorizationInfoReducer,
-    settings: settingsReducer,
-    userDictionary: userDictionaryReducer,
-    menuState: menuReducer,
-    learningPageConfig: learningPageConfigReducer,
-    statistics: combineReducers({
-      commonStatistics: commonStatisticsReducer,
-      dailyStatistics: dailyStatisticsReducer,
-      longTermStatistics: longTermStatisticsReducer,
-    }),
-    errors: errorsReducer,
-    gameDescription: gameDescriptionReducer,
-  }),
+  rootReducer,
   composeWithDevTools(applyMiddleware(thunkMiddleware, localStorageMiddleware)),
 );

@@ -6,9 +6,9 @@ import { useStyles } from './SideMenu.styles';
 import { Navigation } from './components/Navigation/Navigation';
 import { MenuFooter } from './components/MenuFooter/MenuFooter';
 import { menuSelector } from '../../../../store/Menu.selectors';
-import { setAuthorizationInfo } from '../../../../../AuthorizationPage/store/AuthorizationPage.actions';
 import { ROUTES } from '../../../../../../routing/routes';
 import { setIsMenuOpen } from '../../../../store/Menu.actions';
+import { resetStore } from '../../../../../../store/App.actions';
 
 export const SideMenu = () => {
   const isMenuOpen = useSelector(menuSelector);
@@ -17,7 +17,7 @@ export const SideMenu = () => {
   const history = useHistory();
 
   const onLogOut = useCallback(() => {
-    dispatch(setAuthorizationInfo(null));
+    dispatch(resetStore());
     dispatch(setIsMenuOpen(false));
     history.push(ROUTES.LOGIN);
   }, [dispatch, history]);

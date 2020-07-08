@@ -204,7 +204,6 @@ export const LearningPage = () => {
         repetitionNumber: isShowAnswer ? word.repetitionNumber : word.repetitionNumber + 1,
         lastRepetition: Date.now(),
         isWasMistakeInLastGame: false,
-        status: WORD_STATUS.LEARNED,
       });
       dispatch(updateUserWord(updatedWord));
 
@@ -275,7 +274,6 @@ export const LearningPage = () => {
         mistakesNumber: word.mistakesNumber + 1,
         lastRepetition: Date.now(),
         isWasMistakeInLastGame: false,
-        status: WORD_STATUS.LEARNED,
       });
       dispatch(updateUserWord(updatedWord));
 
