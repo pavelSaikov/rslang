@@ -14,17 +14,15 @@ export const Games = () => {
   const classes = useStyles();
   const [isGameSelected, setIsGameSelected] = useState(false);
 
-  useEffect(() => {
-    if (location.pathname === ROUTES.GAMES) setIsGameSelected(false);
-  }, [location]);
+  useEffect(() => setIsGameSelected(location.pathname !== ROUTES.GAMES), [location]);
 
   const onLinkClick = useCallback(() => setIsGameSelected(true), []);
 
   return (
     <div className={classes.pageWrapper}>
       <Menu />
-      <div className={classes.componentsWrapper}>
-        {!isGameSelected && (
+      {!isGameSelected && (
+        <div className={classes.componentsWrapper}>
           <div className={classes.gameCardsContainer}>
             {CARDS.map(CARDS => {
               return (
@@ -38,8 +36,8 @@ export const Games = () => {
               );
             })}
           </div>
-        )}
-      </div>
+        </div>
+      )}
       <Switch>
         {CARDS.map(card => (
           <PrivateRoute exact path={`${path}${card.link}`} component={card.component} key={card.link} />
