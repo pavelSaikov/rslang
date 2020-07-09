@@ -9,6 +9,7 @@ export const useStyles = createUseStyles({
     fontSize: 18,
   },
   contentContainer: {
+    padding: '0 10px',
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -19,6 +20,9 @@ export const useStyles = createUseStyles({
     width: '90%',
     maxWidth: 512,
     marginTop: 50,
+    '@media (max-width: 1000px)': {
+      width: '80%',
+    },
   },
   headerContainer: {
     margin: '25px 0',

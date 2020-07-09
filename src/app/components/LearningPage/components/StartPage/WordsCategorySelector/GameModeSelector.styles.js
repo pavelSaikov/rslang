@@ -9,6 +9,9 @@ export const useStyles = createUseStyles({
     borderRadius: ({ isOpen }) => (isOpen ? '5px 5px 0 0' : '5px'),
     transition: 'border-radius 0.2s',
     marginLeft: '20px',
+    '@media (max-width: 660px)': {
+      marginLeft: 0,
+    },
   },
   dropdownButton: {
     width: 250,

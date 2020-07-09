@@ -9,6 +9,7 @@ export const useStyles = createUseStyles({
     maxWidth: 700,
     padding: 20,
     borderRadius: 5,
+    boxSizing: 'border-box',
     background: 'white',
     boxShadow: '0px 0px 6px 4px #e1e0de',
   },
@@ -47,9 +48,15 @@ export const useStyles = createUseStyles({
     padding: '10px 0',
     width: '100%',
     maxWidth: 330,
+    '@media (max-width: 350px)': {
+      flexDirection: 'column',
+    },
   },
   button: {
     boxShadow: '2px 2px 3px 2px #e1e0de',
     background: '#f5f5f5',
+    '@media (max-width: 350px)': {
+      marginTop: 15,
+    },
   },
 });

@@ -7,6 +7,7 @@ export const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    boxSizing: 'border-box',
     background: 'white',
     borderRadius: 5,
     boxShadow: '0px 0px 6px 4px #e1e0de',

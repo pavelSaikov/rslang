@@ -2,13 +2,19 @@ import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
   wordInfoContainer: {
-    maxWidth: 1000,
-    minWidth: 500,
+    width: '30%',
     margin: 15,
     padding: '20px 20px',
+    boxSizing: 'border-box',
     borderRadius: 10,
     background: 'white',
     boxShadow: '0px 0px 6px 4px #e1e0de',
+    '@media (max-width: 1550px)': {
+      width: '45%',
+    },
+    '@media (max-width: 950px)': {
+      width: '100%',
+    },
   },
   header: {
     display: 'flex',

@@ -7,7 +7,7 @@ const MARGIN_NUM = 0;
 export const useStyles = createUseStyles({
   passwordContainer: { position: 'relative', display: 'flex', alignItems: 'center', marginBottom: 10 },
   input: {
-    width: 300,
+    width: '100%',
     height: INPUT_HEIGHT,
     paddingLeft: '15px',
     boxSizing: 'border-box',
@@ -20,11 +20,14 @@ export const useStyles = createUseStyles({
       color: 'black',
     },
     margin: MARGIN_NUM,
+    '@media (max-width: 400px)': {
+      fontSize: 11,
+    },
   },
   mark: {
     display: 'inline',
     position: 'absolute',
-    left: '250px',
+    left: '85%',
   },
   hidden: {
     visibility: 'hidden',

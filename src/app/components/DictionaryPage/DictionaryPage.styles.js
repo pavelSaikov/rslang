@@ -9,7 +9,12 @@ export const useStyles = createUseStyles({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    padding: '0 20px',
     alignItems: 'center',
+    boxSizing: 'border-box',
+    '@media (max-width: 590px)': {
+      fontSize: 15,
+    },
   },
   header: {
     position: 'relative',
@@ -17,10 +22,16 @@ export const useStyles = createUseStyles({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    '@media (max-width: 880px)': {
+      flexDirection: 'column',
+    },
   },
   repeatButtonContainer: {
     position: 'absolute',
     right: 40,
+    '@media (max-width: 880px)': {
+      position: 'static',
+    },
   },
   repeatButton: {
     color: 'white',
@@ -31,8 +42,12 @@ export const useStyles = createUseStyles({
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: '20px 0',
+    '@media (max-width: 520px)': {
+      flexDirection: 'column',
+    },
   },
   wordsGroupContainer: {
+    width: '100%',
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',

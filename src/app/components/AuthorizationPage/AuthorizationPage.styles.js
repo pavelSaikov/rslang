@@ -13,6 +13,10 @@ export const useStyles = createUseStyles({
     justifyContent: 'space-between',
     padding: 20,
     color: '#333366',
+    '& h2': {
+      display: 'flex',
+      alignItems: 'center',
+    },
   },
   contentContainer: {
     flexGrow: 1,
@@ -24,6 +28,9 @@ export const useStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    '@media (max-width: 800px)': {
+      display: 'none',
+    },
   },
   imageContainer: {
     width: '100%',
