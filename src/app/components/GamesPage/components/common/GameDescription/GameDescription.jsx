@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useStyles } from './GameDescription.styles';
-import { Button } from './components/Button/Button';
+import { Button } from '../../../../AuthorizationPage/components/Button/Button';
 import { DifficultySelector } from './components/DifficultySelector/DifficultySelector';
 import { setLevel } from './store/GameDescription.action';
 import { levelSelector } from './store/DifficultySelector.selector';
@@ -29,9 +29,9 @@ export const GameDescription = ({
         <div className={classes.wrapperFlexRow}>
           <div>{shortDescription}</div>
         </div>
-        <div className={classes.wrapperFlexRow}>
-          <Button text="Start With User Words" submit={onStartGameWithUserWords} />
-          <Button text="Start With Random Words" submit={onStartGameWithRandomWords} />
+        <div className={classes.wrapperFlexButton}>
+          <Button text="Start With User Words" onClickFunc={onStartGameWithUserWords} />
+          <Button text="Start With Random Words" onClickFunc={onStartGameWithRandomWords} />
           <DifficultySelector selectedLevel={selectedLevel} onSelect={onLevelSelect} />
         </div>
       </div>
