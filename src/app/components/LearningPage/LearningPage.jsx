@@ -420,7 +420,7 @@ export const LearningPage = () => {
     return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.LEARNING } }} />;
   }
 
-  if (isShowDailyStatistics && isStatisticsPrepared) {
+  if (isStatisticsPrepared && isShowDailyStatistics) {
     return (
       <div className={classes.pageWrapper}>
         <Menu />

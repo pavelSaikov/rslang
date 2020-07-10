@@ -13,6 +13,10 @@ export const useStyles = createUseStyles({
     justifyContent: 'space-between',
     padding: 20,
     color: '#333366',
+    '& h2': {
+      display: 'flex',
+      alignItems: 'center',
+    },
   },
   contentContainer: {
     display: 'flex',
@@ -25,6 +29,9 @@ export const useStyles = createUseStyles({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    '@media (max-width: 850px)': {
+      display: 'none',
+    },
   },
   description: {
     display: 'flex',
@@ -32,6 +39,7 @@ export const useStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 70,
+    paddingLeft: 10,
     color: '#407194',
     fontWeight: 600,
   },

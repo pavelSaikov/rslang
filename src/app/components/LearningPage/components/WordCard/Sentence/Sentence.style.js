@@ -10,6 +10,10 @@ export const useStyles = createUseStyles({
     color: inputState => INPUT_STATE_COLOR_MAP.get(inputState),
     border: 0,
     borderRadius: 5,
+    fontSize: 18,
+    '@media (max-width: 930px)': {
+      fontSize: 15,
+    },
   },
   span: {
     position: 'absolute',

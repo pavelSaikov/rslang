@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -12,17 +12,25 @@ import { resetStore } from '../../../../../../store/App.actions';
 
 export const SideMenu = () => {
   const isMenuOpen = useSelector(menuSelector);
-  const { navigation } = useStyles(isMenuOpen);
+  const [windowHeight, setWindowHeight] = useState(document.body.clientHeight);
+  const { navigation } = useStyles({ isMenuOpen, windowHeight });
   const dispatch = useDispatch();
   const history = useHistory();
 
   const onLogOut = useCallback(() => {
+    history.push(ROUTES.LOGIN);
     dispatch(resetStore());
     dispatch(setIsMenuOpen(false));
-    history.push(ROUTES.LOGIN);
   }, [dispatch, history]);
 
   const onLinkClick = useCallback(() => dispatch(setIsMenuOpen(false)), [dispatch]);
+
+  useEffect(() => {
+    const onChangingWindowHeight = () => setWindowHeight(document.body.clientHeight);
+    window.addEventListener('resize', onChangingWindowHeight);
+
+    return () => window.removeEventListener('resize', onChangingWindowHeight);
+  });
 
   return (
     <div className={navigation} open={isMenuOpen} id={'navigation'}>

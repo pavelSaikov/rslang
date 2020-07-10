@@ -7,5 +7,8 @@ export const useStyles = createUseStyles({
     alignItems: 'center',
     padding: '6px 60px',
     zIndex: '500',
+    '@media (max-width: 700px)': {
+      padding: '6px 10px',
+    },
   },
 });

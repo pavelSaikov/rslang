@@ -32,6 +32,9 @@ export const useStyles = createUseStyles({
   settingWrapper: {
     display: 'flex',
     alignItems: 'center',
+    '@media (max-width: 400px)': {
+      marginTop: 10,
+    },
   },
   settingSentence: {
     fontWeight: 500,

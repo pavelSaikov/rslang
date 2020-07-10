@@ -10,6 +10,7 @@ export const useStyles = createUseStyles({
     margin: '20px 0',
     padding: 20,
     borderRadius: 5,
+    boxSizing: 'border-box',
     background: 'white',
     boxShadow: '0px 0px 6px 4px #e1e0de',
   },
@@ -19,9 +20,15 @@ export const useStyles = createUseStyles({
     boxSizing: 'border-box',
     width: '100%',
     padding: '10px 20px',
+    '@media (max-width: 450px)': {
+      flexDirection: 'column',
+    },
   },
   button: {
     boxShadow: '2px 2px 3px 2px #e1e0de',
     background: '#f5f5f5',
+    '@media (max-width: 450px)': {
+      marginTop: 15,
+    },
   },
 });

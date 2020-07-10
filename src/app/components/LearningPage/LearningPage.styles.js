@@ -6,13 +6,16 @@ export const useStyles = createUseStyles({
     flexDirection: 'column',
     minHeight: '100%',
     fontSize: 18,
+    '@media (max-width: 930px)': {
+      fontSize: 15,
+    },
   },
   gamePageContainer: {
     background: '#f7f2ee',
   },
   componentsWrapper: {
     width: '100%',
-    padding: '50px 4% 0 4%',
+    padding: '50px 2% 0 2%',
     display: 'flex',
     alignItems: 'center',
     flexGrow: 1,
@@ -33,17 +36,22 @@ export const useStyles = createUseStyles({
     alignItems: 'center',
   },
   settingsContainer: {
-    margin: '0 50px',
+    margin: '0 30px',
+    '@media (max-width: 840px)': {
+      display: 'none',
+    },
   },
   ghostContainer: {
     flexGrow: 1,
   },
   statisticsWrapper: {
     minHeight: '100%',
+    padding: '0 20px',
     flexGrow: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    boxSizing: 'border-box',
   },
   endGameContainer: {
     flexGrow: 1,

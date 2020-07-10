@@ -33,7 +33,9 @@ export const StartPage = ({ onStartClick }) => {
         </div>
         <div className={classes.buttonsContainer}>
           <Button message={'Start'} onClick={onStartClick} styleClasses={classes.startButton} />
-          <GameModeSelector selectedCategory={repeatableWordStatus} onSelectClick={onChangeCategory} />
+          <div className={classes.pickerContainer}>
+            <GameModeSelector selectedCategory={repeatableWordStatus} onSelectClick={onChangeCategory} />
+          </div>
         </div>
       </div>
     </div>

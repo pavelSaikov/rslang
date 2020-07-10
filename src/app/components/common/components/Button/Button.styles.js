@@ -13,7 +13,7 @@ export const useStyles = createUseStyles({
     color: 'white',
   },
   btn: {
-    width: '300px',
+    width: '100%',
     textAlign: 'left',
     border: 'none',
     borderRadius: '10px',
@@ -28,6 +28,6 @@ export const useStyles = createUseStyles({
   mark: {
     display: 'inline',
     position: 'absolute',
-    left: '250px',
+    left: '85%',
   },
 });

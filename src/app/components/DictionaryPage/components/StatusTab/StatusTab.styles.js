@@ -9,5 +9,8 @@ export const useStyles = createUseStyles({
     borderRadius: 14,
     cursor: 'pointer',
     fontWeight: 600,
+    '@media (max-width: 520px)': {
+      marginTop: 10,
+    },
   },
 });
