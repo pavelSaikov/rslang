@@ -2,19 +2,23 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useStyles } from './Star.styles';
-import { activeWordSelector } from '../../store/SpeakIt.selector';
+import { setOfWordsSelector } from '../../store/SpeakIt.selector';
 
 export const Star = () => {
   const classes = useStyles();
-  const activeWord = useSelector(activeWordSelector);
-
+  const arrOfWords = useSelector(setOfWordsSelector);
   const chooseSymbol = useMemo(() => {
-    if (activeWord && activeWord.isItAnswered) {
-      return <i className="icon-difficult"></i>;
+    const tempArray = arrOfWords.map(el => {
+      if (el.isItAnswered) {
+        return <i key={el.word} className="icon-difficult"></i>;
+      }
+    });
+    if (tempArray.length) {
+      return tempArray;
     }
 
     return <i className={`icon-difficult ${classes.transparent}`}></i>;
-  }, [activeWord, classes.transparent]);
+  }, [arrOfWords, classes]);
 
   return <div className={classes.mark}>{chooseSymbol}</div>;
 };

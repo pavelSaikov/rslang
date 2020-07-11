@@ -18,7 +18,7 @@ export const useStyles = createUseStyles({
   },
   imageContainer: {
     width: '90%',
-    maxWidth: 512,
+    maxWidth: 250,
     '@media (max-width: 800px)': {
       width: '70%',
     },

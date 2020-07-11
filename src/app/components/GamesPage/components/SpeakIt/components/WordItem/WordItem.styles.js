@@ -11,6 +11,7 @@ export const useStyles = createUseStyles({
     justifyContent: 'space-between',
   },
   wordItem: {
+    backgroundColor: 'white',
     width: '220px',
     height: INPUT_HEIGHT,
     border: '1px solid black',
