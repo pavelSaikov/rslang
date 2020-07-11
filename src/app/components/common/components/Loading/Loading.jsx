@@ -11,7 +11,7 @@ export const Loading = () => {
       <div className={classes.contentContainer}>
         <div className={classes.imageContainer}>
           <img src={Load} />
-          <h3>Loading</h3>
+          <h3>Загрузка</h3>
         </div>
       </div>
     </div>

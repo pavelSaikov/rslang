@@ -33,15 +33,15 @@ export const Chart = () => {
         margin={{
           top: 10,
           right: 30,
-          left: 0,
+          left: 10,
           bottom: 20,
         }}
       >
         <CartesianGrid strokeDasharray="2 2" />
         <XAxis dataKey="Date">
-          <Label value="Date" offset={-10} position="insideBottom" />
+          <Label value="Дата" offset={-10} position="insideBottom" />
         </XAxis>
-        <YAxis label={{ value: 'All Learned Words', angle: -90, position: 'insideLeft' }} />
+        <YAxis label={{ value: 'Количество изученных слов', angle: -90, position: 'insideBottomLeft' }} />
         <Tooltip />
         <Area type="monotone" dataKey="Learned Words" stroke="#f7974d" fill="#f7e6da" />
       </AreaChart>

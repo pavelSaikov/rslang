@@ -77,7 +77,7 @@ export const AuthorizationPage = () => {
         <div className={classes.wrapperFlexRow}>
           <h2>RSlang</h2>
           <Link to={ROUTES.REGISTRATION}>
-            <Button text="Sign Up" onClickFunc={() => {}}></Button>
+            <Button text="Зарегистрироваться" onClickFunc={() => {}}></Button>
           </Link>
         </div>
         <div className={classes.contentContainer}>

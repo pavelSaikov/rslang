@@ -38,12 +38,12 @@ export const LoginForm = ({ onSendClick }) => {
   return (
     <div className="login-page">
       <div className={classes.wrapper}>
-        <Email setEmailState={setEmailState} header="Log In" caption="Email or login"></Email>
-        <Password setPasswordState={setPasswordState} caption="Password"></Password>
-        <Button text="Log In" submit={submit}></Button>
+        <Email setEmailState={setEmailState} header="Авторизация" caption="Электронная почта"></Email>
+        <Password setPasswordState={setPasswordState} caption="Пароль"></Password>
+        <Button text="Войти" submit={submit}></Button>
         <LinkWithDescription
-          description="Don't have an account? "
-          linkCaption="Sign Up"
+          description="Отсутствует аккаунт?"
+          linkCaption="Зарегистрироваться"
           path={ROUTES.REGISTRATION}
         ></LinkWithDescription>
       </div>

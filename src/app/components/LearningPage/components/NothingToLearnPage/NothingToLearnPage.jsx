@@ -17,11 +17,11 @@ export const NothingToLearnPage = ({ onOpenStartPageClick }) => {
           <img src={magnifier} width={'100%'} />
         </div>
         <div className={classes.headerContainer}>
-          <h3>Oops... There are no words in this category.</h3>
-          <h3>Choose other category on start page.</h3>
+          <h3>Ооой... Для данной категории нет слов.</h3>
+          <h3>Выберите другую категорию на стартовой странице и продолжите игру.</h3>
         </div>
         <div>
-          <Button message={'Start Page'} onClick={onOpenStartPageClick} styleClasses={classes.button} />
+          <Button message={'Стартовая страница'} onClick={onOpenStartPageClick} styleClasses={classes.button} />
         </div>
       </div>
     </div>

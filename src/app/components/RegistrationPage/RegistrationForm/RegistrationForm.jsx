@@ -23,7 +23,7 @@ export const RegistrationForm = ({ onSignUpClick }) => {
     }
 
     if (firstPasswordState.password !== secondPasswordState.password) {
-      dispatch(addError('You input different passwords.'));
+      dispatch(addError('Вы ввели разные пароли'));
       return;
     }
 
@@ -48,13 +48,13 @@ export const RegistrationForm = ({ onSignUpClick }) => {
 
   return (
     <div className={classes.wrapper}>
-      <Email setEmailState={setEmailState} header="Sign Up" caption="Email or login"></Email>
-      <Password setPasswordState={setFirstPasswordState} caption="Password"></Password>
-      <Password setPasswordState={setSecondPasswordState} caption="Repeat Password"></Password>
-      <Button text="Sign Up" submit={submit}></Button>
+      <Email setEmailState={setEmailState} header="Регистрация" caption="Электронная почта"></Email>
+      <Password setPasswordState={setFirstPasswordState} caption="Пароль"></Password>
+      <Password setPasswordState={setSecondPasswordState} caption="Повторите Пароль"></Password>
+      <Button text="Зарегистрироваться" submit={submit}></Button>
       <LinkWithDescription
-        description="Already have an account? "
-        linkCaption="Log In"
+        description="Уже есть аккаунт?"
+        linkCaption="Войти"
         path={ROUTES.LOGIN}
       ></LinkWithDescription>
     </div>

@@ -66,7 +66,7 @@ export const RegistrationPage = () => {
       <div className={classes.header}>
         <h2>RSlang</h2>
         <Link to={ROUTES.LOGIN}>
-          <Button text="Login"></Button>
+          <Button text="Войти" onClickFunc={() => {}}></Button>
         </Link>
       </div>
       <div className={classes.contentContainer}>

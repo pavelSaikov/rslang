@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { USER_OPINIONS_ABOUT_WORD } from './UserWordAssessment.models';
+import { USER_OPINIONS_ABOUT_WORD, USER_OPINION_ABOUT_WORD_TRANSLATION_MAP } from './UserWordAssessment.models';
 import { Button } from './Button/Button';
 import { useStyles } from './UserWordAssessment.styles';
 
@@ -12,12 +12,12 @@ export const UserWordAssessment = ({ onChangeStatusClick }) => {
 
   return (
     <div className={classes.userWordAssessment}>
-      <div>Describe your filling about this word</div>
+      <div>Оценить ваш уровень изученности данного слова</div>
       <div className={classes.buttonsContainer}>
         {USER_OPINIONS_ABOUT_WORD.map(difficulty => (
           <Button
             key={difficulty}
-            message={difficulty}
+            message={USER_OPINION_ABOUT_WORD_TRANSLATION_MAP.get(difficulty)}
             onClick={() => onChangeStatus(difficulty)}
             styleClasses={classes.button}
           />
