@@ -29,10 +29,10 @@ export const StartPage = ({ onStartClick }) => {
           <img src={openedBook} width={'100%'} />
         </div>
         <div className={classes.headerContainer}>
-          <h3>Choice Words Category For Learning And Press &apos;Start&apos;</h3>
+          <h3>Выберите категорию слов для изучения и нажмите &apos;Старт&apos;</h3>
         </div>
         <div className={classes.buttonsContainer}>
-          <Button message={'Start'} onClick={onStartClick} styleClasses={classes.startButton} />
+          <Button message={'Старт'} onClick={onStartClick} styleClasses={classes.startButton} />
           <div className={classes.pickerContainer}>
             <GameModeSelector selectedCategory={repeatableWordStatus} onSelectClick={onChangeCategory} />
           </div>

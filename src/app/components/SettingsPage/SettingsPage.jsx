@@ -78,7 +78,9 @@ export const SettingsPage = () => {
 
   const callbackForNoGroupToggleSettings = useCallback((action, flag) => dispatch(action(flag)), [dispatch]);
 
-  const callbackForInputNumberSettings = useCallback((action, flag) => dispatch(action(flag)), [dispatch]);
+  const callbackForInputNumberSettings = useCallback((action, flag) => dispatch(action(Number.parseInt(flag))), [
+    dispatch,
+  ]);
 
   const callbackForGroupToggleCardSettings = useCallback(
     (action, flag) => {
@@ -106,7 +108,7 @@ export const SettingsPage = () => {
         <div className={classes.componentsWrapper}>
           <div className={classes.settingsContainer}>
             <div className={classes.settingsGroupContainer}>
-              <h3 className={classes.settingsPageTitle}>Settings for card</h3>
+              <h3 className={classes.settingsPageTitle}>Настройки обучения</h3>
               {numberInputSettingsConfig.map(({ settingString, action, settingName, minValue, maxValue }) => {
                 return (
                   <div key={settingString} className={classes.settingWrapper}>
@@ -123,7 +125,7 @@ export const SettingsPage = () => {
               })}
             </div>
             <div className={classes.settingsGroupContainer}>
-              <h3 className={classes.settingsPageTitle}>Settings for card</h3>
+              <h3 className={classes.settingsPageTitle}>Настройки карточки со словом</h3>
               {singleToggleSettingsConfig.map(({ settingString, action, settingName }) => {
                 return (
                   <div key={settingString} className={classes.settingWrapper}>
@@ -138,7 +140,7 @@ export const SettingsPage = () => {
               })}
             </div>
             <div className={classes.settingsGroupContainer}>
-              <h3 className={classes.settingsPageTitle}>Settings for card</h3>
+              <h3 className={classes.settingsPageTitle}>Групповые настройки</h3>
               {groupToggleForCardSettingsConfig.map(({ settingString, action, settingName }) => {
                 return (
                   <div key={settingName} className={classes.settingWrapper}>

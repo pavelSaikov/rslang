@@ -47,15 +47,15 @@ export const useStyles = createUseStyles({
     justifyContent: 'space-between',
     padding: '10px 0',
     width: '100%',
-    maxWidth: 330,
-    '@media (max-width: 350px)': {
+    maxWidth: 370,
+    '@media (max-width: 380px)': {
       flexDirection: 'column',
     },
   },
   button: {
     boxShadow: '2px 2px 3px 2px #e1e0de',
     background: '#f5f5f5',
-    '@media (max-width: 350px)': {
+    '@media (max-width: 380px)': {
       marginTop: 15,
     },
   },

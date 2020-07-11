@@ -6,7 +6,8 @@ const MARGIN_NUM = 0;
 
 export const useStyles = createUseStyles({
   btn: {
-    width: '150px',
+    padding: '0 10px',
+    minWidth: 130,
     height: INPUT_HEIGHT,
     textAlign: 'center',
     border: 'none',

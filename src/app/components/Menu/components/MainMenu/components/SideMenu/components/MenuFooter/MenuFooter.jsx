@@ -10,7 +10,7 @@ export const MenuFooter = ({ onLogOut }) => {
     <div className={footer} onClick={onLogOut}>
       <p className={footerLink}>
         <i className={`${'icon-exit'} ${navigationIcon}`}></i>
-        Log Out
+        Выйти
       </p>
     </div>
   );

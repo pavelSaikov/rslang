@@ -64,7 +64,7 @@ export const useStyles = createUseStyles({
   chartContainer: {
     width: '100%',
     maxWidth: 1200,
-    marginTop: 40,
+    margin: '40px 0',
     padding: 20,
     borderRadius: 10,
     boxSizing: 'border-box',

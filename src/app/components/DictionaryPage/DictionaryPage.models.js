@@ -7,6 +7,12 @@ export const WORD_STATUS = {
   DEFAULT: 'Default',
 };
 
+export const WORD_STATUS_TRANSLATION_MAP = new Map([
+  [WORD_STATUS.LEARNED, 'Изученные'],
+  [WORD_STATUS.DIFFICULT, 'Сложные'],
+  [WORD_STATUS.REMOVED, 'Удалённые'],
+]);
+
 export const WORD_STATUSES = [WORD_STATUS.LEARNED, WORD_STATUS.DIFFICULT, WORD_STATUS.REMOVED];
 
 export const DEFAULT_LAST_REPETITION = 'Default';

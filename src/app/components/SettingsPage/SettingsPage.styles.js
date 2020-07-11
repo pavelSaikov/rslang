@@ -1,7 +1,16 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
-  pageWrapper: { display: 'flex', flexDirection: 'column', minHeight: '100%', fontSize: 18, color: '#333366' },
+  pageWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100%',
+    fontSize: 18,
+    color: '#333366',
+    '@media (max-width: 600px)': {
+      fontSize: 15,
+    },
+  },
   settingsPageTitle: {
     marginBottom: 10,
     textAlign: 'center',

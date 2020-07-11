@@ -72,7 +72,7 @@ export const StatisticsPage = () => {
           className={classes.progressStripHeader}
           style={{ color: PROGRESS_TYPE_FILLED_PART_COLOR_MAP.get(PROGRESS_TYPE.NEW_WORDS_PROGRESS) }}
         >
-          <h3>Learned Word Progress</h3>
+          <h3>Прогресс по новым словам</h3>
         </div>
         <ProgressStrip
           currentProgress={learnedWordsNumber - 1}
@@ -99,7 +99,7 @@ export const StatisticsPage = () => {
           className={classes.progressStripHeader}
           style={{ color: PROGRESS_TYPE_FILLED_PART_COLOR_MAP.get(PROGRESS_TYPE.CARDS_PROGRESS) }}
         >
-          <h3>Cards Progress</h3>
+          <h3>Прогресс по карточкам</h3>
         </div>
         <ProgressStrip
           currentProgress={repeatedCardsNumber - 1}
@@ -132,21 +132,21 @@ export const StatisticsPage = () => {
         <div className={classes.componentsWrapper}>
           <div className={classes.dailyStatisticsContainer}>
             <div className={`${classes.headerDailyStatistics} ${classes.maxSeriesLengthContainer}`}>
-              <h3>Daily Statistics</h3>
+              <h3>Статистика сегодняшнего дня</h3>
             </div>
             {learnedWordsProgress}
             {cardsProgress}
             <div className={`${classes.numericStatisticsContainer} ${classes.percentCorrectAnswersContainer}`}>
-              <h3>Percent Correct Answers: {percentCorrectAnswers}%</h3>
+              <h3>Процент правильных ответов: {percentCorrectAnswers}%</h3>
             </div>
             <div className={`${classes.numericStatisticsContainer} ${classes.maxSeriesLengthContainer}`}>
-              <h3>Max Series Length: {dailyStatistics.maxSeriesLength}</h3>
+              <h3>Длина максимальной серии правильных ответов: {dailyStatistics.maxSeriesLength}</h3>
             </div>
           </div>
           {longTermStatistics.length !== 0 && (
             <div className={classes.chartContainer}>
               <div className={classes.chartHeader}>
-                <h3>Statistics Of Learning New Words</h3>
+                <h3>Статистика изучения новых слов по дням</h3>
               </div>
               <Chart />
             </div>
