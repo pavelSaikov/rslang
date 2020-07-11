@@ -19,6 +19,7 @@ import {
 import { resetStore } from './App.actions';
 import { sprintStatisticsReducer } from '../components/GamesPage/components/Sprint/store/sprint-statistics/SprintStatistics.reducers';
 import { savannaStatisticsReducer } from '../components/GamesPage/components/Savanna/store/Savanna.reducers';
+import { audioChallengeStatisticsReducer } from '../components/GamesPage/components/AudioChallenge/store/AudioChallenge.reducers';
 
 const appReducer = combineReducers({
   authorizationInfo: authorizationInfoReducer,
@@ -34,6 +35,7 @@ const appReducer = combineReducers({
     speakItStatistics: speakItStatisticsReducer,
     sprintStatistics: sprintStatisticsReducer,
     savannaStatistics: savannaStatisticsReducer,
+    audioChallengeStatistics: audioChallengeStatisticsReducer,
   }),
   errors: errorsReducer,
   gameDescription: gameDescriptionReducer,

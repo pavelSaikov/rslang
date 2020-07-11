@@ -7,7 +7,6 @@ export const useStyles = createUseStyles({
     position: 'relative',
     width: '200px',
     height: '50px',
-    marginBottom: '120px',
     borderRadius: '4px',
     fontSize: gameStatus => gameStatus !== GAME_STATUS.CHOICE && '34px',
     border: gameStatus => (gameStatus === GAME_STATUS.CHOICE ? 'solid 1px #ffffff' : 'none'),

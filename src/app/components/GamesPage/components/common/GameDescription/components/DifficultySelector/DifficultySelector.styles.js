@@ -3,6 +3,7 @@ import { createUseStyles } from 'react-jss';
 export const useStyles = createUseStyles({
   categoryPicker: {
     margin: 20,
+    position: 'relative',
   },
   dropdownButton: {
     width: 250,
@@ -18,8 +19,8 @@ export const useStyles = createUseStyles({
   dropdownList: {
     display: 'flex',
     flexDirection: 'column',
-    position: 'relative',
-    top: '10px',
+    position: 'absolute',
+    top: 50,
     backgroundColor: 'white',
     cursor: 'pointer',
   },
