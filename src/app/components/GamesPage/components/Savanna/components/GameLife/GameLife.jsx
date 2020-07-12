@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useStyles } from './GameLife.styles';
-import { ExitButton } from '../../../common/ExitButton/ExitButton';
 
-export const GameLife = ({ answer, countWrongAnswers, closeGame }) => {
+export const GameLife = ({ answer, countWrongAnswers }) => {
   const { gameLife, lifePoint } = useStyles({ answer, countWrongAnswers });
 
   return (
@@ -14,7 +13,6 @@ export const GameLife = ({ answer, countWrongAnswers, closeGame }) => {
       <i className={`icon-heart ${lifePoint}`}></i>
       <i className={`icon-heart ${lifePoint}`}></i>
       <i className={`icon-heart ${lifePoint}`}></i>
-      <ExitButton onCrossClick={closeGame} />
     </div>
   );
 };

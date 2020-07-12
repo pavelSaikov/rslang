@@ -20,12 +20,13 @@ export const useStyles = createUseStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: '7%',
   },
   lifePoint: {
     fontSize: '20px',
     margin: '3px',
   },
-  close: {
+  exit: {
     marginLeft: '30px',
     width: '60px',
     fontSize: '30px',
