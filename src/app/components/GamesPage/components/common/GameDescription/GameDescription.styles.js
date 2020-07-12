@@ -40,4 +40,19 @@ export const useStyles = createUseStyles({
       justifyContent: 'space-between',
     },
   },
+  button: {
+    padding: '10px',
+    fontSize: '15px',
+    fontWeight: '600',
+    height: '100%',
+    borderRadius: '7px',
+    backgroundColor: '#224679',
+    maxWidth: '200px',
+    margin: '0 5px',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#2257a2',
+      cursor: 'pointer',
+    },
+  },
 });

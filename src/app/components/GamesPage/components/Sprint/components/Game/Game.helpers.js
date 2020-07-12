@@ -1,6 +1,7 @@
 import { WORDS_NUMBER, RANDOM_COEFFICIENT, NUMBER_CORRECT_ANSWER_FOR_MULTIPLIER } from './Game.models';
 import { LEVEL_PAGE_GROUP_MAP } from '../../../common/GameDescription/components/DifficultySelector/DifficultySelector.models';
 import { wordsService } from '../../../../../../services/WordsService/WordsService';
+import { store } from '../../../../../../store';
 
 export const getWordsForGame = ({ level, isUserWords, userDictionary }) => {
   if (isUserWords) {
@@ -67,6 +68,35 @@ export const updateUserWordInRound = (updatedWord, isCorrectAnswer) => {
     newUpdatedWord.isWasMistakeInLastGame = false;
   }
   return newUpdatedWord;
+};
+
+export const updateSprintStatisticsInStore = answerCountArray => {
+  const { statistics } = store.getState();
+  const percentCorrectAnswer =
+    (answerCountArray.countCorrect * 100) /
+    (answerCountArray.countCorrect + answerCountArray.countIncorrect
+      ? answerCountArray.countCorrect + answerCountArray.countIncorrect
+      : 1);
+  const newSprintStatistics = statistics ? { ...statistics.sprintStatistics } : {};
+  const dateString = new Date().toLocaleDateString('en-GB');
+
+  const percentCorrectAnswerInDay = newSprintStatistics[dateString]
+    ? newSprintStatistics[dateString]['percentCorrectAnswerInDay']
+    : 0;
+  const gamesCountInDay = newSprintStatistics[dateString] ? newSprintStatistics[dateString]['gamesCountInDay'] : 0;
+
+  if (!newSprintStatistics[dateString]) {
+    newSprintStatistics[dateString] = {
+      percentCorrectAnswerInDay: 0,
+      gamesCountInDay: 0,
+    };
+  }
+  newSprintStatistics[dateString]['percentCorrectAnswerInDay'] = Math.floor(
+    (percentCorrectAnswerInDay * gamesCountInDay + percentCorrectAnswer) / (gamesCountInDay + 1),
+  );
+  newSprintStatistics[dateString]['gamesCountInDay'] += 1;
+
+  return newSprintStatistics;
 };
 
 const shuffleArray = array => {
