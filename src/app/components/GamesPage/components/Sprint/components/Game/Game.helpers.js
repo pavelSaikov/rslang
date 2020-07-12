@@ -4,8 +4,9 @@ import { wordsService } from '../../../../../../services/WordsService/WordsServi
 
 export const getWordsForGame = ({ level, isUserWords, userDictionary }) => {
   if (isUserWords) {
+    const shuffledUserDictionary = shuffleArray(userDictionary);
     return Promise.all(
-      userDictionary.slice(0, WORDS_NUMBER).reduce((words, { wordId }) => {
+      shuffledUserDictionary.slice(0, WORDS_NUMBER).reduce((words, { wordId }) => {
         words.push(wordsService.getWordInfo({ wordId }));
         return words;
       }, []),
@@ -66,4 +67,9 @@ export const updateUserWordInRound = (updatedWord, isCorrectAnswer) => {
     newUpdatedWord.isWasMistakeInLastGame = false;
   }
   return newUpdatedWord;
+};
+
+const shuffleArray = array => {
+  const shuffledArray = array.slice(0);
+  return shuffledArray.sort(() => Math.random() - 0.5);
 };
