@@ -30,6 +30,7 @@ import {
 import { setSprintStatistics } from '../../store/sprint-statistics/SprintStatistics.action';
 import { store } from '../../../../../../store';
 import { statisticsSelector } from '../../../../../StatisticsPage/store/Statistics.selectors';
+import { ExitButton } from '../../../common/ExitButton/ExitButton';
 
 export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
   const [isPreparationTime, setIsPreparationTime] = useState(true);
@@ -159,16 +160,7 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
     ],
   );
 
-  const {
-    springWrapper,
-    timeWrapper,
-    gameWrapper,
-    gameHeader,
-    gameMain,
-    correctAnswer,
-    incorrectAnswer,
-    close,
-  } = useStyles();
+  const { springWrapper, timeWrapper, gameWrapper, gameHeader, gameMain, correctAnswer, incorrectAnswer } = useStyles();
 
   if (isRedirectToLoginPage) {
     return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.GAMES } }} />;
@@ -187,9 +179,7 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
             <div className={gameHeader}>
               <Timer onTimerEnd={closeGame} time={GAME_TIME} />
               <Score score={score} />
-              <div className={close} onClick={closeGame}>
-                ✕
-              </div>
+              <ExitButton />
             </div>
             <div className={getClassName(previousAnswer, gameMain, correctAnswer, incorrectAnswer)}>
               <StatisticsInARow correctAnswerInARow={correctAnswerInARow} multiplier={multiplier} />

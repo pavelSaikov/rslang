@@ -8,7 +8,7 @@ export const ExitButton = () => {
   const history = useHistory();
   const classes = useStyles();
 
-  const goToTheMainPage = useCallback(() => history.push({ pathname: ROUTES.LEARNING }), [history]);
+  const goToTheMainPage = useCallback(() => history.push({ pathname: ROUTES.GAMES }), [history]);
 
   return (
     <div className={classes.symbol} onClick={goToTheMainPage}>

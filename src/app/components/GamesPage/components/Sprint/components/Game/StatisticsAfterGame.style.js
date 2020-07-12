@@ -2,8 +2,10 @@ import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
   statisticsWrapper: {
-    width: '500px',
-    height: '450px',
+    width: '100%',
+    maxWidth: '600px',
+    maxHeight: '500px',
+    height: '100%',
     backgroundColor: 'white',
     color: '#737373',
     display: 'flex',
@@ -46,9 +48,16 @@ export const useStyles = createUseStyles({
     margin: '15px 0 10px 0',
   },
   buttonsWrapper: {
+    width: '100%',
+    margin: '10px 0',
     display: 'flex',
     justifyContent: 'space-evenly',
-    width: '100%',
-    margin: '30px 0',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  scoreStyle: {
+    marginTop: '10px',
+    fontSize: '25px',
+    color: '#224679',
   },
 });
