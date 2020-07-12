@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useStyles } from './GameDescription.styles';
-import { Button } from '../../../../AuthorizationPage/components/Button/Button';
 import { DifficultySelector } from './components/DifficultySelector/DifficultySelector';
 import { setLevel } from './store/GameDescription.action';
 import { levelSelector } from './store/DifficultySelector.selector';
+import { Button } from '../../../../LearningPage/components/UserWordAssessment/Button/Button';
+import { useStyles as useStylesButton } from './GameDescription.styles';
 
 export const GameDescription = ({
   gameName,
@@ -15,6 +16,7 @@ export const GameDescription = ({
   onStartGameWithRandomWords,
 }) => {
   const dispatch = useDispatch();
+  const { button } = useStylesButton();
   const classes = useStyles();
   const selectedLevel = useSelector(levelSelector);
 
@@ -30,8 +32,12 @@ export const GameDescription = ({
           <div>{shortDescription}</div>
         </div>
         <div className={classes.wrapperFlexButton}>
-          <Button text="Start With User Words" onClickFunc={onStartGameWithUserWords} />
-          <Button text="Start With Random Words" onClickFunc={onStartGameWithRandomWords} />
+          <Button
+            styleClasses={button}
+            message="Играть с пользовательскими словами"
+            onClick={onStartGameWithUserWords}
+          />
+          <Button styleClasses={button} message="Играть со случайными словами" onClick={onStartGameWithRandomWords} />
           <DifficultySelector selectedLevel={selectedLevel} onSelect={onLevelSelect} />
         </div>
       </div>

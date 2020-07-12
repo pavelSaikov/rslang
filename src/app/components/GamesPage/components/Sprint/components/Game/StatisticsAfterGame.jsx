@@ -27,13 +27,14 @@ export const StatisticsAfterGame = ({ statistics, restartGame, score }) => {
     correctAnswerTitle,
     incorrectAnswerTitle,
     buttonsWrapper,
+    scoreStyle,
   } = useStyles();
 
-  const { buttonTrue } = styleButtons();
+  const { button } = styleButtons();
 
   return (
     <div className={statisticsWrapper}>
-      <div>{score}</div>
+      <div className={scoreStyle}>{score}</div>
       <div className={scroll}>
         <div>
           <div className={correctAnswerTitle}>Правильные ответы ({correctWords.length}):</div>
@@ -54,10 +55,10 @@ export const StatisticsAfterGame = ({ statistics, restartGame, score }) => {
         </div>
       </div>
       <div className={buttonsWrapper}>
-        <button className={buttonTrue} onClick={restartGame}>
+        <button className={button} onClick={restartGame}>
           Начать заново
         </button>
-        <button className={buttonTrue} onClick={onRedirectToGamesPage}>
+        <button className={button} onClick={onRedirectToGamesPage}>
           Выбрать другую игру
         </button>
       </div>

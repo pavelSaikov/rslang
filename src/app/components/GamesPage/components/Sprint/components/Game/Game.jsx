@@ -26,10 +26,11 @@ import {
   getMultiplier,
   getClassName,
   updateUserWordInRound,
+  updateSprintStatisticsInStore,
 } from './Game.helpers';
 import { setSprintStatistics } from '../../store/sprint-statistics/SprintStatistics.action';
-import { store } from '../../../../../../store';
 import { statisticsSelector } from '../../../../../StatisticsPage/store/Statistics.selectors';
+import { ExitButton } from '../../../common/ExitButton/ExitButton';
 
 export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
   const [isPreparationTime, setIsPreparationTime] = useState(true);
@@ -81,23 +82,21 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
     };
   }, [previousAnswer]);
 
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      const newSprintStatistics = updateSprintStatisticsInStore(answerCountArray.current);
-      dispatch(setSprintStatistics(newSprintStatistics));
-      dispatch(
-        updateCommonStatistics({
-          setIsRedirectToLoginPage,
-          controller: new AbortController(),
-        }),
-      );
-    };
-  }, [dispatch]);
-
   const endPreparationTime = useCallback(() => setIsPreparationTime(false), []);
 
-  const closeGame = useCallback(() => onEndGame(score), [onEndGame, score]);
+  const closeGame = useCallback(() => {
+    const newSprintStatistics = updateSprintStatisticsInStore(answerCountArray.current);
+    dispatch(setSprintStatistics(newSprintStatistics));
+    dispatch(
+      updateCommonStatistics({
+        setIsRedirectToLoginPage,
+        controller: new AbortController(),
+      }),
+    );
+    answerCountArray.current.countCorrect = 0;
+    answerCountArray.current.countIncorrect = 0;
+    onEndGame(score);
+  }, [dispatch, onEndGame, score]);
 
   const onControlButtonClick = useCallback(
     answer => {
@@ -159,16 +158,7 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
     ],
   );
 
-  const {
-    springWrapper,
-    timeWrapper,
-    gameWrapper,
-    gameHeader,
-    gameMain,
-    correctAnswer,
-    incorrectAnswer,
-    close,
-  } = useStyles();
+  const { springWrapper, timeWrapper, gameWrapper, gameHeader, gameMain, correctAnswer, incorrectAnswer } = useStyles();
 
   if (isRedirectToLoginPage) {
     return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.GAMES } }} />;
@@ -187,9 +177,7 @@ export const Game = ({ updateStatistics, onEndGame, isUserWords }) => {
             <div className={gameHeader}>
               <Timer onTimerEnd={closeGame} time={GAME_TIME} />
               <Score score={score} />
-              <div className={close} onClick={closeGame}>
-                ✕
-              </div>
+              <ExitButton onCrossClick={closeGame} />
             </div>
             <div className={getClassName(previousAnswer, gameMain, correctAnswer, incorrectAnswer)}>
               <StatisticsInARow correctAnswerInARow={correctAnswerInARow} multiplier={multiplier} />
@@ -210,31 +198,3 @@ Game.propTypes = {
   isUserWords: PropTypes.bool.isRequired,
 };
 0;
-const updateSprintStatisticsInStore = answerCountArray => {
-  const { statistics } = store.getState();
-  const percentCorrectAnswer =
-    (answerCountArray.countCorrect * 100) /
-    (answerCountArray.countCorrect + answerCountArray.countIncorrect
-      ? answerCountArray.countCorrect + answerCountArray.countIncorrect
-      : 1);
-  const newSprintStatistics = statistics ? { ...statistics.sprintStatistics } : {};
-  const dateString = new Date().toLocaleDateString('en-GB');
-
-  const percentCorrectAnswerInDay = newSprintStatistics[dateString]
-    ? newSprintStatistics[dateString]['percentCorrectAnswerInDay']
-    : 0;
-  const gamesCountInDay = newSprintStatistics[dateString] ? newSprintStatistics[dateString]['gamesCountInDay'] : 0;
-
-  if (!newSprintStatistics[dateString]) {
-    newSprintStatistics[dateString] = {
-      percentCorrectAnswerInDay: 0,
-      gamesCountInDay: 0,
-    };
-  }
-  newSprintStatistics[dateString]['percentCorrectAnswerInDay'] = Math.floor(
-    (percentCorrectAnswerInDay * gamesCountInDay + percentCorrectAnswer) / (gamesCountInDay + 1),
-  );
-  newSprintStatistics[dateString]['gamesCountInDay'] += 1;
-
-  return newSprintStatistics;
-};

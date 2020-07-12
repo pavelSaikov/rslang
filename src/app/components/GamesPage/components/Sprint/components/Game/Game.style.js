@@ -4,6 +4,9 @@ export const useStyles = createUseStyles({
   springWrapper: {
     width: '100%',
     height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   timeWrapper: {
     width: '100%',
@@ -13,7 +16,8 @@ export const useStyles = createUseStyles({
     justifyContent: 'center',
   },
   gameWrapper: {
-    width: '1000px',
+    width: '100%',
+    maxWidth: '600px',
     height: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -24,10 +28,10 @@ export const useStyles = createUseStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: '10%',
+    margin: '5%',
   },
   gameMain: {
-    width: '500px',
+    width: '95%',
     border: '2px solid white',
     display: 'flex',
     flexDirection: 'column',
