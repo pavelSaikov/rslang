@@ -34,7 +34,14 @@ export const useStyles = createUseStyles({
     marginTop: '50px',
   },
   btn: { transform: 'scale(1)' },
-
+  statisticsAfterGameWrapper: {
+    width: '100%',
+    height: '90%',
+    margin: '10px 30px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   '@media screen and (min-width: 320px) and (max-width: 604px)': {
     mainContainer: {
       height: '190%',
