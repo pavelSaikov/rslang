@@ -78,6 +78,7 @@ export const registerUser = ({
             speakItStatistics: {},
             sprintStatistics: {},
             savannaStatistics: {},
+            audioChallengeStatistics: {},
           },
           controller,
         }),

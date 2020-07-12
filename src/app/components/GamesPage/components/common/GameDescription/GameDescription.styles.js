@@ -26,7 +26,6 @@ export const useStyles = createUseStyles({
   },
   wrapperFlexButton: {
     width: '700px',
-    height: '40px',
     display: 'flex',
     justifyContent: 'space-between',
     margin: '0 auto',
@@ -47,6 +46,7 @@ export const useStyles = createUseStyles({
     backgroundColor: '#224679',
     display: 'flex',
     color: 'white',
+    height: 50,
     marginRight: '10px',
     textAlign: 'center',
     borderRadius: '5px',

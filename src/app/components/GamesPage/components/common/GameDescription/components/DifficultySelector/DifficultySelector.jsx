@@ -21,7 +21,7 @@ export const DifficultySelector = React.memo(({ selectedLevel, onSelect: onSelec
   const onDropdownClick = useCallback(() => updateDropdownState(), []);
 
   return (
-    <div ref={picker} className={classes.levelPicker}>
+    <div ref={picker} className={classes.categoryPicker}>
       <div className={classes.dropdownButton} onClick={onDropdownClick}>
         {selectedLevel}
       </div>
