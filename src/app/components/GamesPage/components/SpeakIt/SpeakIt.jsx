@@ -27,6 +27,7 @@ import { WORD_STATUS } from '../../../DictionaryPage/DictionaryPage.models';
 import { ExitButton } from '../common/ExitButton/ExitButton';
 import { Star } from './components/Star/Star';
 import { statisticsSelector } from '../../../StatisticsPage/store/Statistics.selectors';
+import { Background } from '../common/Background/Background';
 
 export const SpeakIt = () => {
   const [isGameStarted, setGame] = useState(false);
@@ -158,6 +159,7 @@ export const SpeakIt = () => {
             />
           ) : (
             <div className={classes.mainContainer}>
+              <Background right={arrOfWords.filter(e => e.isItAnswered).length} />
               <div className={classes.box}>
                 <div className={classes.column}>
                   <Illustration />
