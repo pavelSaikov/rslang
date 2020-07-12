@@ -12,7 +12,7 @@ export const GameCard = ({ name, link, onLinkClick }) => {
     <div className={classes.gameCard}>
       <h1 className={classes.gameName}>{name}</h1>
       <Link to={`${path}${link}`} className={classes.gameLink} onClick={onLinkClick}>
-        Play!
+        Играть!
       </Link>
     </div>
   );

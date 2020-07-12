@@ -1,6 +1,10 @@
 import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
+  mainContainer: {
+    width: '100%',
+    height: '100%',
+  },
   box: {
     width: '100%',
     minHeight: '100%',
@@ -27,10 +31,21 @@ export const useStyles = createUseStyles({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    marginTop: '50px',
   },
   btn: { transform: 'scale(1)' },
-
+  statisticsAfterGameWrapper: {
+    width: '100%',
+    height: '90%',
+    margin: '10px 30px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   '@media screen and (min-width: 320px) and (max-width: 604px)': {
+    mainContainer: {
+      height: '190%',
+    },
     box: {
       height: '190%',
     },
@@ -39,6 +54,7 @@ export const useStyles = createUseStyles({
     },
     buttons: {
       display: 'block',
+      marginTop: '10px',
     },
     btn: {
       display: 'flex',
@@ -46,5 +62,10 @@ export const useStyles = createUseStyles({
       transform: 'scale(1.5)',
       margin: '35px auto',
     },
+  },
+  exitButton: {
+    position: 'absolute',
+    right: 30,
+    top: 15,
   },
 });

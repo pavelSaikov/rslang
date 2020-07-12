@@ -12,8 +12,14 @@ import { learningPageConfigReducer } from '../components/LearningPage/store/Lear
 import { errorsReducer } from '../components/errors/store/Errors.reducer';
 import { gameDescriptionReducer } from '../components/GamesPage/components/common/GameDescription/store/GameDescription.reducer';
 import { longTermStatisticsReducer } from '../components/StatisticsPage/store/long-term-statistics/LongTermStatistics.reducers';
-import { speakItReducer } from '../components/GamesPage/components/SpeakIt/store/SpeakIt.reducer';
+import {
+  speakItReducer,
+  speakItStatisticsReducer,
+} from '../components/GamesPage/components/SpeakIt/store/SpeakIt.reducer';
 import { resetStore } from './App.actions';
+import { sprintStatisticsReducer } from '../components/GamesPage/components/Sprint/store/sprint-statistics/SprintStatistics.reducers';
+import { savannaStatisticsReducer } from '../components/GamesPage/components/Savanna/store/Savanna.reducers';
+import { audioChallengeStatisticsReducer } from '../components/GamesPage/components/AudioChallenge/store/AudioChallenge.reducers';
 
 const appReducer = combineReducers({
   authorizationInfo: authorizationInfoReducer,
@@ -26,6 +32,10 @@ const appReducer = combineReducers({
     commonStatistics: commonStatisticsReducer,
     dailyStatistics: dailyStatisticsReducer,
     longTermStatistics: longTermStatisticsReducer,
+    speakItStatistics: speakItStatisticsReducer,
+    sprintStatistics: sprintStatisticsReducer,
+    savannaStatistics: savannaStatisticsReducer,
+    audioChallengeStatistics: audioChallengeStatisticsReducer,
   }),
   errors: errorsReducer,
   gameDescription: gameDescriptionReducer,

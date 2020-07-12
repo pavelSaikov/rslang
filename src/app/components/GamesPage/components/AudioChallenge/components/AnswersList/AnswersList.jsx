@@ -17,7 +17,7 @@ export const AnswersList = ({ answers, checkAnswer, gameStatus, isAudioPlay, cor
         const btnKey = Number(e.key);
         if (1 <= btnKey && btnKey <= 5) {
           setUserAnswerId(answers[btnKey - 1].id);
-          checkAnswer(answers[btnKey - 1].id);
+          checkAnswer(answers[btnKey - 1]);
         }
       }
     };
@@ -30,9 +30,9 @@ export const AnswersList = ({ answers, checkAnswer, gameStatus, isAudioPlay, cor
   const click = useCallback(
     e => {
       if (!isAudioPlay && gameStatus === GAME_STATUS.CHOICE) {
-        const clickOnAnswerId = answers[Number(e.target.dataset.num)].id;
-        setUserAnswerId(clickOnAnswerId);
-        checkAnswer(clickOnAnswerId);
+        const clickOnAnswer = answers[Number(e.target.dataset.num)];
+        setUserAnswerId(clickOnAnswer.id);
+        checkAnswer(Object.assign({}, clickOnAnswer));
       }
     },
     [isAudioPlay, gameStatus, answers, checkAnswer],

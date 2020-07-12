@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { WordInfo } from './components/WordInfo';
 import { useStyles } from './StatisticsAfterGame.style';
@@ -11,8 +12,11 @@ export const StatisticsAfterGame = ({ statistics, restartGame, score }) => {
   const [correctWords, setCorrectWords] = useState([]);
   const [incorrectWords, setIncorrectWords] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  useEffect(() => sortStatistics(statistics, setCorrectWords, setIncorrectWords), [statistics]);
+  useEffect(() => {
+    sortStatistics(statistics, setCorrectWords, setIncorrectWords), [statistics];
+  }, [dispatch, statistics]);
 
   const onRedirectToGamesPage = useCallback(() => history.push(ROUTES.GAMES), [history]);
 
@@ -23,13 +27,14 @@ export const StatisticsAfterGame = ({ statistics, restartGame, score }) => {
     correctAnswerTitle,
     incorrectAnswerTitle,
     buttonsWrapper,
+    scoreStyle,
   } = useStyles();
 
-  const { buttonTrue } = styleButtons();
+  const { button } = styleButtons();
 
   return (
     <div className={statisticsWrapper}>
-      <div>{score}</div>
+      <div className={scoreStyle}>{score}</div>
       <div className={scroll}>
         <div>
           <div className={correctAnswerTitle}>Правильные ответы ({correctWords.length}):</div>
@@ -50,10 +55,10 @@ export const StatisticsAfterGame = ({ statistics, restartGame, score }) => {
         </div>
       </div>
       <div className={buttonsWrapper}>
-        <button className={buttonTrue} onClick={restartGame}>
+        <button className={button} onClick={restartGame}>
           Начать заново
         </button>
-        <button className={buttonTrue} onClick={onRedirectToGamesPage}>
+        <button className={button} onClick={onRedirectToGamesPage}>
           Выбрать другую игру
         </button>
       </div>

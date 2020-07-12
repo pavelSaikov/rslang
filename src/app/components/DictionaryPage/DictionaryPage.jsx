@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { WORD_STATUS, WORD_STATUSES, createUserWord } from './DictionaryPage.models.js';
+import { WORD_STATUS, WORD_STATUSES, createUserWord, WORD_STATUS_TRANSLATION_MAP } from './DictionaryPage.models.js';
 import { useStyles } from './DictionaryPage.styles.js';
 import { WordInfo } from './components/WordInfo/WordInfo.jsx';
 import { StatusTab } from './components/StatusTab/StatusTab.jsx';
@@ -134,6 +134,7 @@ export const DictionaryPage = () => {
               {WORD_STATUSES.map(status => (
                 <StatusTab
                   key={status}
+                  translation={WORD_STATUS_TRANSLATION_MAP.get(status)}
                   status={status}
                   onViewStatusChangeClick={onViewStatusChangeClick}
                   isSelected={status === wordsStatusForView}
@@ -143,7 +144,7 @@ export const DictionaryPage = () => {
             {wordsStatusForView === WORD_STATUS.DIFFICULT && (
               <div className={classes.repeatButtonContainer}>
                 <Button
-                  message={'Repeat Difficult Words'}
+                  message={'Повторить сложные слова'}
                   styleClasses={classes.repeatButton}
                   onClick={onRepeatButtonClick}
                 />

@@ -30,4 +30,18 @@ export const useStyles = createUseStyles({
       cursor: 'pointer',
     },
   },
+  button: {
+    padding: '10px',
+    fontSize: '15px',
+    fontWeight: '600',
+    borderRadius: '7px',
+    backgroundColor: '#224679',
+    maxWidth: '200px',
+    margin: '5px',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#2257a2',
+      cursor: 'pointer',
+    },
+  },
 });

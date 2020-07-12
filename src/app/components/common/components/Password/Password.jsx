@@ -92,7 +92,7 @@ export const Password = ({ setPasswordState, caption }) => {
           className={classes.input}
           name="password"
           type={isPasswordVisible}
-          placeholder="password"
+          placeholder="Пароль"
           onKeyUp={handleKeyPress}
           onChange={startSpellCheck}
         />

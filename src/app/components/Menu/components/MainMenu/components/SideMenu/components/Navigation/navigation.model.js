@@ -3,32 +3,32 @@ import { ROUTES } from '../../../../../../../../routing/routes';
 export const NAVIGATION = [
   {
     icon: 'icon-book',
-    name: 'Learning',
+    name: 'Изучение',
     link: ROUTES.LEARNING,
   },
   {
     icon: 'icon-floppy-disk',
-    name: 'Dictionary',
+    name: 'Словарь',
     link: ROUTES.DICTIONARY,
   },
   {
     icon: 'icon-pacman',
-    name: 'Mini games',
+    name: 'Мини-игры',
     link: ROUTES.GAMES,
   },
   {
     icon: 'icon-stats-bars',
-    name: 'Statistics',
+    name: 'Статистика',
     link: ROUTES.STATISTIC,
   },
-  {
-    icon: 'icon-users',
-    name: 'Our Team',
-    link: ROUTES.TEAM,
-  },
+  // {
+  //   icon: 'icon-users',
+  //   name: 'Наша команда',
+  //   link: ROUTES.TEAM,
+  // },
   {
     icon: 'icon-cog',
-    name: 'Settings',
+    name: 'Настройки',
     link: ROUTES.SETTINGS,
   },
 ];

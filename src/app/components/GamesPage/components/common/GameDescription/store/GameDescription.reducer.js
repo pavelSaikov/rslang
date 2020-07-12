@@ -1,7 +1,8 @@
 import { setLevel } from './GameDescription.action';
+import { LEVEL } from '../components/DifficultySelector/DifficultySelector.models';
 
 const DEFAULT_LEVEL = {
-  level: 'easy',
+  level: LEVEL.EASY,
 };
 
 export const gameDescriptionReducer = (state = DEFAULT_LEVEL, action) => {

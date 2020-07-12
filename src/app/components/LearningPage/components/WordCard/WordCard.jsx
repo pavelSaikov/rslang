@@ -170,7 +170,7 @@ export const WordCard = ({
       {settings.isTranscriptionVisible && <div className={classes.container}>{transcription}</div>}
       {settings.isWordDescriptionVisible && (
         <div className={classes.container}>
-          <div>Description</div>
+          <div>Определение</div>
           <div dangerouslySetInnerHTML={{ __html: textMeaningPrepared }}></div>
           {isShowSentencesTranslation && settings.isWordDescriptionTranslationVisible && (
             <div>{textMeaningTranslate}</div>
@@ -179,7 +179,7 @@ export const WordCard = ({
       )}
       {settings.isExampleSentenceVisible && (
         <div className={classes.container}>
-          <div>Example</div>
+          <div>Пример использования</div>
           <div dangerouslySetInnerHTML={{ __html: textExamplePrepared }}></div>
           {isShowSentencesTranslation && settings.isExampleSentenceTranslationVisible && (
             <div>{textExampleTranslate}</div>
@@ -187,9 +187,9 @@ export const WordCard = ({
         </div>
       )}
       <div className={classes.buttonsContainer}>
-        <Button onClick={onCheckUserAnswerClick} message={'Check Answer'} styleClasses={classes.button} />
+        <Button onClick={onCheckUserAnswerClick} message={'Проверить ответ'} styleClasses={classes.button} />
         {settings.isShowAnswerButtonAvailable && (
-          <Button onClick={onShowAnswerClick} message={'Show Answer'} styleClasses={classes.button} />
+          <Button onClick={onShowAnswerClick} message={'Показать ответ'} styleClasses={classes.button} />
         )}
       </div>
     </div>

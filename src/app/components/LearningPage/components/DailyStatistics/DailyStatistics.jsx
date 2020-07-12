@@ -21,16 +21,16 @@ export const DailyStatistics = ({
 
   const header = useMemo(() => {
     if (isGameEnd) {
-      return 'Game end';
+      return 'Игра окончена';
     }
     if (cardsCounter === maxCardsNumberPerDay && learnedWordsId.length === maxNewWordsPerDay) {
-      return 'You have repeated maximum cards number for today and have learned maximum new words for today';
+      return 'Вы повторили максимальное количество карточек и изучили максимальное количество новых слов на сегодня';
     }
     if (cardsCounter !== maxCardsNumberPerDay && learnedWordsId.length === maxNewWordsPerDay) {
-      return 'You have learned maximum new words for today';
+      return 'Вы изучили максимальное количество новых слов на сегодня';
     }
     if (cardsCounter === maxCardsNumberPerDay && learnedWordsId.length !== maxNewWordsPerDay) {
-      return 'You have repeated maximum cards number for today';
+      return 'Вы повторили максимальное количество карточек на сегодня';
     }
   }, [cardsCounter, maxCardsNumberPerDay, learnedWordsId, maxNewWordsPerDay, isGameEnd]);
 

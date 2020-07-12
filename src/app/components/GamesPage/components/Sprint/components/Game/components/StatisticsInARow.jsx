@@ -28,7 +28,7 @@ const getCorrectAnswerMark = correctAnswerInARow =>
   Math.floor(correctAnswerInARow % NUMBER_CORRECT_ANSWER_FOR_MULTIPLIER);
 
 const getBlockWithMarks = (countMarks, correctAnswerCircle, answerCircle) =>
-  Array.from({ length: NUMBER_CORRECT_ANSWER_FOR_MULTIPLIER - 2 }, () => 0).map((_a, index) => {
+  Array.from({ length: NUMBER_CORRECT_ANSWER_FOR_MULTIPLIER - 1 }, () => 0).map((_a, index) => {
     if (index < countMarks) {
       return (
         <div key={index} className={correctAnswerCircle}>

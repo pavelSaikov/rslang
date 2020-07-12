@@ -92,27 +92,27 @@ export const WordInfo = ({
       </div>
       {isTranscriptionVisible && (
         <div className={classes.definitionContainer}>
-          <p className={classes.bold}>Transcription: </p>
+          <p className={classes.bold}>Транскрипция: </p>
           {transcription}
         </div>
       )}
       {isWordDescriptionVisible && (
         <div className={classes.definitionContainer}>
-          <p className={classes.bold}>Description: </p>
+          <p className={classes.bold}>Определение: </p>
           <div dangerouslySetInnerHTML={{ __html: textMeaning }}></div>
         </div>
       )}
       {isExampleSentenceVisible && (
         <div className={classes.definitionContainer}>
-          <p className={classes.bold}>Example Sentence:</p>
+          <p className={classes.bold}>Пример использования:</p>
           <div dangerouslySetInnerHTML={{ __html: textExample }}></div>
         </div>
       )}
       <div className={classes.definitionContainer}>
-        <p className={classes.bold}>Statistics:</p>
-        <div>Repetitions number: {repetitionNumber}</div>
+        <p className={classes.bold}>Статистика:</p>
+        <div>Количество повторений: {repetitionNumber}</div>
         <div>
-          Last Repetition:
+          Последнее повторение:
           {textLastRepetition}
         </div>
       </div>

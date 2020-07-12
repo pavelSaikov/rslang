@@ -15,27 +15,27 @@ export const singleToggleSettingsConfig = [
   {
     settingName: 'isTranscriptionVisible',
     action: setIsTranscriptionVisible,
-    settingString: 'Is Transcription Visible',
+    settingString: 'Видна ли транскрипция слова',
   },
   {
     settingName: 'isAssociationPictureVisible',
     action: setIsAssociationPictureVisible,
-    settingString: 'Is Association Picture Visible',
+    settingString: 'Видна ли картинка-ассоциация',
   },
   {
     settingName: 'isUserOpinionCheckingVisible',
     action: setIsUserOpinionCheckingVisible,
-    settingString: 'Is User Opinion Checking Visible',
+    settingString: 'Проверка пользовательского мнения о слове',
   },
   {
     settingName: 'isStatusCheckingVisible',
     action: setIsStatusCheckingVisible,
-    settingString: 'Is Status Checking Visible',
+    settingString: 'Возможность измениния статуса слова во время игры',
   },
   {
     settingName: 'isShowAnswerButtonAvailable',
     action: setIsShowAnswerButtonAvailable,
-    settingString: 'Is Show Answer Button Available',
+    settingString: 'Доступна ли кнопка для демонстрации ответа',
   },
 ];
 
@@ -43,17 +43,17 @@ export const groupToggleForCardSettingsConfig = [
   {
     settingName: 'isTranslationVisible',
     action: setIsTranslationVisible,
-    settingString: 'Is Translation Visible',
+    settingString: 'Виден ли перевод',
   },
   {
     settingName: 'isWordDescriptionVisible',
     action: setIsWordDescriptionVisible,
-    settingString: 'Is Word Description Visible',
+    settingString: 'Видно ли определение для слова',
   },
   {
     settingName: 'isExampleSentenceVisible',
     action: setIsExampleSentenceVisible,
-    settingString: 'Is Example Sentence Visible',
+    settingString: 'Видно ли предложение-пример',
   },
 ];
 
@@ -61,14 +61,14 @@ export const numberInputSettingsConfig = [
   {
     settingName: 'maxCardsNumberPerDay',
     action: setMaxCardsPerDay,
-    settingString: 'Max Cards Number Per Day',
+    settingString: 'Максимальное количество повторяемых карточек в день',
     maxValue: 250,
-    minValue: 50,
+    minValue: 10,
   },
   {
     settingName: 'maxNewWordsPerDay',
     action: setMaxNewWordsPerDay,
-    settingString: 'Max New Words Number Per Day',
+    settingString: 'Максимальное количество новых слов в день',
     maxValue: 25,
     minValue: 5,
   },

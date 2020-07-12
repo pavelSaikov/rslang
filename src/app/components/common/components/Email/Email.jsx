@@ -71,7 +71,7 @@ export const Email = ({ setEmailState, caption, header }) => {
           className={classes.input}
           name="email"
           type="caption"
-          placeholder="email"
+          placeholder="Электронная почта"
           onKeyUp={handleKeyPress}
           onChange={startSpellCheck}
         />

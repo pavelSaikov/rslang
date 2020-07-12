@@ -13,12 +13,14 @@ import {
   PROGRESS_TYPE,
   PROGRESS_TYPE_FILLED_PART_COLOR_MAP,
 } from '../LearningPage/components/ProgressStrip/ProgressPart.models';
-import { Chart } from './components/Chart';
+import { LearningChart } from './components/LearningChart';
 import { useCheckCommonStatistics } from '../common/hooks/useCheckCommonStatistics';
 import { useSetLastVisiting } from '../common/hooks/useSetLastVisiting';
 import { statisticsSelector } from './store/Statistics.selectors';
 import { Loading } from '../common/components/Loading/Loading';
 import { longTermStatisticsSelector } from './store/long-term-statistics/LongTermStatistics.selectors';
+import { SprintChart } from './components/SprintChart';
+import { SpeakItChart } from './components/SpeakItChart';
 
 export const StatisticsPage = () => {
   const classes = useStyles();
@@ -72,7 +74,7 @@ export const StatisticsPage = () => {
           className={classes.progressStripHeader}
           style={{ color: PROGRESS_TYPE_FILLED_PART_COLOR_MAP.get(PROGRESS_TYPE.NEW_WORDS_PROGRESS) }}
         >
-          <h3>Learned Word Progress</h3>
+          <h3>Прогресс по новым словам</h3>
         </div>
         <ProgressStrip
           currentProgress={learnedWordsNumber - 1}
@@ -99,7 +101,7 @@ export const StatisticsPage = () => {
           className={classes.progressStripHeader}
           style={{ color: PROGRESS_TYPE_FILLED_PART_COLOR_MAP.get(PROGRESS_TYPE.CARDS_PROGRESS) }}
         >
-          <h3>Cards Progress</h3>
+          <h3>Прогресс по карточкам</h3>
         </div>
         <ProgressStrip
           currentProgress={repeatedCardsNumber - 1}
@@ -132,25 +134,49 @@ export const StatisticsPage = () => {
         <div className={classes.componentsWrapper}>
           <div className={classes.dailyStatisticsContainer}>
             <div className={`${classes.headerDailyStatistics} ${classes.maxSeriesLengthContainer}`}>
-              <h3>Daily Statistics</h3>
+              <h3>Статистика сегодняшнего дня</h3>
             </div>
             {learnedWordsProgress}
             {cardsProgress}
             <div className={`${classes.numericStatisticsContainer} ${classes.percentCorrectAnswersContainer}`}>
-              <h3>Percent Correct Answers: {percentCorrectAnswers}%</h3>
+              <h3>Процент правильных ответов: {percentCorrectAnswers}%</h3>
             </div>
             <div className={`${classes.numericStatisticsContainer} ${classes.maxSeriesLengthContainer}`}>
-              <h3>Max Series Length: {dailyStatistics.maxSeriesLength}</h3>
+              <h3>Длина максимальной серии правильных ответов: {dailyStatistics.maxSeriesLength}</h3>
             </div>
           </div>
           {longTermStatistics.length !== 0 && (
             <div className={classes.chartContainer}>
               <div className={classes.chartHeader}>
-                <h3>Statistics Of Learning New Words</h3>
+                <h3>Статистика изучения новых слов по дням</h3>
               </div>
-              <Chart />
+              <LearningChart />
             </div>
           )}
+          <div className={classes.chartContainer}>
+            <div className={classes.chartHeader}>
+              <h3>Статистика Sprint</h3>
+            </div>
+            <SprintChart statistics={statistics.sprintStatistics} />
+          </div>
+          <div className={classes.chartContainer}>
+            <div className={classes.chartHeader}>
+              <h3>Статистика Savanna</h3>
+            </div>
+            <SprintChart statistics={statistics.savannaStatistics} />
+          </div>
+          <div className={classes.chartContainer}>
+            <div className={classes.chartHeader}>
+              <h3>Статистика Audio Challenge</h3>
+            </div>
+            <SprintChart statistics={statistics.audioChallengeStatistics} />
+          </div>
+          <div className={classes.chartContainer}>
+            <div className={classes.chartHeader}>
+              <h3>Статистика SpeakIt</h3>
+            </div>
+            <SpeakItChart statistics={statistics.speakItStatistics} />
+          </div>
         </div>
       </div>
     );

@@ -77,7 +77,7 @@ export const Sprint = () => {
             onStartGameWithUserWords={onStartGameWithUserWords}
             onStartGameWithRandomWords={onStartGameWithRandomWords}
             gameName={'Sprint'}
-            shortDescription={'Description'}
+            shortDescription={'Проверьте на сколько хорошо вы знаете перевод английских слов.'}
           />
         )}
         {isGameStarted && !isGameEnded && (
