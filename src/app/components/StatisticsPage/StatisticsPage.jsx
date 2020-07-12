@@ -13,12 +13,14 @@ import {
   PROGRESS_TYPE,
   PROGRESS_TYPE_FILLED_PART_COLOR_MAP,
 } from '../LearningPage/components/ProgressStrip/ProgressPart.models';
-import { Chart } from './components/Chart';
+import { LearningChart } from './components/LearningChart';
 import { useCheckCommonStatistics } from '../common/hooks/useCheckCommonStatistics';
 import { useSetLastVisiting } from '../common/hooks/useSetLastVisiting';
 import { statisticsSelector } from './store/Statistics.selectors';
 import { Loading } from '../common/components/Loading/Loading';
 import { longTermStatisticsSelector } from './store/long-term-statistics/LongTermStatistics.selectors';
+import { SprintChart } from './components/SprintChart';
+import { SpeakItChart } from './components/SpeakItChart';
 
 export const StatisticsPage = () => {
   const classes = useStyles();
@@ -148,9 +150,33 @@ export const StatisticsPage = () => {
               <div className={classes.chartHeader}>
                 <h3>Статистика изучения новых слов по дням</h3>
               </div>
-              <Chart />
+              <LearningChart />
             </div>
           )}
+          <div className={classes.chartContainer}>
+            <div className={classes.chartHeader}>
+              <h3>Статистика Sprint</h3>
+            </div>
+            <SprintChart statistics={statistics.sprintStatistics} />
+          </div>
+          <div className={classes.chartContainer}>
+            <div className={classes.chartHeader}>
+              <h3>Статистика Savanna</h3>
+            </div>
+            <SprintChart statistics={statistics.savannaStatistics} />
+          </div>
+          <div className={classes.chartContainer}>
+            <div className={classes.chartHeader}>
+              <h3>Статистика Audio Challenge</h3>
+            </div>
+            <SprintChart statistics={statistics.audioChallengeStatistics} />
+          </div>
+          <div className={classes.chartContainer}>
+            <div className={classes.chartHeader}>
+              <h3>Статистика SpeakIt</h3>
+            </div>
+            <SpeakItChart statistics={statistics.speakItStatistics} />
+          </div>
         </div>
       </div>
     );

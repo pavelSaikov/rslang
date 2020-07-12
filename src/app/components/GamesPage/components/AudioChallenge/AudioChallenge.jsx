@@ -191,7 +191,9 @@ export const AudioChallenge = () => {
 
   return (
     <div className={classes.audioChallenge}>
-      <ExitButton onCrossClick={onExitClick} />
+      <div className={classes.exitButton}>
+        <ExitButton onCrossClick={onExitClick} />
+      </div>
       <AudioComponent
         gameStatus={gameStatus}
         isAudioPlay={isAudioPlay}

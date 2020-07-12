@@ -144,7 +144,9 @@ export const SpeakIt = () => {
   return (
     userDictionary && (
       <div>
-        <ExitButton onCrossClick={() => {}} />
+        <div className={classes.exitButton}>
+          <ExitButton onCrossClick={() => {}} />
+        </div>
         {isGameStarted ? (
           isItShowingStatistics ? (
             <div className={classes.statisticsAfterGameWrapper}>

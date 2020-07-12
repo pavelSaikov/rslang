@@ -63,4 +63,9 @@ export const useStyles = createUseStyles({
       margin: '35px auto',
     },
   },
+  exitButton: {
+    position: 'absolute',
+    right: 30,
+    top: 15,
+  },
 });

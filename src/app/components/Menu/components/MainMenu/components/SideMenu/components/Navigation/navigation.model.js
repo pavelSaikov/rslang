@@ -21,11 +21,11 @@ export const NAVIGATION = [
     name: 'Статистика',
     link: ROUTES.STATISTIC,
   },
-  {
-    icon: 'icon-users',
-    name: 'Наша команда',
-    link: ROUTES.TEAM,
-  },
+  // {
+  //   icon: 'icon-users',
+  //   name: 'Наша команда',
+  //   link: ROUTES.TEAM,
+  // },
   {
     icon: 'icon-cog',
     name: 'Настройки',

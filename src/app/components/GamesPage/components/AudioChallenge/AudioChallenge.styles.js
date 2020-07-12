@@ -24,4 +24,9 @@ export const useStyles = createUseStyles({
     minHeight: '100%',
     background: '#f7f2ee',
   },
+  exitButton: {
+    position: 'absolute',
+    right: 30,
+    top: 15,
+  },
 });
