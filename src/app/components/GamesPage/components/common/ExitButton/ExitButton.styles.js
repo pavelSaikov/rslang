@@ -10,5 +10,6 @@ export const useStyles = createUseStyles({
     height: '30px',
     fontSize: '30px',
     color: 'black',
+    cursor: 'pointer',
   },
 });

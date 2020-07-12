@@ -4,7 +4,7 @@ export const useStyles = createUseStyles({
   statisticsAfterGameWrapper: {
     width: '100%',
     height: '90%',
-    margin: '10px 30px',
+    margin: '10px 0',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -14,6 +14,8 @@ export const useStyles = createUseStyles({
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+    flexGrow: '1',
     backgroundImage: 'linear-gradient(to bottom, #7d5daf, #c483a3)',
   },
   buttons: {

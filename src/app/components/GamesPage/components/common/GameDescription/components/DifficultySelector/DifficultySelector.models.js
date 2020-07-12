@@ -1,10 +1,10 @@
 export const LEVEL = {
-  VERY_EASY: 'very easy',
-  EASY: 'easy',
-  MEDIUM: 'medium',
-  HARDER_THAN_AVERAGE: 'harder than average',
-  HARD: 'hard',
-  VERY_HARD: 'very hard',
+  VERY_EASY: 'очень просто',
+  EASY: 'просто',
+  MEDIUM: 'средне',
+  HARDER_THAN_AVERAGE: 'выше среднего',
+  HARD: 'тяжело',
+  VERY_HARD: 'очень тяжело',
 };
 
 export const LEVELS = Object.keys(LEVEL).map(key => LEVEL[key]);
