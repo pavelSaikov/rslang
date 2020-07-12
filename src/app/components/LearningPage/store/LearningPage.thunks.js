@@ -21,6 +21,7 @@ import {
 } from '../../StatisticsPage/store/long-term-statistics/LongTermStatistics.models';
 import { setSpeakItStatistics } from '../../GamesPage/components/SpeakIt/store/SpeakIt.action';
 import { setSprintStatistics } from '../../GamesPage/components/Sprint/store/sprint-statistics/SprintStatistics.action';
+import { setSavannaStatistics } from '../../GamesPage/components/Savanna/store/Savanna.actions';
 
 const USER_ABORT_REQUEST = 'The user aborted a request.';
 
@@ -285,6 +286,7 @@ export const setAllStatistics = ({ statistics, dispatch }) => {
   dispatch(setLongTermStatistics(statistics.longTermStatistics));
   dispatch(setSpeakItStatistics(statistics.speakItStatistics));
   dispatch(setSprintStatistics(statistics.sprintStatistics));
+  dispatch(setSavannaStatistics(statistics.savannaStatistics));
 };
 
 export const checkIsAllStatisticsLoaded = ({ statistics }) =>
@@ -293,4 +295,5 @@ export const checkIsAllStatisticsLoaded = ({ statistics }) =>
   statistics.dailyStatistics &&
   statistics.longTermStatistics &&
   statistics.speakItStatistics &&
-  statistics.sprintStatistics;
+  statistics.sprintStatistics &&
+  statistics.savannaStatistics;
