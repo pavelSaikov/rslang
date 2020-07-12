@@ -28,9 +28,10 @@ import { WORD_STATUS } from '../../../DictionaryPage/DictionaryPage.models';
 import { addError } from '../../../errors/store/Errors.actions';
 import { statisticsSelector } from '../../../StatisticsPage/store/Statistics.selectors';
 import { updateSavannaStatistics } from './store/Savanna.thunk';
+import { ExitButton } from '../common/ExitButton/ExitButton';
 
 export const Savanna = () => {
-  const { savanna, gameHeader, gameMain, timer, statisticsPage } = useStyles();
+  const { savanna, gameHeader, gameMain, timer, statisticsPage, gameWrapper, wrapper } = useStyles();
   const dispatch = useDispatch();
   const level = useSelector(levelSelector);
   const userDictionary = useSelector(userDictionarySelector);
@@ -85,6 +86,15 @@ export const Savanna = () => {
   useEffect(() => setClickedElement(null), [gameRound]);
 
   useEffect(() => {
+    const foo = setTimeout(() => {
+      setGameRound(gameRound => gameRound + 1);
+      setCountWrongAnswers(countWrongAnswers => countWrongAnswers + 1);
+    }, 10000);
+
+    return () => clearTimeout(foo);
+  }, [gameRound]);
+
+  useEffect(() => {
     const onKeypress = e => {
       if (isGameStarted) {
         e.preventDefault();
@@ -110,6 +120,7 @@ export const Savanna = () => {
   const endPreparationTime = useCallback(() => setIsPreparationTime(false), []);
 
   const restartGame = useCallback(() => {
+    answerCount.current = { countCorrect: 0, countIncorrect: 0 };
     setGameRound(0);
     setGameWords(null);
     setCountWrongAnswers(0);
@@ -220,7 +231,7 @@ export const Savanna = () => {
 
   return (
     userDictionary && (
-      <div className={savanna}>
+      <div className={gameWrapper}>
         {!isGameStarted && !isGameEnded && (
           <GameDescription
             onStartGameWithUserWords={onStartGameWithUserWords}
@@ -230,7 +241,7 @@ export const Savanna = () => {
           />
         )}
         {gameWords && isGameStarted && !isGameEnded && (
-          <div>
+          <div className={wrapper}>
             {isPreparationTime && (
               <div className={timer}>
                 <Timer onTimerEnd={endPreparationTime} time={GAME_STATUS.COUNTDOWN} />
@@ -241,6 +252,7 @@ export const Savanna = () => {
                 <div className={gameHeader}>
                   <Sound changeSongState={changeSongState} />
                   <GameLife answer={answer} countWrongAnswers={countWrongAnswers} closeGame={closeGame} />
+                  <ExitButton onCrossClick={closeGame} />
                 </div>
                 <div className={gameMain}>
                   <HiddenWord gameState={gameWords[gameRound]} answer={answer} />
