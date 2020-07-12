@@ -19,6 +19,7 @@ import {
   createLongTermStatistics,
   createLongTermStatisticsItem,
 } from '../../StatisticsPage/store/long-term-statistics/LongTermStatistics.models';
+import { setSpeakItStatistics } from '../../GamesPage/components/SpeakIt/store/SpeakIt.action';
 
 const USER_ABORT_REQUEST = 'The user aborted a request.';
 
@@ -281,7 +282,12 @@ export const setAllStatistics = ({ statistics, dispatch }) => {
   dispatch(setDailyStatistics(statistics.dailyStatistics));
   dispatch(setCommonStatistics(statistics.commonStatistics));
   dispatch(setLongTermStatistics(statistics.longTermStatistics));
+  dispatch(setSpeakItStatistics(statistics.speakItStatistics));
 };
 
 export const checkIsAllStatisticsLoaded = ({ statistics }) =>
-  statistics && statistics.commonStatistics && statistics.dailyStatistics && statistics.longTermStatistics;
+  statistics &&
+  statistics.commonStatistics &&
+  statistics.dailyStatistics &&
+  statistics.longTermStatistics &&
+  statistics.speakItStatistics;

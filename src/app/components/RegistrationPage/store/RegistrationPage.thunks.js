@@ -75,6 +75,7 @@ export const registerUser = ({
             dailyStatistics: createDailyStatistics({}),
             commonStatistics: createCommonStatistics({ lastLearnedWord: lastRegisteredWord }),
             longTermStatistics: createLongTermStatistics({}),
+            speakItStatistics: {},
           },
           controller,
         }),

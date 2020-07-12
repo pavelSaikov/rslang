@@ -22,6 +22,6 @@ export const Symbol = ({ isItAnswered, onMegaphoneClick }) => {
 };
 
 Symbol.propTypes = {
-  isItAnswered: PropTypes.string.isRequired,
+  isItAnswered: PropTypes.bool.isRequired,
   onMegaphoneClick: PropTypes.func.isRequired,
 };

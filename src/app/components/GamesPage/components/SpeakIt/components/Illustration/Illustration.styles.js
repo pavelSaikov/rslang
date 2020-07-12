@@ -8,6 +8,7 @@ export const useStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: '5px',
+    backgroundColor: 'white',
   },
   illustration: {
     width: '300px',

@@ -31,4 +31,13 @@ export const useStyles = createUseStyles({
     justifyContent: 'space-between',
     margin: '0 auto',
   },
+  '@media screen and (min-width: 320px) and (max-width: 705px)': {
+    wrapperFlexButton: {
+      width: '250px',
+      height: '160px',
+      margin: '20px auto',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+    },
+  },
 });
