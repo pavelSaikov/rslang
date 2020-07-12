@@ -17,6 +17,7 @@ import {
   speakItStatisticsReducer,
 } from '../components/GamesPage/components/SpeakIt/store/SpeakIt.reducer';
 import { resetStore } from './App.actions';
+import { sprintStatisticsReducer } from '../components/GamesPage/components/Sprint/store/sprint-statistics/SprintStatistics.reducers';
 
 const appReducer = combineReducers({
   authorizationInfo: authorizationInfoReducer,
@@ -30,6 +31,7 @@ const appReducer = combineReducers({
     dailyStatistics: dailyStatisticsReducer,
     longTermStatistics: longTermStatisticsReducer,
     speakItStatistics: speakItStatisticsReducer,
+    sprintStatistics: sprintStatisticsReducer,
   }),
   errors: errorsReducer,
   gameDescription: gameDescriptionReducer,

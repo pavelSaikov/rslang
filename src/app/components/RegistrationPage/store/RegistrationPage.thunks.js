@@ -76,6 +76,7 @@ export const registerUser = ({
             commonStatistics: createCommonStatistics({ lastLearnedWord: lastRegisteredWord }),
             longTermStatistics: createLongTermStatistics({}),
             speakItStatistics: {},
+            sprintStatistics: {},
           },
           controller,
         }),
