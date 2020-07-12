@@ -144,19 +144,20 @@ export const SpeakIt = () => {
   return (
     userDictionary && (
       <div>
-        <ExitButton />
-
+        <ExitButton onCrossClick={() => {}} />
         {isGameStarted ? (
           isItShowingStatistics ? (
-            <StatisticsAfterGame
-              statistics={arrOfWords.map(({ audio, word, wordTranslate, isItAnswered }) => ({
-                word,
-                translation: wordTranslate,
-                wordAudio: audio,
-                isCorrectAnswer: isItAnswered,
-              }))}
-              restartGame={restartGame}
-            />
+            <div className={classes.statisticsAfterGameWrapper}>
+              <StatisticsAfterGame
+                statistics={arrOfWords.map(({ audio, word, wordTranslate, isItAnswered }) => ({
+                  word,
+                  translation: wordTranslate,
+                  wordAudio: audio,
+                  isCorrectAnswer: isItAnswered,
+                }))}
+                restartGame={restartGame}
+              />{' '}
+            </div>
           ) : (
             <div className={classes.mainContainer}>
               <Background right={arrOfWords.filter(e => e.isItAnswered).length} />
