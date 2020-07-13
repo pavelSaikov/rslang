@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 require('dotenv').config();
 
@@ -47,6 +48,15 @@ module.exports = envOptions => {
       }),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(mode),
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, './_redirects'),
+            to: path.resolve(__dirname, './dist/_redirects'),
+            toType: 'file',
+          },
+        ],
       }),
     ],
     devtool: 'source-map',
