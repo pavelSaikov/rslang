@@ -26,7 +26,9 @@ export const GameDescription = ({
     <div className={classes.container}>
       <div className={classes.wrapperFlexColumn}>
         <div className={classes.wrapperFlexRow}>
-          <div className={classes.header}>{gameName}</div>
+          <div className={classes.header}>
+            <h2>{gameName}</h2>
+          </div>
         </div>
         <div className={classes.wrapperFlexRow}>
           <div>{shortDescription}</div>

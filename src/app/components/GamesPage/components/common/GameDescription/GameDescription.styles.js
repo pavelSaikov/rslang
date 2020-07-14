@@ -9,13 +9,14 @@ export const useStyles = createUseStyles({
     width: '100vw',
     height: '100vh',
     overflow: 'hidden',
+    background: '#f7f2ee',
   },
   wrapperFlexRow: {
     width: '80vw',
-    height: '40px',
+    margin: '20px 10vw',
     display: 'flex',
     justifyContent: 'center',
-    margin: '0 10vw',
+    textAlign: 'center',
   },
   wrapperFlexColumn: {
     height: '100vh',

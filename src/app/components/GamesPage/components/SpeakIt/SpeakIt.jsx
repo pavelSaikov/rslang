@@ -27,7 +27,6 @@ import { WORD_STATUS } from '../../../DictionaryPage/DictionaryPage.models';
 import { ExitButton } from '../common/ExitButton/ExitButton';
 import { Star } from './components/Star/Star';
 import { statisticsSelector } from '../../../StatisticsPage/store/Statistics.selectors';
-import { Background } from '../common/Background/Background';
 
 export const SpeakIt = () => {
   const [isGameStarted, setGame] = useState(false);
@@ -141,58 +140,64 @@ export const SpeakIt = () => {
     <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: ROUTES.GAMES } }} />;
   }
 
-  return (
-    userDictionary && (
-      <div>
-        <div className={classes.exitButton}>
-          <ExitButton onCrossClick={() => {}} />
-        </div>
-        {isGameStarted ? (
-          isItShowingStatistics ? (
-            <div className={classes.statisticsAfterGameWrapper}>
-              <StatisticsAfterGame
-                statistics={arrOfWords.map(({ audio, word, wordTranslate, isItAnswered }) => ({
-                  word,
-                  translation: wordTranslate,
-                  wordAudio: audio,
-                  isCorrectAnswer: isItAnswered,
-                }))}
-                restartGame={restartGame}
-              />{' '}
+  if (userDictionary) {
+    if (isGameStarted) {
+      if (isItShowingStatistics) {
+        return (
+          <div className={classes.statisticsAfterGameWrapper}>
+            <div className={classes.exitButton}>
+              <ExitButton onCrossClick={() => {}} />
             </div>
-          ) : (
-            <div className={classes.mainContainer}>
-              <Background right={arrOfWords.filter(e => e.isItAnswered).length} />
-              <div className={classes.box}>
-                <div className={classes.column}>
-                  <Illustration />
-                  <Translation />
-                  <Star />
-                  <div className={classes.words}>{listOfWords}</div>
-                  <div className={classes.buttons}>
-                    <span className={classes.btn}>
-                      <Button text="Restart" onClickFunc={resetGame} />
-                    </span>
-                    <span className={classes.btn}>
-                      <Button text="Speak please" onClickFunc={startSpeechRecognition} className={classes.btn} />
-                    </span>
-                    <span className={classes.btn}>
-                      <Button text="Results" onClickFunc={toggleStatisticsPage} className={classes.btn} />
-                    </span>
-                  </div>
-                </div>
+            <StatisticsAfterGame
+              statistics={arrOfWords.map(({ audio, word, wordTranslate, isItAnswered }) => ({
+                word,
+                translation: wordTranslate,
+                wordAudio: audio,
+                isCorrectAnswer: isItAnswered,
+              }))}
+              restartGame={restartGame}
+            />{' '}
+          </div>
+        );
+      }
+
+      return (
+        <div className={classes.mainContainer}>
+          <div className={classes.exitButton}>
+            <ExitButton onCrossClick={() => {}} />
+          </div>
+          <div className={classes.box}>
+            <div className={classes.column}>
+              <Illustration />
+              <Translation />
+              <Star />
+              <div className={classes.words}>{listOfWords}</div>
+              <div className={classes.buttons}>
+                <span className={classes.btn}>
+                  <Button text="Restart" onClickFunc={resetGame} />
+                </span>
+                <span className={classes.btn}>
+                  <Button text="Speak please" onClickFunc={startSpeechRecognition} className={classes.btn} />
+                </span>
+                <span className={classes.btn}>
+                  <Button text="Results" onClickFunc={toggleStatisticsPage} className={classes.btn} />
+                </span>
               </div>
             </div>
-          )
-        ) : (
-          <GameDescription
-            gameName={GAME_INFO.NAME}
-            shortDescription={GAME_INFO.SHORT_DESCRIPTION}
-            onStartGameWithUserWords={onStartGameWithUserWords}
-            onStartGameWithRandomWords={onStartGameWithoutUserWords}
-          />
-        )}
-      </div>
-    )
-  );
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <GameDescription
+        gameName={GAME_INFO.NAME}
+        shortDescription={GAME_INFO.SHORT_DESCRIPTION}
+        onStartGameWithUserWords={onStartGameWithUserWords}
+        onStartGameWithRandomWords={onStartGameWithoutUserWords}
+      />
+    );
+  }
+
+  return null;
 };

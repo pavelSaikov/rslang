@@ -17,6 +17,7 @@ export const useStyles = createUseStyles({
     width: '100%',
     padding: '10px 5px',
     marginBottom: 10,
+    boxSizing: 'border-box',
     borderRadius: 5,
     boxShadow: '0px 0px 2px 2px #e1e0de',
   },

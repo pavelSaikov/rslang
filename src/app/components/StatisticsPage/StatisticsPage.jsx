@@ -148,7 +148,7 @@ export const StatisticsPage = () => {
           {longTermStatistics.length !== 0 && (
             <div className={classes.chartContainer}>
               <div className={classes.chartHeader}>
-                <h3>Статистика изучения новых слов по дням</h3>
+                <h3>Статистика изучения новых слов за предыдущие дни</h3>
               </div>
               <LearningChart />
             </div>

@@ -4,6 +4,7 @@ import { Savanna } from '../Savanna/Savanna';
 import { EnglishPuzzle } from '../EnglishPuzzle/EnglishPuzzle';
 import { SpeakIt } from '../SpeakIt/SpeakIt';
 import { Sprint } from '../Sprint/Sprint';
+import { MyGame } from '../MyGame/MyGame';
 
 export const CARDS_NAMES = {
   AUDIO_CHALLENGE: 'Audio Challenge',
@@ -49,7 +50,7 @@ export const CARDS = [
     name: CARDS_NAMES.MY_GAME,
     link: GAMES_ROUTES.MY_GAME,
     backgroundColor: '#407DF4',
-    component: Sprint,
+    component: MyGame,
   },
 ];
 

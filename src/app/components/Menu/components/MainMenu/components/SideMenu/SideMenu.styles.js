@@ -2,11 +2,10 @@ import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
   navigation: {
-    position: 'absolute',
+    position: 'fixed',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: ({ windowHeight }) => windowHeight,
     boxSizing: 'border-box',
     top: 0,
     left: 0,

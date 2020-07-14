@@ -9,7 +9,7 @@ export const useStyles = createUseStyles({
     borderRadius: 14,
     cursor: 'pointer',
     fontWeight: 600,
-    '@media (max-width: 520px)': {
+    '@media (max-width: 550px)': {
       marginTop: 10,
     },
   },

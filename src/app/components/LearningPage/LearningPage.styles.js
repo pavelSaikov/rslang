@@ -60,17 +60,24 @@ export const useStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '100%',
+    padding: '0 10px',
     fontSize: 18,
   },
   endGameButtonsContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
-    maxWidth: '300px',
+    maxWidth: '410px',
     padding: '20px 0',
+    '@media (max-width: 410px)': {
+      flexDirection: 'column',
+    },
   },
   buttonStyle: {
     color: '#333366',
     boxShadow: '2px 2px 3px 2px #e1e0de',
+    '@media (max-width: 410px)': {
+      margin: 10,
+    },
   },
 });

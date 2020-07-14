@@ -13,9 +13,9 @@ export const useStyles = createUseStyles({
     fontSize: '18px',
     fontWeight: '600',
     borderRadius: '10px',
-    border: '1px grey solid',
     margin: '10px',
     flexDirection: 'column',
+    boxShadow: '0px 0px 6px 4px #e1e0de',
   },
   scroll: {
     width: '80%',
@@ -35,6 +35,9 @@ export const useStyles = createUseStyles({
       '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,.3)',
       backgroundColor: '#23477b',
     },
+    '@media (max-width: 550px)': {
+      width: '95%',
+    },
   },
   answerWrapper: {
     margin: '5px 0 20px 0',
@@ -52,8 +55,10 @@ export const useStyles = createUseStyles({
     margin: '10px 0',
     display: 'flex',
     justifyContent: 'space-evenly',
-    flexDirection: 'column',
     alignItems: 'center',
+    '@media (max-width: 480px)': {
+      flexDirection: 'column',
+    },
   },
   scoreStyle: {
     marginTop: '10px',

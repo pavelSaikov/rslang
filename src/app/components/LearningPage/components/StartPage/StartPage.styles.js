@@ -14,7 +14,7 @@ export const useStyles = createUseStyles({
     flexDirection: 'column',
     alignItems: 'center',
     background: '#f7f2ee',
-    padding: '0 10px',
+    padding: '50px 10px 0 10px',
   },
   imageContainer: {
     width: '90%',

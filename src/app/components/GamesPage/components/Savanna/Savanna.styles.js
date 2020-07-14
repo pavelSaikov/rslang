@@ -51,7 +51,7 @@ export const useStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  '@media screen and (min-width: 320px) and (max-width: 1000px)': {
+  '@media (max-width: 1000px)': {
     gameHeader: {
       justifyContent: 'space-around',
     },
