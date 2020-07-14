@@ -2,8 +2,11 @@ import { createUseStyles } from 'react-jss';
 
 export const useStyles = createUseStyles({
   mainContainer: {
+    flexGrow: 1,
+    display: 'flex',
     width: '100%',
-    height: '100%',
+    minHeight: '100%',
+    background: '#f7f2ee',
   },
   box: {
     width: '100%',
@@ -23,26 +26,38 @@ export const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   buttons: {
     width: '80%',
+    maxWidth: 500,
     display: 'flex',
-    flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginTop: '50px',
+    '@media (max-width: 540px)': {
+      flexDirection: 'column',
+      marginTop: '10px',
+    },
   },
   btn: { transform: 'scale(1)' },
   statisticsAfterGameWrapper: {
     width: '100%',
-    height: '90%',
-    margin: '10px 30px',
+    minHeight: '100%',
+    padding: '10px 30px',
+    boxSizing: 'border-box',
+    flexGrow: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    background: '#f7f2ee',
   },
-  '@media screen and (min-width: 320px) and (max-width: 604px)': {
+  exitButton: {
+    position: 'absolute',
+    right: 30,
+    top: 15,
+  },
+  '@media (max-width: 604px)': {
     mainContainer: {
       height: '190%',
     },
@@ -52,20 +67,10 @@ export const useStyles = createUseStyles({
     words: {
       justifyContent: 'center',
     },
-    buttons: {
-      display: 'block',
-      marginTop: '10px',
-    },
     btn: {
       display: 'flex',
       justifyContent: 'center',
-      transform: 'scale(1.5)',
-      margin: '35px auto',
+      margin: '10px auto',
     },
-  },
-  exitButton: {
-    position: 'absolute',
-    right: 30,
-    top: 15,
   },
 });

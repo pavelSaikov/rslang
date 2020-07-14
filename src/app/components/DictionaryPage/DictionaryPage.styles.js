@@ -22,14 +22,14 @@ export const useStyles = createUseStyles({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    '@media (max-width: 880px)': {
+    '@media (max-width: 1020px)': {
       flexDirection: 'column',
     },
   },
   repeatButtonContainer: {
     position: 'absolute',
     right: 40,
-    '@media (max-width: 880px)': {
+    '@media (max-width: 1020px)': {
       position: 'static',
     },
   },
@@ -42,7 +42,7 @@ export const useStyles = createUseStyles({
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: '20px 0',
-    '@media (max-width: 520px)': {
+    '@media (max-width: 550px)': {
       flexDirection: 'column',
     },
   },

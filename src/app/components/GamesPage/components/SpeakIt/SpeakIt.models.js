@@ -1,4 +1,4 @@
 export const GAME_INFO = {
   NAME: 'Speak It',
-  SHORT_DESCRIPTION: 'The game where you can check your pronunciation and learn new words.',
+  SHORT_DESCRIPTION: 'Игра, в которой вы можете проверить свое произношение и выучить новые слова',
 };

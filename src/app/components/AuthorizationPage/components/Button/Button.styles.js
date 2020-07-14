@@ -16,6 +16,7 @@ export const useStyles = createUseStyles({
     color: 'white',
     margin: MARGIN_NUM,
     fontSize: FONT_SIZE,
+    fontFamily: 'Roboto',
     '&:focus': {
       outline: 0,
     },

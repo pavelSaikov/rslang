@@ -14,9 +14,9 @@ export const useStyles = createUseStyles({
     backgroundColor: 'white',
     width: '220px',
     height: INPUT_HEIGHT,
-    border: '1px solid black',
     margin: '10px',
     borderRadius: '10px',
+    boxShadow: '0px 0px 6px 4px #e1e0de',
     '&:hover': {
       boxShadow: '2px 2px 5px #709EF7',
     },

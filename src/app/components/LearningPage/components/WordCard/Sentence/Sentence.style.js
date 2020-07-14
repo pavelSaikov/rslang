@@ -4,6 +4,7 @@ import { INPUT_STATE_COLOR_MAP } from './Sentence.models';
 export const useStyles = createUseStyles({
   exampleSentence: {
     display: 'flex',
+    flexWrap: 'wrap',
   },
   input: {
     background: '#e2ebef',

@@ -501,8 +501,8 @@ export const LearningPage = () => {
             isGameEnd={true}
           />
           <div className={classes.endGameButtonsContainer}>
-            <Button styleClasses={classes.buttonStyle} onClick={onOpenStatisticsClick} message={'Open Statistics'} />
-            <Button styleClasses={classes.buttonStyle} onClick={onRestartClick} message={'Restart'} />
+            <Button styleClasses={classes.buttonStyle} onClick={onOpenStatisticsClick} message={'Открыть Статистику'} />
+            <Button styleClasses={classes.buttonStyle} onClick={onRestartClick} message={'Начать Заново'} />
           </div>
         </div>
       </div>
