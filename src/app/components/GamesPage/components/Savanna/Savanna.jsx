@@ -92,7 +92,7 @@ export const Savanna = () => {
     }, 10000);
 
     return () => clearTimeout(foo);
-  }, [gameRound]);
+  }, [gameRound, isPreparationTime]);
 
   useEffect(() => {
     const onKeypress = e => {
@@ -237,7 +237,7 @@ export const Savanna = () => {
             onStartGameWithUserWords={onStartGameWithUserWords}
             onStartGameWithRandomWords={onStartGameWithRandomWords}
             gameName={'Savanna'}
-            shortDescription={'Description'}
+            shortDescription={'Игра, которая поможет развить словарный запас'}
           />
         )}
         {gameWords && isGameStarted && !isGameEnded && (
